@@ -5,7 +5,40 @@ import torch
 import os 
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
-from src.dmg.core.utils import Dates 
+from src.dmg.core.utils import Dates  
+
+
+def get_config_path(model_type="d3"):
+    """
+    Return config path based on DHBV setup.
+
+    model_type options:
+        - "d3"     : DHBV 1.1p with 3 dynamic parameters
+        - "d2"     : DHBV 1.1p with 2 dynamic parameters
+        - "static" : pure static parameters
+    """
+    config_map = {
+        "d3": "../example/conf/config_dhbv_1_1p.yaml",
+        "d2": "../example/conf/config_dhbv_2.yaml",
+        "static": "../example/conf/config_dhbv_purestatic.yaml",
+        # optional aliases
+        "dynamic3": "../example/conf/config_dhbv_1_1p.yaml",
+        "dynamic2": "../example/conf/config_dhbv_2.yaml",
+        "purestatic": "../example/conf/config_dhbv_purestatic.yaml",
+    }
+
+    if model_type not in config_map:
+        raise ValueError(
+            f"Unknown model_type: {model_type}. "
+            f"Choose from {list(config_map.keys())}"
+        )
+
+    config_path = config_map[model_type]
+
+    if not os.path.exists(config_path):
+        raise FileNotFoundError(f"Config file not found: {config_path}")
+
+    return config_path
  
 def nse(sim, obs):
     return 1 - np.sum((sim - obs)**2) / np.sum((obs - obs.mean())**2)
