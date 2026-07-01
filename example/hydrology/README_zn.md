@@ -64,6 +64,22 @@ scp -r zhennanshi@wendian.mines.edu:/beegfs/scratch/zhennanshi/DM/ ~/Downloads/
         you can check by git remote -v, the outputs should be:
         origin  git@github.com:ZhennanShi1/generic_deltamodel.git (fetch)
         origin  git@github.com:ZhennanShi1/generic_deltamodel.git (push)
+        Note: if it shows: 
+        origin  https://github.com/ZhennanShi1/generic_deltamodel.git (fetch)
+        origin  https://github.com/ZhennanShi1/generic_deltamodel.git (push)
+        it means that you used http, instead of ssh, this means you might need to enter token everytime, which i suggest use git ssh:
+        here is how you can do that:
+        4.0.1 git remote set-url origin git@github.com:ZhennanShi1/generic_deltamodel.git
+        4.0.2 now verify with command: git remote -v, you should see:
+            origin  git@github.com:ZhennanShi1/generic_deltamodel.git
+        4.0.3 Check your SSH key: ls ~/.ssh, If you have
+            id_rsa
+            id_rsa.pub
+            then it is good
+        4.0.4 Show the public key: cat ~/.ssh/id_rsa.pub
+        4.0.5 Copy the entire line and add it to GitHub: GitHub → Settings → SSH and GPG keys → New SSH Key
+        4.0.6 Now run this test in terminal: ssh -T git@github.com, you should see something like
+            Hi ZhennanShi1! You've successfully authenticated...
     4.1 save your current work locally first: scp -r zhennanshi@wendian.mines.edu:/beegfs/scratch/zhennanshi/DM/ ~/Downloads/
     4.2 save to your current work but not push yet: 
         git add .
