@@ -1,17 +1,17 @@
 To run in jupter notebook on Wendian
 
 ## For dmg framework:
-1. I have moved my environments saved on wendian due to space limit, therefore make sure you activate the right environment from the right location, which is at /beegfs/scratch/zhennanshi/conda_envs/envs/, use:
+1. I have moved my environments saved on wendian due to space limit, therefore make sure you activate the right environment from the right location, use:
 
-conda activate /beegfs/scratch/zhennanshi/conda_envs/envs/dmg312
+conda activate dmg312
 
-2. Now go to your delta model location, which is at /beegfs/scratch/zhennanshi/DM/generic_deltamodel, then run the toml file at where the toml is /beegfs/scratch/zhennanshi/DM/generic_deltamodel/pyproject.toml, in order to install all the dependencies:
+2. Now go to your delta model location, which is at /u/au/ac/zhennanshi/znprojects/DM/generic_deltamodel, then run the toml file at where the toml is generic_deltamodel/pyproject.toml, in order to install all the dependencies:
 
 python -m pip install -e .  ### Do not use pip install -e .###
 
 3. Create the kernel for the jupter notebook to run, skip if the kenerl is already created!
 
-python -m pip install ipykernel
+python -m pip install ipykernel  # if installed already, skip this line
 python -m ipykernel install --user --name dmg312 --display-name "Python (dmg312_renewed)"
 
 4. Now you can select on the Jupter notebook: Kenrnel --> Reconnect to (select the one you created), skip if you used the same kernel as last time
