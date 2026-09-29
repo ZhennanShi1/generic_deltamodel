@@ -1,0 +1,1 @@
+/beegfs/sets/aw-ciroh/common/gis/sp_weights_mapping/mapping_gefs_xconus_to_camels_ngen_hf.v2_2.nc

@@ -1,0 +1,173 @@
+Processing file: /beegfs/projects/aw-ciroh/common/met_fcsts/gefs_v12/XCONUS/hcst/2006/20061231/gefs_v12_hcst.2006123100_all_members.XCONUS.nc
+Found ensemble members: [0 1 2 3 4]
+Processing ensemble member: 01 → /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/hcst/2006/20061231//gefs_v12_hcst.2006123100.camels_gII.ens01.nc
+-------------------
+Reading input timeseries data for TMP_2maboveground
+INFO: value at [0,0,0]: 293.228394
+Averaged var TMP_2maboveground for 80 timesteps
+-------------------
+Reading input timeseries data for APCP_surface
+INFO: value at [0,0,0]: 0.980000
+Averaged var APCP_surface for 80 timesteps
+-------------------
+Reading input timeseries data for PRES_surface
+INFO: value at [0,0,0]: 101978.835938
+Averaged var PRES_surface for 80 timesteps
+-------------------
+Reading input timeseries data for DSWRF_surface
+INFO: value at [0,0,0]: 34.000000
+Averaged var DSWRF_surface for 80 timesteps
+-------------------
+Reading input timeseries data for DLWRF_surface
+INFO: value at [0,0,0]: 403.000000
+Averaged var DLWRF_surface for 80 timesteps
+-------------------
+Reading input timeseries data for SPFH_2maboveground
+INFO: value at [0,0,0]: 0.011056
+Averaged var SPFH_2maboveground for 80 timesteps
+-------------------
+Reading input timeseries data for UGRD_10maboveground
+INFO: value at [0,0,0]: -9.489452
+Averaged var UGRD_10maboveground for 80 timesteps
+-------------------
+Reading input timeseries data for VGRD_10maboveground
+INFO: value at [0,0,0]: -2.059647
+Averaged var VGRD_10maboveground for 80 timesteps
+NGEN compliant file saved to: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/hcst/2006/20061231//gefs_v12_hcst.2006123100.camels_gII.ens01.nc
+Processing ensemble member: 02 → /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/hcst/2006/20061231//gefs_v12_hcst.2006123100.camels_gII.ens02.nc
+-------------------
+Reading input timeseries data for TMP_2maboveground
+INFO: value at [0,0,0]: 293.505341
+Averaged var TMP_2maboveground for 80 timesteps
+-------------------
+Reading input timeseries data for APCP_surface
+INFO: value at [0,0,0]: 0.980000
+Averaged var APCP_surface for 80 timesteps
+-------------------
+Reading input timeseries data for PRES_surface
+INFO: value at [0,0,0]: 102010.226562
+Averaged var PRES_surface for 80 timesteps
+-------------------
+Reading input timeseries data for DSWRF_surface
+INFO: value at [0,0,0]: 34.000000
+Averaged var DSWRF_surface for 80 timesteps
+-------------------
+Reading input timeseries data for DLWRF_surface
+INFO: value at [0,0,0]: 403.000000
+Averaged var DLWRF_surface for 80 timesteps
+-------------------
+Reading input timeseries data for SPFH_2maboveground
+INFO: value at [0,0,0]: 0.010980
+Averaged var SPFH_2maboveground for 80 timesteps
+-------------------
+Reading input timeseries data for UGRD_10maboveground
+INFO: value at [0,0,0]: -8.967876
+Averaged var UGRD_10maboveground for 80 timesteps
+-------------------
+Reading input timeseries data for VGRD_10maboveground
+INFO: value at [0,0,0]: -2.264036
+Averaged var VGRD_10maboveground for 80 timesteps
+NGEN compliant file saved to: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/hcst/2006/20061231//gefs_v12_hcst.2006123100.camels_gII.ens02.nc
+Processing ensemble member: 03 → /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/hcst/2006/20061231//gefs_v12_hcst.2006123100.camels_gII.ens03.nc
+-------------------
+Reading input timeseries data for TMP_2maboveground
+INFO: value at [0,0,0]: 292.913483
+Averaged var TMP_2maboveground for 80 timesteps
+-------------------
+Reading input timeseries data for APCP_surface
+INFO: value at [0,0,0]: 0.980000
+Averaged var APCP_surface for 80 timesteps
+-------------------
+Reading input timeseries data for PRES_surface
+INFO: value at [0,0,0]: 101968.273438
+Averaged var PRES_surface for 80 timesteps
+-------------------
+Reading input timeseries data for DSWRF_surface
+INFO: value at [0,0,0]: 34.000000
+Averaged var DSWRF_surface for 80 timesteps
+-------------------
+Reading input timeseries data for DLWRF_surface
+INFO: value at [0,0,0]: 403.000000
+Averaged var DLWRF_surface for 80 timesteps
+-------------------
+Reading input timeseries data for SPFH_2maboveground
+INFO: value at [0,0,0]: 0.010970
+Averaged var SPFH_2maboveground for 80 timesteps
+-------------------
+Reading input timeseries data for UGRD_10maboveground
+INFO: value at [0,0,0]: -9.518050
+Averaged var UGRD_10maboveground for 80 timesteps
+-------------------
+Reading input timeseries data for VGRD_10maboveground
+INFO: value at [0,0,0]: -1.710413
+Averaged var VGRD_10maboveground for 80 timesteps
+NGEN compliant file saved to: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/hcst/2006/20061231//gefs_v12_hcst.2006123100.camels_gII.ens03.nc
+Processing ensemble member: 04 → /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/hcst/2006/20061231//gefs_v12_hcst.2006123100.camels_gII.ens04.nc
+-------------------
+Reading input timeseries data for TMP_2maboveground
+INFO: value at [0,0,0]: 293.216980
+Averaged var TMP_2maboveground for 80 timesteps
+-------------------
+Reading input timeseries data for APCP_surface
+INFO: value at [0,0,0]: 0.980000
+Averaged var APCP_surface for 80 timesteps
+-------------------
+Reading input timeseries data for PRES_surface
+INFO: value at [0,0,0]: 101988.437500
+Averaged var PRES_surface for 80 timesteps
+-------------------
+Reading input timeseries data for DSWRF_surface
+INFO: value at [0,0,0]: 34.000000
+Averaged var DSWRF_surface for 80 timesteps
+-------------------
+Reading input timeseries data for DLWRF_surface
+INFO: value at [0,0,0]: 403.000000
+Averaged var DLWRF_surface for 80 timesteps
+-------------------
+Reading input timeseries data for SPFH_2maboveground
+INFO: value at [0,0,0]: 0.011040
+Averaged var SPFH_2maboveground for 80 timesteps
+-------------------
+Reading input timeseries data for UGRD_10maboveground
+INFO: value at [0,0,0]: -9.666452
+Averaged var UGRD_10maboveground for 80 timesteps
+-------------------
+Reading input timeseries data for VGRD_10maboveground
+INFO: value at [0,0,0]: -1.920391
+Averaged var VGRD_10maboveground for 80 timesteps
+NGEN compliant file saved to: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/hcst/2006/20061231//gefs_v12_hcst.2006123100.camels_gII.ens04.nc
+Processing ensemble member: 05 → /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/hcst/2006/20061231//gefs_v12_hcst.2006123100.camels_gII.ens05.nc
+-------------------
+Reading input timeseries data for TMP_2maboveground
+INFO: value at [0,0,0]: 293.272949
+Averaged var TMP_2maboveground for 80 timesteps
+-------------------
+Reading input timeseries data for APCP_surface
+INFO: value at [0,0,0]: 0.980000
+Averaged var APCP_surface for 80 timesteps
+-------------------
+Reading input timeseries data for PRES_surface
+INFO: value at [0,0,0]: 101947.390625
+Averaged var PRES_surface for 80 timesteps
+-------------------
+Reading input timeseries data for DSWRF_surface
+INFO: value at [0,0,0]: 34.000000
+Averaged var DSWRF_surface for 80 timesteps
+-------------------
+Reading input timeseries data for DLWRF_surface
+INFO: value at [0,0,0]: 403.000000
+Averaged var DLWRF_surface for 80 timesteps
+-------------------
+Reading input timeseries data for SPFH_2maboveground
+INFO: value at [0,0,0]: 0.011246
+Averaged var SPFH_2maboveground for 80 timesteps
+-------------------
+Reading input timeseries data for UGRD_10maboveground
+INFO: value at [0,0,0]: -9.803451
+Averaged var UGRD_10maboveground for 80 timesteps
+-------------------
+Reading input timeseries data for VGRD_10maboveground
+INFO: value at [0,0,0]: -2.367334
+Averaged var VGRD_10maboveground for 80 timesteps
+NGEN compliant file saved to: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/hcst/2006/20061231//gefs_v12_hcst.2006123100.camels_gII.ens05.nc
+Output file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/hcst/2006/20061231//gefs_v12_hcst.2006123100.camels_gII.nc

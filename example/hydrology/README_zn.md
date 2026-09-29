@@ -80,6 +80,8 @@ scp -r zhennanshi@wendian.mines.edu:/beegfs/scratch/zhennanshi/DM/ ~/Downloads/
         4.0.5 Copy the entire line and add it to GitHub: GitHub → Settings → SSH and GPG keys → New SSH Key
         4.0.6 Now run this test in terminal: ssh -T git@github.com, you should see something like
             Hi ZhennanShi1! You've successfully authenticated...
+        4.0.7 Now if you use: git push, it should stop asking token everytime
+        
     4.1 save your current work locally first: scp -r zhennanshi@wendian.mines.edu:/beegfs/scratch/zhennanshi/DM/ ~/Downloads/
     4.2 save to your current work but not push yet: 
         git add .

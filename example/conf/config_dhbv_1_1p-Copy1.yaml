@@ -1,21 +1,22 @@
-# This config constructs the differentiable hydrologic model dHBV 1.0 from Feng et al. (2022). If you find this code useful in your work, please cite:
+# This config constructs dHBV 1.1p from Song et al. (2025). If you find this code useful in your work, please cite:
 #
-# Dapeng Feng, Jiangtao Liu, Kathryn Lawson, et al. "Differentiable, Learnable, Regionalized Process‐Based Models With Multiphysical Outputs can Approach State‐Of‐The‐Art Hydrologic Prediction Accuracy." Water Resources Research (2022). https://doi.org/10.1029/2022WR032404.
+# Yalan Song, Kamlesh Sawadekar, Jonathan M Frame, et al. Physics-informed, Differentiable Hydrologic  Models for Capturing Unseen Extreme Events. Water Resources Research. February 11, 2026. <https://doi.org/10.1029/2025WR040414>
 
-# Default settings replicate CAMELS 531-basin, 10-year benchmark.
-# To use CAMELS 671-basin, 15-year benchmark, set the following...
+
+# This config replicates the CAMELS 531-basin, 10-year benchmark.
+# To setup for CAMELS 671-basin, 15-year benchmark, set the following...
 #   1. observations: camels_671
 #   2. train: start_time: 1980/10/01
 #   3. train: end_time: 1995/09/30
 #   4. test/simulation: start_time: 1995/10/01
 #   5. test/simulation: end_time: 2010/09/30
 
-defaults:
+defaults: 
   - _self_
   - hydra: settings
   - observations: camels_531  # camels_531, camels_671
 
-name: ${model.nn.name}-${model.phy.name}
+name: ${model.nn.name}-${model.phy.name} 
 
 
 ## General -------------------------------#
@@ -30,12 +31,13 @@ data_loader: HydroLoader
 data_sampler: HydroSampler
 trainer: Trainer
 
-model_dir: ./path/to/your/model/  # Prerained dHBV 1.0 can be downloaded from: https://mhpi-spatial.s3.us-east-2.amazonaws.com/mhpi-release/models/2-dhbv.zip
+model_dir: ./output/camels_531/train1999-2008/no_multi/CudnnLstmModel_E100_R365_B100_H256_n16_noLn_noWU_111111/Hbv_1_1p/NseBatchLoss/3dyn/parBETA_parK0_parBETAET/
 output_dir: ./output/camels_531/test_results/
 sim_dir: ./output/camels_531/sim_results/
 plot_dir: ./output/camels_531/plots/
+# camels_531/train1999-2008/no_multi/CudnnLstmModel_E100_R365_B100_H256_n16_noLn_noWU_111111/Hbv_1_1p/NseBatchLoss/3dyn/parBETA_parK0_parBETAET/
 
-## Training ------------------------------#
+## Training ------------------------------# use 100 epochs change from 50 epochs 03/06/2026
 train:
   start_time: 1999/10/01
   end_time: 2008/09/30
@@ -48,7 +50,7 @@ train:
     step_size: 10
     gamma: 0.5
   loss_function:
-    name: RmseCombLoss
+    name: NseBatchLoss
 
   batch_size: 100
   epochs: 100
@@ -56,37 +58,39 @@ train:
   save_epoch: 5
 
 
-## Evaluation -------------------------------#
+## Evaluation -------------------------------###changed from 100
 test:
   start_time: 1989/10/01
   end_time: 1999/09/30
+  # start_time: 2009/10/01
+  # end_time: 2012/09/30
   batch_size: 25
   test_epoch: 50
 
-
+ 
 ## Inference -------------------------------#
 sim:
-  start_time: 1989/10/01
-  end_time: 1999/09/30
-  batch_size: 25
+  start_time: 2009/10/01
+  end_time: 2012/09/30
+  batch_size: 25 
 
 
 ## Differentiable Model -----------------------------#
 model:
   rho: 365
   warm_up: 365
-  use_log_norm: [prcp]
+  use_log_norm: []
   output_unit: mm/d  # options: mm/d, m3/s, ft3/s
 
   phy:
     ## See Citation above ##
 
-    name: [Hbv]
+    name: [Hbv_1_1p]
     nmul: 16
-    warm_up_states: True
+    warm_up_states: False
     dy_drop: 0.0
     dynamic_params:
-      Hbv: [parBETA, parBETAET]
+      Hbv_1_1p: [parBETA, parK0, parBETAET]
 
     routing: True
     nearzero: 1e-5

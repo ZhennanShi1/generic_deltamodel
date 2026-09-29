@@ -1,0 +1,2162 @@
+Found 36 processors. Using 350 worker prcocesses.
+Starting __main__ function
+Script initiated at Tue Jul  1 09:45:00 2025
+Output Directory: .
+Clean-up step completed in 0.0005741119384765625 seconds.
+    Step 1: Projecting <Polygon2> to the coordinate system of <Polygon1> ...
+    Step 1 completed in 10.801552057266235 seconds.
+Checking CRS and bounds of input features /beegfs/sets/aw-ciroh/common/gis/camels_revised_awood/gagesII_671_shp_albers.clean.gpkg
+CRS: EPSG:5070
+Bounds: [-2332530.   501120.  2192670.  3108199.]
+Checking CRS and bounds of input features ./GEFS_v12.25d.xconus.gpkg
+CRS: EPSG:4326
+Bounds: [-130.125   19.875  -59.875   55.125]
+found ID type of String
+    Field Type for field 'GAGE_ID': 4 (string)
+found ID type of Integer
+    Field Type for field 'id': 0 (integer)
+    Step 2: Compute spatial weights starting.
+      Found 36 processors. Distributing processing across 35 core(s) using 350 worker processes.
+[23.0]    SQL Statement: (FID >= 45) AND (FID <= 46)
+[23.0]    Layer feature count:    2    
+[23.0]    Done gathering intersection information between layer 1 and layer 2 in     0.53 seconds
+[23.0]        2      polygons processed for intersection with grid.     5      total polygon intersections processed.
+[23.0]  Finished creating OGR layers for the input feature classes after    20.29 seconds. -- 
+[23.0]    Calculation of spatial correspondences completed in     1.54 s.
+[55.0]    SQL Statement: (FID >= 109) AND (FID <= 110)
+[55.0]    Layer feature count:    2    
+[55.0]    Done gathering intersection information between layer 1 and layer 2 in     0.63 seconds
+[55.0]        2      polygons processed for intersection with grid.     6      total polygon intersections processed.
+[55.0]  Finished creating OGR layers for the input feature classes after    21.95 seconds. -- 
+[55.0]    Calculation of spatial correspondences completed in     1.56 s.
+[86.0]    SQL Statement: (FID >= 171) AND (FID <= 172)
+[86.0]    Layer feature count:    2    
+[86.0]    Done gathering intersection information between layer 1 and layer 2 in     0.68 seconds
+[86.0]        2      polygons processed for intersection with grid.     9      total polygon intersections processed.
+[86.0]  Finished creating OGR layers for the input feature classes after    23.81 seconds. -- 
+[86.0]    Calculation of spatial correspondences completed in     1.96 s.
+[127.0]    SQL Statement: (FID >= 253) AND (FID <= 254)
+[127.0]    Layer feature count:    2    
+[127.0]    Done gathering intersection information between layer 1 and layer 2 in     2.05 seconds
+[127.0]        2      polygons processed for intersection with grid.     12     total polygon intersections processed.
+[127.0]  Finished creating OGR layers for the input feature classes after    26.64 seconds. -- 
+[127.0]    Calculation of spatial correspondences completed in     2.81 s.
+[170.0]    SQL Statement: (FID >= 339) AND (FID <= 340)
+[170.0]    Layer feature count:    2    
+[170.0]    Done gathering intersection information between layer 1 and layer 2 in     2.80 seconds
+[170.0]        2      polygons processed for intersection with grid.     16     total polygon intersections processed.
+[170.0]  Finished creating OGR layers for the input feature classes after    30.59 seconds. -- 
+[170.0]    Calculation of spatial correspondences completed in     3.85 s.
+[211.0]    SQL Statement: (FID >= 421) AND (FID <= 422)
+[211.0]    Layer feature count:    2    
+[211.0]    Done gathering intersection information between layer 1 and layer 2 in     6.52 seconds
+[211.0]        2      polygons processed for intersection with grid.     26     total polygon intersections processed.
+[211.0]  Finished creating OGR layers for the input feature classes after    38.18 seconds. -- 
+[211.0]    Calculation of spatial correspondences completed in     7.58 s.
+[650.0]    SQL Statement: (FID >= 650) AND (FID <= 650)
+[650.0]    Layer feature count:    1    
+[650.0]    Done gathering intersection information between layer 1 and layer 2 in     0.33 seconds
+[650.0]        1      polygons processed for intersection with grid.     5      total polygon intersections processed.
+[650.0]  Finished creating OGR layers for the input feature classes after    39.16 seconds. -- 
+[650.0]    Calculation of spatial correspondences completed in     1.07 s.
+[16.0]    SQL Statement: (FID >= 31) AND (FID <= 32)
+[16.0]    Layer feature count:    2    
+[16.0]    Done gathering intersection information between layer 1 and layer 2 in     0.31 seconds
+[16.0]        2      polygons processed for intersection with grid.     3      total polygon intersections processed.
+[16.0]  Finished creating OGR layers for the input feature classes after    20.05 seconds. -- 
+[16.0]    Calculation of spatial correspondences completed in     1.36 s.
+[41.0]    SQL Statement: (FID >= 81) AND (FID <= 82)
+[41.0]    Layer feature count:    2    
+[41.0]    Done gathering intersection information between layer 1 and layer 2 in     1.43 seconds
+[41.0]        2      polygons processed for intersection with grid.     12     total polygon intersections processed.
+[41.0]  Finished creating OGR layers for the input feature classes after    22.20 seconds. -- 
+[41.0]    Calculation of spatial correspondences completed in     2.11 s.
+[91.0]    SQL Statement: (FID >= 181) AND (FID <= 182)
+[91.0]    Layer feature count:    2    
+[91.0]    Done gathering intersection information between layer 1 and layer 2 in     1.60 seconds
+[91.0]        2      polygons processed for intersection with grid.     13     total polygon intersections processed.
+[91.0]  Finished creating OGR layers for the input feature classes after    24.81 seconds. -- 
+[91.0]    Calculation of spatial correspondences completed in     2.59 s.
+[147.0]    SQL Statement: (FID >= 293) AND (FID <= 294)
+[147.0]    Layer feature count:    2    
+[147.0]    Done gathering intersection information between layer 1 and layer 2 in     2.05 seconds
+[147.0]        2      polygons processed for intersection with grid.     15     total polygon intersections processed.
+[147.0]  Finished creating OGR layers for the input feature classes after    27.53 seconds. -- 
+[147.0]    Calculation of spatial correspondences completed in     2.66 s.
+[184.0]    SQL Statement: (FID >= 367) AND (FID <= 368)
+[184.0]    Layer feature count:    2    
+[184.0]    Done gathering intersection information between layer 1 and layer 2 in     3.67 seconds
+[184.0]        2      polygons processed for intersection with grid.     28     total polygon intersections processed.
+[184.0]  Finished creating OGR layers for the input feature classes after    31.87 seconds. -- 
+[184.0]    Calculation of spatial correspondences completed in     4.30 s.
+[227.0]    SQL Statement: (FID >= 453) AND (FID <= 454)
+[227.0]    Layer feature count:    2    
+[227.0]    Done gathering intersection information between layer 1 and layer 2 in     0.36 seconds
+[227.0]        2      polygons processed for intersection with grid.     6      total polygon intersections processed.
+[227.0]  Finished creating OGR layers for the input feature classes after    33.34 seconds. -- 
+[227.0]    Calculation of spatial correspondences completed in     1.55 s.
+[246.0]    SQL Statement: (FID >= 491) AND (FID <= 492)
+[246.0]    Layer feature count:    2    
+[246.0]    Done gathering intersection information between layer 1 and layer 2 in     0.20 seconds
+[246.0]        2      polygons processed for intersection with grid.     5      total polygon intersections processed.
+[246.0]  Finished creating OGR layers for the input feature classes after    34.71 seconds. -- 
+[246.0]    Calculation of spatial correspondences completed in     1.26 s.
+[265.0]    SQL Statement: (FID >= 529) AND (FID <= 530)
+[265.0]    Layer feature count:    2    
+[265.0]    Done gathering intersection information between layer 1 and layer 2 in     0.17 seconds
+[265.0]        2      polygons processed for intersection with grid.     6      total polygon intersections processed.
+[265.0]  Finished creating OGR layers for the input feature classes after    35.86 seconds. -- 
+[265.0]    Calculation of spatial correspondences completed in     1.08 s.
+[286.0]    SQL Statement: (FID >= 571) AND (FID <= 572)
+[286.0]    Layer feature count:    2    
+[286.0]    Done gathering intersection information between layer 1 and layer 2 in     1.58 seconds
+[286.0]        2      polygons processed for intersection with grid.     13     total polygon intersections processed.
+[286.0]  Finished creating OGR layers for the input feature classes after    38.29 seconds. -- 
+[286.0]    Calculation of spatial correspondences completed in     2.52 s.
+[653.0]    SQL Statement: (FID >= 653) AND (FID <= 653)
+[653.0]    Layer feature count:    1    
+[653.0]    Done gathering intersection information between layer 1 and layer 2 in     0.13 seconds
+[653.0]        1      polygons processed for intersection with grid.     1      total polygon intersections processed.
+[653.0]  Finished creating OGR layers for the input feature classes after    39.37 seconds. -- 
+[653.0]    Calculation of spatial correspondences completed in     0.96 s.
+[10.0]    SQL Statement: (FID >= 19) AND (FID <= 20)
+[10.0]    Layer feature count:    2    
+[10.0]    Done gathering intersection information between layer 1 and layer 2 in     0.35 seconds
+[10.0]        2      polygons processed for intersection with grid.     5      total polygon intersections processed.
+[10.0]  Finished creating OGR layers for the input feature classes after    20.16 seconds. -- 
+[10.0]    Calculation of spatial correspondences completed in     1.44 s.
+[46.0]    SQL Statement: (FID >= 91) AND (FID <= 92)
+[46.0]    Layer feature count:    2    
+[46.0]    Done gathering intersection information between layer 1 and layer 2 in     1.44 seconds
+[46.0]        2      polygons processed for intersection with grid.     10     total polygon intersections processed.
+[46.0]  Finished creating OGR layers for the input feature classes after    22.23 seconds. -- 
+[46.0]    Calculation of spatial correspondences completed in     2.07 s.
+[92.0]    SQL Statement: (FID >= 183) AND (FID <= 184)
+[92.0]    Layer feature count:    2    
+[92.0]    Done gathering intersection information between layer 1 and layer 2 in     0.88 seconds
+[92.0]        2      polygons processed for intersection with grid.     6      total polygon intersections processed.
+[92.0]  Finished creating OGR layers for the input feature classes after    24.15 seconds. -- 
+[92.0]    Calculation of spatial correspondences completed in     1.80 s.
+[132.0]    SQL Statement: (FID >= 263) AND (FID <= 264)
+[132.0]    Layer feature count:    2    
+[132.0]    Done gathering intersection information between layer 1 and layer 2 in     0.61 seconds
+[132.0]        2      polygons processed for intersection with grid.     6      total polygon intersections processed.
+[132.0]  Finished creating OGR layers for the input feature classes after    25.70 seconds. -- 
+[132.0]    Calculation of spatial correspondences completed in     1.70 s.
+[152.0]    SQL Statement: (FID >= 303) AND (FID <= 304)
+[152.0]    Layer feature count:    2    
+[152.0]    Done gathering intersection information between layer 1 and layer 2 in     1.84 seconds
+[152.0]        2      polygons processed for intersection with grid.     11     total polygon intersections processed.
+[152.0]  Finished creating OGR layers for the input feature classes after    28.39 seconds. -- 
+[152.0]    Calculation of spatial correspondences completed in     2.52 s.
+[193.0]    SQL Statement: (FID >= 385) AND (FID <= 386)
+[193.0]    Layer feature count:    2    
+[193.0]    Done gathering intersection information between layer 1 and layer 2 in     0.81 seconds
+[193.0]        2      polygons processed for intersection with grid.     8      total polygon intersections processed.
+[193.0]  Finished creating OGR layers for the input feature classes after    30.24 seconds. -- 
+[193.0]    Calculation of spatial correspondences completed in     1.88 s.
+[208.0]    SQL Statement: (FID >= 415) AND (FID <= 416)
+[208.0]    Layer feature count:    2    
+[208.0]    Done gathering intersection information between layer 1 and layer 2 in     1.56 seconds
+[208.0]        2      polygons processed for intersection with grid.     12     total polygon intersections processed.
+[208.0]  Finished creating OGR layers for the input feature classes after    32.73 seconds. -- 
+[208.0]    Calculation of spatial correspondences completed in     2.50 s.
+[237.0]    SQL Statement: (FID >= 473) AND (FID <= 474)
+[237.0]    Layer feature count:    2    
+[237.0]    Done gathering intersection information between layer 1 and layer 2 in     0.26 seconds
+[237.0]        2      polygons processed for intersection with grid.     4      total polygon intersections processed.
+[237.0]  Finished creating OGR layers for the input feature classes after    33.98 seconds. -- 
+[237.0]    Calculation of spatial correspondences completed in     1.24 s.
+[249.0]    SQL Statement: (FID >= 497) AND (FID <= 498)
+[249.0]    Layer feature count:    2    
+[249.0]    Done gathering intersection information between layer 1 and layer 2 in     2.92 seconds
+[249.0]        2      polygons processed for intersection with grid.     20     total polygon intersections processed.
+[249.0]  Finished creating OGR layers for the input feature classes after    37.56 seconds. -- 
+[249.0]    Calculation of spatial correspondences completed in     3.58 s.
+[319.0]    SQL Statement: (FID >= 637) AND (FID <= 638)
+[319.0]    Layer feature count:    2    
+[319.0]    Done gathering intersection information between layer 1 and layer 2 in     0.08 seconds
+[319.0]        2      polygons processed for intersection with grid.     3      total polygon intersections processed.
+[319.0]  Finished creating OGR layers for the input feature classes after    38.59 seconds. -- 
+[319.0]    Calculation of spatial correspondences completed in     0.93 s.
+[657.0]    SQL Statement: (FID >= 657) AND (FID <= 657)
+[657.0]    Layer feature count:    1    
+[657.0]    Done gathering intersection information between layer 1 and layer 2 in     0.11 seconds
+[657.0]        1      polygons processed for intersection with grid.     2      total polygon intersections processed.
+[657.0]  Finished creating OGR layers for the input feature classes after    39.38 seconds. -- 
+[657.0]    Calculation of spatial correspondences completed in     0.73 s.
+[7.0]    SQL Statement: (FID >= 13) AND (FID <= 14)
+[7.0]    Layer feature count:    2    
+[7.0]    Done gathering intersection information between layer 1 and layer 2 in     0.61 seconds
+[7.0]        2      polygons processed for intersection with grid.     6      total polygon intersections processed.
+[7.0]  Finished creating OGR layers for the input feature classes after    20.42 seconds. -- 
+[7.0]    Calculation of spatial correspondences completed in     1.51 s.
+[51.0]    SQL Statement: (FID >= 101) AND (FID <= 102)
+[51.0]    Layer feature count:    2    
+[51.0]    Done gathering intersection information between layer 1 and layer 2 in     0.70 seconds
+[51.0]        2      polygons processed for intersection with grid.     7      total polygon intersections processed.
+[51.0]  Finished creating OGR layers for the input feature classes after    21.74 seconds. -- 
+[51.0]    Calculation of spatial correspondences completed in     1.35 s.
+[76.0]    SQL Statement: (FID >= 151) AND (FID <= 152)
+[76.0]    Layer feature count:    2    
+[76.0]    Done gathering intersection information between layer 1 and layer 2 in     0.36 seconds
+[76.0]        2      polygons processed for intersection with grid.     5      total polygon intersections processed.
+[76.0]  Finished creating OGR layers for the input feature classes after    22.94 seconds. -- 
+[76.0]    Calculation of spatial correspondences completed in     1.23 s.
+[110.0]    SQL Statement: (FID >= 219) AND (FID <= 220)
+[110.0]    Layer feature count:    2    
+[110.0]    Done gathering intersection information between layer 1 and layer 2 in     0.17 seconds
+[110.0]        2      polygons processed for intersection with grid.     5      total polygon intersections processed.
+[110.0]  Finished creating OGR layers for the input feature classes after    24.33 seconds. -- 
+[110.0]    Calculation of spatial correspondences completed in     1.50 s.
+[137.0]    SQL Statement: (FID >= 273) AND (FID <= 274)
+[137.0]    Layer feature count:    2    
+[137.0]    Done gathering intersection information between layer 1 and layer 2 in     0.57 seconds
+[137.0]        2      polygons processed for intersection with grid.     5      total polygon intersections processed.
+[137.0]  Finished creating OGR layers for the input feature classes after    25.88 seconds. -- 
+[137.0]    Calculation of spatial correspondences completed in     1.58 s.
+[157.0]    SQL Statement: (FID >= 313) AND (FID <= 314)
+[157.0]    Layer feature count:    2    
+[157.0]    Done gathering intersection information between layer 1 and layer 2 in     2.10 seconds
+[157.0]        2      polygons processed for intersection with grid.     17     total polygon intersections processed.
+[157.0]  Finished creating OGR layers for the input feature classes after    28.83 seconds. -- 
+[157.0]    Calculation of spatial correspondences completed in     2.87 s.
+[196.0]    SQL Statement: (FID >= 391) AND (FID <= 392)
+[196.0]    Layer feature count:    2    
+[196.0]    Done gathering intersection information between layer 1 and layer 2 in     8.37 seconds
+[196.0]        2      polygons processed for intersection with grid.     41     total polygon intersections processed.
+[196.0]  Finished creating OGR layers for the input feature classes after    38.33 seconds. -- 
+[196.0]    Calculation of spatial correspondences completed in     9.44 s.
+[655.0]    SQL Statement: (FID >= 655) AND (FID <= 655)
+[655.0]    Layer feature count:    1    
+[655.0]    Done gathering intersection information between layer 1 and layer 2 in     0.04 seconds
+[655.0]        1      polygons processed for intersection with grid.     2      total polygon intersections processed.
+[655.0]  Finished creating OGR layers for the input feature classes after    39.31 seconds. -- 
+[655.0]    Calculation of spatial correspondences completed in     0.92 s.
+[9.0]    SQL Statement: (FID >= 17) AND (FID <= 18)
+[9.0]    Layer feature count:    2    
+[9.0]    Done gathering intersection information between layer 1 and layer 2 in     0.33 seconds
+[9.0]        2      polygons processed for intersection with grid.     10     total polygon intersections processed.
+[9.0]  Finished creating OGR layers for the input feature classes after    20.07 seconds. -- 
+[9.0]    Calculation of spatial correspondences completed in     1.37 s.
+[42.0]    SQL Statement: (FID >= 83) AND (FID <= 84)
+[42.0]    Layer feature count:    2    
+[42.0]    Done gathering intersection information between layer 1 and layer 2 in     0.56 seconds
+[42.0]        2      polygons processed for intersection with grid.     5      total polygon intersections processed.
+[42.0]  Finished creating OGR layers for the input feature classes after    21.27 seconds. -- 
+[42.0]    Calculation of spatial correspondences completed in     1.09 s.
+[69.0]    SQL Statement: (FID >= 137) AND (FID <= 138)
+[69.0]    Layer feature count:    2    
+[69.0]    Done gathering intersection information between layer 1 and layer 2 in     0.04 seconds
+[69.0]        2      polygons processed for intersection with grid.     5      total polygon intersections processed.
+[69.0]  Finished creating OGR layers for the input feature classes after    22.22 seconds. -- 
+[69.0]    Calculation of spatial correspondences completed in     0.84 s.
+[90.0]    SQL Statement: (FID >= 179) AND (FID <= 180)
+[90.0]    Layer feature count:    2    
+[90.0]    Done gathering intersection information between layer 1 and layer 2 in     0.22 seconds
+[90.0]        2      polygons processed for intersection with grid.     4      total polygon intersections processed.
+[90.0]  Finished creating OGR layers for the input feature classes after    23.40 seconds. -- 
+[90.0]    Calculation of spatial correspondences completed in     1.17 s.
+[117.0]    SQL Statement: (FID >= 233) AND (FID <= 234)
+[117.0]    Layer feature count:    2    
+[117.0]    Done gathering intersection information between layer 1 and layer 2 in     0.11 seconds
+[117.0]        2      polygons processed for intersection with grid.     5      total polygon intersections processed.
+[117.0]  Finished creating OGR layers for the input feature classes after    24.55 seconds. -- 
+[117.0]    Calculation of spatial correspondences completed in     1.18 s.
+[139.0]    SQL Statement: (FID >= 277) AND (FID <= 278)
+[139.0]    Layer feature count:    2    
+[139.0]    Done gathering intersection information between layer 1 and layer 2 in     1.00 seconds
+[139.0]        2      polygons processed for intersection with grid.     9      total polygon intersections processed.
+[139.0]  Finished creating OGR layers for the input feature classes after    26.32 seconds. -- 
+[139.0]    Calculation of spatial correspondences completed in     1.81 s.
+[166.0]    SQL Statement: (FID >= 331) AND (FID <= 332)
+[166.0]    Layer feature count:    2    
+[166.0]    Done gathering intersection information between layer 1 and layer 2 in     0.11 seconds
+[166.0]        2      polygons processed for intersection with grid.     6      total polygon intersections processed.
+[166.0]  Finished creating OGR layers for the input feature classes after    27.56 seconds. -- 
+[166.0]    Calculation of spatial correspondences completed in     1.23 s.
+[181.0]    SQL Statement: (FID >= 361) AND (FID <= 362)
+[181.0]    Layer feature count:    2    
+[181.0]    Done gathering intersection information between layer 1 and layer 2 in     0.81 seconds
+[181.0]        2      polygons processed for intersection with grid.     8      total polygon intersections processed.
+[181.0]  Finished creating OGR layers for the input feature classes after    29.27 seconds. -- 
+[181.0]    Calculation of spatial correspondences completed in     1.81 s.
+[203.0]    SQL Statement: (FID >= 405) AND (FID <= 406)
+[203.0]    Layer feature count:    2    
+[203.0]    Done gathering intersection information between layer 1 and layer 2 in     2.72 seconds
+[203.0]        2      polygons processed for intersection with grid.     15     total polygon intersections processed.
+[203.0]  Finished creating OGR layers for the input feature classes after    33.07 seconds. -- 
+[203.0]    Calculation of spatial correspondences completed in     3.76 s.
+[240.0]    SQL Statement: (FID >= 479) AND (FID <= 480)
+[240.0]    Layer feature count:    2    
+[240.0]    Done gathering intersection information between layer 1 and layer 2 in     0.17 seconds
+[240.0]        2      polygons processed for intersection with grid.     3      total polygon intersections processed.
+[240.0]  Finished creating OGR layers for the input feature classes after    34.38 seconds. -- 
+[240.0]    Calculation of spatial correspondences completed in     1.18 s.
+[258.0]    SQL Statement: (FID >= 515) AND (FID <= 516)
+[258.0]    Layer feature count:    2    
+[258.0]    Done gathering intersection information between layer 1 and layer 2 in     0.31 seconds
+[258.0]        2      polygons processed for intersection with grid.     7      total polygon intersections processed.
+[258.0]  Finished creating OGR layers for the input feature classes after    35.11 seconds. -- 
+[258.0]    Calculation of spatial correspondences completed in     0.84 s.
+[273.0]    SQL Statement: (FID >= 545) AND (FID <= 546)
+[273.0]    Layer feature count:    2    
+[273.0]    Done gathering intersection information between layer 1 and layer 2 in     0.41 seconds
+[273.0]        2      polygons processed for intersection with grid.     4      total polygon intersections processed.
+[273.0]  Finished creating OGR layers for the input feature classes after    36.47 seconds. -- 
+[273.0]    Calculation of spatial correspondences completed in     1.41 s.
+[303.0]    SQL Statement: (FID >= 605) AND (FID <= 606)
+[303.0]    Layer feature count:    2    
+[303.0]    Done gathering intersection information between layer 1 and layer 2 in     0.16 seconds
+[303.0]        2      polygons processed for intersection with grid.     15     total polygon intersections processed.
+[303.0]  Finished creating OGR layers for the input feature classes after    37.89 seconds. -- 
+[303.0]    Calculation of spatial correspondences completed in     1.38 s.
+[646.0]    SQL Statement: (FID >= 646) AND (FID <= 646)
+[646.0]    Layer feature count:    1    
+[646.0]    Done gathering intersection information between layer 1 and layer 2 in     0.37 seconds
+[646.0]        1      polygons processed for intersection with grid.     6      total polygon intersections processed.
+[646.0]  Finished creating OGR layers for the input feature classes after    39.29 seconds. -- 
+[646.0]    Calculation of spatial correspondences completed in     1.36 s.
+[20.0]    SQL Statement: (FID >= 39) AND (FID <= 40)
+[20.0]    Layer feature count:    2    
+[20.0]    Done gathering intersection information between layer 1 and layer 2 in     0.14 seconds
+[20.0]        2      polygons processed for intersection with grid.     3      total polygon intersections processed.
+[20.0]  Finished creating OGR layers for the input feature classes after    19.92 seconds. -- 
+[20.0]    Calculation of spatial correspondences completed in     1.15 s.
+[36.0]    SQL Statement: (FID >= 71) AND (FID <= 72)
+[36.0]    Layer feature count:    2    
+[36.0]    Done gathering intersection information between layer 1 and layer 2 in     0.12 seconds
+[36.0]        2      polygons processed for intersection with grid.     3      total polygon intersections processed.
+[36.0]  Finished creating OGR layers for the input feature classes after    20.88 seconds. -- 
+[36.0]    Calculation of spatial correspondences completed in     0.83 s.
+[63.0]    SQL Statement: (FID >= 125) AND (FID <= 126)
+[63.0]    Layer feature count:    2    
+[63.0]    Done gathering intersection information between layer 1 and layer 2 in     0.78 seconds
+[63.0]        2      polygons processed for intersection with grid.     9      total polygon intersections processed.
+[63.0]  Finished creating OGR layers for the input feature classes after    22.79 seconds. -- 
+[63.0]    Calculation of spatial correspondences completed in     1.97 s.
+[105.0]    SQL Statement: (FID >= 209) AND (FID <= 210)
+[105.0]    Layer feature count:    2    
+[105.0]    Done gathering intersection information between layer 1 and layer 2 in     0.64 seconds
+[105.0]        2      polygons processed for intersection with grid.     12     total polygon intersections processed.
+[105.0]  Finished creating OGR layers for the input feature classes after    24.14 seconds. -- 
+[105.0]    Calculation of spatial correspondences completed in     1.36 s.
+[133.0]    SQL Statement: (FID >= 265) AND (FID <= 266)
+[133.0]    Layer feature count:    2    
+[133.0]    Done gathering intersection information between layer 1 and layer 2 in     3.22 seconds
+[133.0]        2      polygons processed for intersection with grid.     16     total polygon intersections processed.
+[133.0]  Finished creating OGR layers for the input feature classes after    28.39 seconds. -- 
+[133.0]    Calculation of spatial correspondences completed in     4.25 s.
+[194.0]    SQL Statement: (FID >= 387) AND (FID <= 388)
+[194.0]    Layer feature count:    2    
+[194.0]    Done gathering intersection information between layer 1 and layer 2 in     1.87 seconds
+[194.0]        2      polygons processed for intersection with grid.     14     total polygon intersections processed.
+[194.0]  Finished creating OGR layers for the input feature classes after    31.52 seconds. -- 
+[194.0]    Calculation of spatial correspondences completed in     3.37 s.
+[224.0]    SQL Statement: (FID >= 447) AND (FID <= 448)
+[224.0]    Layer feature count:    2    
+[224.0]    Done gathering intersection information between layer 1 and layer 2 in     1.87 seconds
+[224.0]        2      polygons processed for intersection with grid.     15     total polygon intersections processed.
+[224.0]  Finished creating OGR layers for the input feature classes after    34.33 seconds. -- 
+[224.0]    Calculation of spatial correspondences completed in     2.48 s.
+[257.0]    SQL Statement: (FID >= 513) AND (FID <= 514)
+[257.0]    Layer feature count:    2    
+[257.0]    Done gathering intersection information between layer 1 and layer 2 in     0.18 seconds
+[257.0]        2      polygons processed for intersection with grid.     4      total polygon intersections processed.
+[257.0]  Finished creating OGR layers for the input feature classes after    35.52 seconds. -- 
+[257.0]    Calculation of spatial correspondences completed in     1.23 s.
+[279.0]    SQL Statement: (FID >= 557) AND (FID <= 558)
+[279.0]    Layer feature count:    2    
+[279.0]    Done gathering intersection information between layer 1 and layer 2 in     0.13 seconds
+[279.0]        2      polygons processed for intersection with grid.     4      total polygon intersections processed.
+[279.0]  Finished creating OGR layers for the input feature classes after    36.42 seconds. -- 
+[279.0]    Calculation of spatial correspondences completed in     0.88 s.
+[301.0]    SQL Statement: (FID >= 601) AND (FID <= 602)
+[301.0]    Layer feature count:    2    
+[301.0]    Done gathering intersection information between layer 1 and layer 2 in     0.29 seconds
+[301.0]        2      polygons processed for intersection with grid.     7      total polygon intersections processed.
+[301.0]  Finished creating OGR layers for the input feature classes after    37.51 seconds. -- 
+[301.0]    Calculation of spatial correspondences completed in     1.14 s.
+[318.0]    SQL Statement: (FID >= 635) AND (FID <= 636)
+[318.0]    Layer feature count:    2    
+[318.0]    Done gathering intersection information between layer 1 and layer 2 in     1.03 seconds
+[318.0]        2      polygons processed for intersection with grid.     11     total polygon intersections processed.
+[318.0]  Finished creating OGR layers for the input feature classes after    39.29 seconds. -- 
+[318.0]    Calculation of spatial correspondences completed in     1.76 s.
+[24.0]    SQL Statement: (FID >= 47) AND (FID <= 48)
+[24.0]    Layer feature count:    2    
+[24.0]    Done gathering intersection information between layer 1 and layer 2 in     1.66 seconds
+[24.0]        2      polygons processed for intersection with grid.     11     total polygon intersections processed.
+[24.0]  Finished creating OGR layers for the input feature classes after    21.43 seconds. -- 
+[24.0]    Calculation of spatial correspondences completed in     2.58 s.
+[74.0]    SQL Statement: (FID >= 147) AND (FID <= 148)
+[74.0]    Layer feature count:    2    
+[74.0]    Done gathering intersection information between layer 1 and layer 2 in     0.90 seconds
+[74.0]        2      polygons processed for intersection with grid.     7      total polygon intersections processed.
+[74.0]  Finished creating OGR layers for the input feature classes after    23.11 seconds. -- 
+[74.0]    Calculation of spatial correspondences completed in     1.85 s.
+[116.0]    SQL Statement: (FID >= 231) AND (FID <= 232)
+[116.0]    Layer feature count:    2    
+[116.0]    Done gathering intersection information between layer 1 and layer 2 in     0.10 seconds
+[116.0]        2      polygons processed for intersection with grid.     7      total polygon intersections processed.
+[116.0]  Finished creating OGR layers for the input feature classes after    24.48 seconds. -- 
+[116.0]    Calculation of spatial correspondences completed in     1.11 s.
+[136.0]    SQL Statement: (FID >= 271) AND (FID <= 272)
+[136.0]    Layer feature count:    2    
+[136.0]    Done gathering intersection information between layer 1 and layer 2 in     1.85 seconds
+[136.0]        2      polygons processed for intersection with grid.     12     total polygon intersections processed.
+[136.0]  Finished creating OGR layers for the input feature classes after    27.14 seconds. -- 
+[136.0]    Calculation of spatial correspondences completed in     2.78 s.
+[175.0]    SQL Statement: (FID >= 349) AND (FID <= 350)
+[175.0]    Layer feature count:    2    
+[175.0]    Done gathering intersection information between layer 1 and layer 2 in     8.13 seconds
+[175.0]        2      polygons processed for intersection with grid.     35     total polygon intersections processed.
+[175.0]  Finished creating OGR layers for the input feature classes after    36.10 seconds. -- 
+[175.0]    Calculation of spatial correspondences completed in     9.01 s.
+[292.0]    SQL Statement: (FID >= 583) AND (FID <= 584)
+[292.0]    Layer feature count:    2    
+[292.0]    Done gathering intersection information between layer 1 and layer 2 in     0.76 seconds
+[292.0]        2      polygons processed for intersection with grid.     10     total polygon intersections processed.
+[292.0]  Finished creating OGR layers for the input feature classes after    37.67 seconds. -- 
+[292.0]    Calculation of spatial correspondences completed in     1.51 s.
+[320.0]    SQL Statement: (FID >= 639) AND (FID <= 640)
+[320.0]    Layer feature count:    2    
+[320.0]    Done gathering intersection information between layer 1 and layer 2 in     0.12 seconds
+[320.0]        2      polygons processed for intersection with grid.     2      total polygon intersections processed.
+[320.0]  Finished creating OGR layers for the input feature classes after    38.85 seconds. -- 
+[320.0]    Calculation of spatial correspondences completed in     1.19 s.
+[661.0]    SQL Statement: (FID >= 661) AND (FID <= 661)
+[661.0]    Layer feature count:    1    
+[661.0]    Done gathering intersection information between layer 1 and layer 2 in     0.02 seconds
+[661.0]        1      polygons processed for intersection with grid.     2      total polygon intersections processed.
+[661.0]  Finished creating OGR layers for the input feature classes after    39.53 seconds. -- 
+[661.0]    Calculation of spatial correspondences completed in     0.47 s.
+[13.0]    SQL Statement: (FID >= 25) AND (FID <= 26)
+[13.0]    Layer feature count:    2    
+[13.0]    Done gathering intersection information between layer 1 and layer 2 in     0.53 seconds
+[13.0]        2      polygons processed for intersection with grid.     5      total polygon intersections processed.
+[13.0]  Finished creating OGR layers for the input feature classes after    20.32 seconds. -- 
+[13.0]    Calculation of spatial correspondences completed in     1.46 s.
+[48.0]    SQL Statement: (FID >= 95) AND (FID <= 96)
+[48.0]    Layer feature count:    2    
+[48.0]    Done gathering intersection information between layer 1 and layer 2 in     0.28 seconds
+[48.0]        2      polygons processed for intersection with grid.     6      total polygon intersections processed.
+[48.0]  Finished creating OGR layers for the input feature classes after    21.08 seconds. -- 
+[48.0]    Calculation of spatial correspondences completed in     0.78 s.
+[66.0]    SQL Statement: (FID >= 131) AND (FID <= 132)
+[66.0]    Layer feature count:    2    
+[66.0]    Done gathering intersection information between layer 1 and layer 2 in     0.05 seconds
+[66.0]        2      polygons processed for intersection with grid.     3      total polygon intersections processed.
+[66.0]  Finished creating OGR layers for the input feature classes after    21.97 seconds. -- 
+[66.0]    Calculation of spatial correspondences completed in     0.81 s.
+[85.0]    SQL Statement: (FID >= 169) AND (FID <= 170)
+[85.0]    Layer feature count:    2    
+[85.0]    Done gathering intersection information between layer 1 and layer 2 in     0.66 seconds
+[85.0]        2      polygons processed for intersection with grid.     7      total polygon intersections processed.
+[85.0]  Finished creating OGR layers for the input feature classes after    23.45 seconds. -- 
+[85.0]    Calculation of spatial correspondences completed in     1.46 s.
+[120.0]    SQL Statement: (FID >= 239) AND (FID <= 240)
+[120.0]    Layer feature count:    2    
+[120.0]    Done gathering intersection information between layer 1 and layer 2 in     0.21 seconds
+[120.0]        2      polygons processed for intersection with grid.     4      total polygon intersections processed.
+[120.0]  Finished creating OGR layers for the input feature classes after    24.67 seconds. -- 
+[120.0]    Calculation of spatial correspondences completed in     1.31 s.
+[144.0]    SQL Statement: (FID >= 287) AND (FID <= 288)
+[144.0]    Layer feature count:    2    
+[144.0]    Done gathering intersection information between layer 1 and layer 2 in     2.77 seconds
+[144.0]        2      polygons processed for intersection with grid.     17     total polygon intersections processed.
+[144.0]  Finished creating OGR layers for the input feature classes after    28.11 seconds. -- 
+[144.0]    Calculation of spatial correspondences completed in     3.44 s.
+[188.0]    SQL Statement: (FID >= 375) AND (FID <= 376)
+[188.0]    Layer feature count:    2    
+[188.0]    Done gathering intersection information between layer 1 and layer 2 in     0.90 seconds
+[188.0]        2      polygons processed for intersection with grid.     8      total polygon intersections processed.
+[188.0]  Finished creating OGR layers for the input feature classes after    30.21 seconds. -- 
+[188.0]    Calculation of spatial correspondences completed in     2.05 s.
+[206.0]    SQL Statement: (FID >= 411) AND (FID <= 412)
+[206.0]    Layer feature count:    2    
+[206.0]    Done gathering intersection information between layer 1 and layer 2 in     0.38 seconds
+[206.0]        2      polygons processed for intersection with grid.     10     total polygon intersections processed.
+[206.0]  Finished creating OGR layers for the input feature classes after    31.12 seconds. -- 
+[206.0]    Calculation of spatial correspondences completed in     1.09 s.
+[219.0]    SQL Statement: (FID >= 437) AND (FID <= 438)
+[219.0]    Layer feature count:    2    
+[219.0]    Done gathering intersection information between layer 1 and layer 2 in     0.87 seconds
+[219.0]        2      polygons processed for intersection with grid.     7      total polygon intersections processed.
+[219.0]  Finished creating OGR layers for the input feature classes after    32.61 seconds. -- 
+[219.0]    Calculation of spatial correspondences completed in     1.44 s.
+[235.0]    SQL Statement: (FID >= 469) AND (FID <= 470)
+[235.0]    Layer feature count:    2    
+[235.0]    Done gathering intersection information between layer 1 and layer 2 in     0.93 seconds
+[235.0]        2      polygons processed for intersection with grid.     8      total polygon intersections processed.
+[235.0]  Finished creating OGR layers for the input feature classes after    34.61 seconds. -- 
+[235.0]    Calculation of spatial correspondences completed in     1.93 s.
+[263.0]    SQL Statement: (FID >= 525) AND (FID <= 526)
+[263.0]    Layer feature count:    2    
+[263.0]    Done gathering intersection information between layer 1 and layer 2 in     0.19 seconds
+[263.0]        2      polygons processed for intersection with grid.     5      total polygon intersections processed.
+[263.0]  Finished creating OGR layers for the input feature classes after    35.55 seconds. -- 
+[263.0]    Calculation of spatial correspondences completed in     0.87 s.
+[281.0]    SQL Statement: (FID >= 561) AND (FID <= 562)
+[281.0]    Layer feature count:    2    
+[281.0]    Done gathering intersection information between layer 1 and layer 2 in     0.43 seconds
+[281.0]        2      polygons processed for intersection with grid.     6      total polygon intersections processed.
+[281.0]  Finished creating OGR layers for the input feature classes after    36.62 seconds. -- 
+[281.0]    Calculation of spatial correspondences completed in     1.07 s.
+[304.0]    SQL Statement: (FID >= 607) AND (FID <= 608)
+[304.0]    Layer feature count:    2    
+[304.0]    Done gathering intersection information between layer 1 and layer 2 in     0.09 seconds
+[304.0]        2      polygons processed for intersection with grid.     2      total polygon intersections processed.
+[304.0]  Finished creating OGR layers for the input feature classes after    37.96 seconds. -- 
+[304.0]    Calculation of spatial correspondences completed in     1.21 s.
+[644.0]    SQL Statement: (FID >= 644) AND (FID <= 644)
+[644.0]    Layer feature count:    1    
+[644.0]    Done gathering intersection information between layer 1 and layer 2 in     0.18 seconds
+[644.0]        1      polygons processed for intersection with grid.     4      total polygon intersections processed.
+[644.0]  Finished creating OGR layers for the input feature classes after    38.92 seconds. -- 
+[644.0]    Calculation of spatial correspondences completed in     1.24 s.
+[665.0]    SQL Statement: (FID >= 665) AND (FID <= 665)
+[665.0]    Layer feature count:    1    
+[665.0]    Done gathering intersection information between layer 1 and layer 2 in     0.01 seconds
+[665.0]        1      polygons processed for intersection with grid.     1      total polygon intersections processed.
+[665.0]  Finished creating OGR layers for the input feature classes after    39.61 seconds. -- 
+[665.0]    Calculation of spatial correspondences completed in     0.53 s.
+[22.0]    SQL Statement: (FID >= 43) AND (FID <= 44)
+[22.0]    Layer feature count:    2    
+[22.0]    Done gathering intersection information between layer 1 and layer 2 in     0.95 seconds
+[22.0]        2      polygons processed for intersection with grid.     7      total polygon intersections processed.
+[22.0]  Finished creating OGR layers for the input feature classes after    20.75 seconds. -- 
+[22.0]    Calculation of spatial correspondences completed in     1.97 s.
+[62.0]    SQL Statement: (FID >= 123) AND (FID <= 124)
+[62.0]    Layer feature count:    2    
+[62.0]    Done gathering intersection information between layer 1 and layer 2 in     0.62 seconds
+[62.0]        2      polygons processed for intersection with grid.     8      total polygon intersections processed.
+[62.0]  Finished creating OGR layers for the input feature classes after    22.75 seconds. -- 
+[62.0]    Calculation of spatial correspondences completed in     1.97 s.
+[100.0]    SQL Statement: (FID >= 199) AND (FID <= 200)
+[100.0]    Layer feature count:    2    
+[100.0]    Done gathering intersection information between layer 1 and layer 2 in     2.88 seconds
+[100.0]        2      polygons processed for intersection with grid.     15     total polygon intersections processed.
+[100.0]  Finished creating OGR layers for the input feature classes after    26.58 seconds. -- 
+[100.0]    Calculation of spatial correspondences completed in     3.72 s.
+[168.0]    SQL Statement: (FID >= 335) AND (FID <= 336)
+[168.0]    Layer feature count:    2    
+[168.0]    Done gathering intersection information between layer 1 and layer 2 in     0.87 seconds
+[168.0]        2      polygons processed for intersection with grid.     6      total polygon intersections processed.
+[168.0]  Finished creating OGR layers for the input feature classes after    27.91 seconds. -- 
+[168.0]    Calculation of spatial correspondences completed in     1.50 s.
+[187.0]    SQL Statement: (FID >= 373) AND (FID <= 374)
+[187.0]    Layer feature count:    2    
+[187.0]    Done gathering intersection information between layer 1 and layer 2 in     1.92 seconds
+[187.0]        2      polygons processed for intersection with grid.     14     total polygon intersections processed.
+[187.0]  Finished creating OGR layers for the input feature classes after    31.25 seconds. -- 
+[187.0]    Calculation of spatial correspondences completed in     3.30 s.
+[220.0]    SQL Statement: (FID >= 439) AND (FID <= 440)
+[220.0]    Layer feature count:    2    
+[220.0]    Done gathering intersection information between layer 1 and layer 2 in     0.11 seconds
+[220.0]        2      polygons processed for intersection with grid.     6      total polygon intersections processed.
+[220.0]  Finished creating OGR layers for the input feature classes after    32.49 seconds. -- 
+[220.0]    Calculation of spatial correspondences completed in     1.33 s.
+[232.0]    SQL Statement: (FID >= 463) AND (FID <= 464)
+[232.0]    Layer feature count:    2    
+[232.0]    Done gathering intersection information between layer 1 and layer 2 in     2.17 seconds
+[232.0]        2      polygons processed for intersection with grid.     15     total polygon intersections processed.
+[232.0]  Finished creating OGR layers for the input feature classes after    35.81 seconds. -- 
+[232.0]    Calculation of spatial correspondences completed in     3.12 s.
+[288.0]    SQL Statement: (FID >= 575) AND (FID <= 576)
+[288.0]    Layer feature count:    2    
+[288.0]    Done gathering intersection information between layer 1 and layer 2 in     0.51 seconds
+[288.0]        2      polygons processed for intersection with grid.     6      total polygon intersections processed.
+[288.0]  Finished creating OGR layers for the input feature classes after    37.34 seconds. -- 
+[288.0]    Calculation of spatial correspondences completed in     1.65 s.
+[313.0]    SQL Statement: (FID >= 625) AND (FID <= 626)
+[313.0]    Layer feature count:    2    
+[313.0]    Done gathering intersection information between layer 1 and layer 2 in     1.21 seconds
+[313.0]        2      polygons processed for intersection with grid.     11     total polygon intersections processed.
+[313.0]  Finished creating OGR layers for the input feature classes after    39.67 seconds. -- 
+[313.0]    Calculation of spatial correspondences completed in     2.22 s.
+[8.0]    SQL Statement: (FID >= 15) AND (FID <= 16)
+[8.0]    Layer feature count:    2    
+[8.0]    Done gathering intersection information between layer 1 and layer 2 in     0.34 seconds
+[8.0]        2      polygons processed for intersection with grid.     7      total polygon intersections processed.
+[8.0]  Finished creating OGR layers for the input feature classes after    20.08 seconds. -- 
+[8.0]    Calculation of spatial correspondences completed in     1.37 s.
+[40.0]    SQL Statement: (FID >= 79) AND (FID <= 80)
+[40.0]    Layer feature count:    2    
+[40.0]    Done gathering intersection information between layer 1 and layer 2 in     1.13 seconds
+[40.0]        2      polygons processed for intersection with grid.     10     total polygon intersections processed.
+[40.0]  Finished creating OGR layers for the input feature classes after    21.82 seconds. -- 
+[40.0]    Calculation of spatial correspondences completed in     1.57 s.
+[82.0]    SQL Statement: (FID >= 163) AND (FID <= 164)
+[82.0]    Layer feature count:    2    
+[82.0]    Done gathering intersection information between layer 1 and layer 2 in     1.20 seconds
+[82.0]        2      polygons processed for intersection with grid.     14     total polygon intersections processed.
+[82.0]  Finished creating OGR layers for the input feature classes after    23.81 seconds. -- 
+[82.0]    Calculation of spatial correspondences completed in     2.14 s.
+[126.0]    SQL Statement: (FID >= 251) AND (FID <= 252)
+[126.0]    Layer feature count:    2    
+[126.0]    Done gathering intersection information between layer 1 and layer 2 in     1.46 seconds
+[126.0]        2      polygons processed for intersection with grid.     11     total polygon intersections processed.
+[126.0]  Finished creating OGR layers for the input feature classes after    26.05 seconds. -- 
+[126.0]    Calculation of spatial correspondences completed in     2.11 s.
+[161.0]    SQL Statement: (FID >= 321) AND (FID <= 322)
+[161.0]    Layer feature count:    2    
+[161.0]    Done gathering intersection information between layer 1 and layer 2 in     0.24 seconds
+[161.0]        2      polygons processed for intersection with grid.     6      total polygon intersections processed.
+[161.0]  Finished creating OGR layers for the input feature classes after    27.25 seconds. -- 
+[161.0]    Calculation of spatial correspondences completed in     1.21 s.
+[178.0]    SQL Statement: (FID >= 355) AND (FID <= 356)
+[178.0]    Layer feature count:    2    
+[178.0]    Done gathering intersection information between layer 1 and layer 2 in     5.32 seconds
+[178.0]        2      polygons processed for intersection with grid.     25     total polygon intersections processed.
+[178.0]  Finished creating OGR layers for the input feature classes after    33.24 seconds. -- 
+[178.0]    Calculation of spatial correspondences completed in     6.02 s.
+[244.0]    SQL Statement: (FID >= 487) AND (FID <= 488)
+[244.0]    Layer feature count:    2    
+[244.0]    Done gathering intersection information between layer 1 and layer 2 in     0.47 seconds
+[244.0]        2      polygons processed for intersection with grid.     7      total polygon intersections processed.
+[244.0]  Finished creating OGR layers for the input feature classes after    34.88 seconds. -- 
+[244.0]    Calculation of spatial correspondences completed in     1.59 s.
+[269.0]    SQL Statement: (FID >= 537) AND (FID <= 538)
+[269.0]    Layer feature count:    2    
+[269.0]    Done gathering intersection information between layer 1 and layer 2 in     0.74 seconds
+[269.0]        2      polygons processed for intersection with grid.     8      total polygon intersections processed.
+[269.0]  Finished creating OGR layers for the input feature classes after    36.10 seconds. -- 
+[269.0]    Calculation of spatial correspondences completed in     1.24 s.
+[290.0]    SQL Statement: (FID >= 579) AND (FID <= 580)
+[290.0]    Layer feature count:    2    
+[290.0]    Done gathering intersection information between layer 1 and layer 2 in     1.72 seconds
+[290.0]        2      polygons processed for intersection with grid.     13     total polygon intersections processed.
+[290.0]  Finished creating OGR layers for the input feature classes after    38.63 seconds. -- 
+[290.0]    Calculation of spatial correspondences completed in     2.44 s.
+[658.0]    SQL Statement: (FID >= 658) AND (FID <= 658)
+[658.0]    Layer feature count:    1    
+[658.0]    Done gathering intersection information between layer 1 and layer 2 in     0.13 seconds
+[658.0]        1      polygons processed for intersection with grid.     4      total polygon intersections processed.
+[658.0]  Finished creating OGR layers for the input feature classes after    39.62 seconds. -- 
+[658.0]    Calculation of spatial correspondences completed in     1.17 s.
+[11.0]    SQL Statement: (FID >= 21) AND (FID <= 22)
+[11.0]    Layer feature count:    2    
+[11.0]    Done gathering intersection information between layer 1 and layer 2 in     0.56 seconds
+[11.0]        2      polygons processed for intersection with grid.     5      total polygon intersections processed.
+[11.0]  Finished creating OGR layers for the input feature classes after    20.35 seconds. -- 
+[11.0]    Calculation of spatial correspondences completed in     1.60 s.
+[58.0]    SQL Statement: (FID >= 115) AND (FID <= 116)
+[58.0]    Layer feature count:    2    
+[58.0]    Done gathering intersection information between layer 1 and layer 2 in     1.53 seconds
+[58.0]        2      polygons processed for intersection with grid.     9      total polygon intersections processed.
+[58.0]  Finished creating OGR layers for the input feature classes after    22.88 seconds. -- 
+[58.0]    Calculation of spatial correspondences completed in     2.45 s.
+[107.0]    SQL Statement: (FID >= 213) AND (FID <= 214)
+[107.0]    Layer feature count:    2    
+[107.0]    Done gathering intersection information between layer 1 and layer 2 in     0.23 seconds
+[107.0]        2      polygons processed for intersection with grid.     6      total polygon intersections processed.
+[107.0]  Finished creating OGR layers for the input feature classes after    24.05 seconds. -- 
+[107.0]    Calculation of spatial correspondences completed in     1.12 s.
+[128.0]    SQL Statement: (FID >= 255) AND (FID <= 256)
+[128.0]    Layer feature count:    2    
+[128.0]    Done gathering intersection information between layer 1 and layer 2 in     1.39 seconds
+[128.0]        2      polygons processed for intersection with grid.     10     total polygon intersections processed.
+[128.0]  Finished creating OGR layers for the input feature classes after    26.24 seconds. -- 
+[128.0]    Calculation of spatial correspondences completed in     2.24 s.
+[165.0]    SQL Statement: (FID >= 329) AND (FID <= 330)
+[165.0]    Layer feature count:    2    
+[165.0]    Done gathering intersection information between layer 1 and layer 2 in     0.73 seconds
+[165.0]        2      polygons processed for intersection with grid.     7      total polygon intersections processed.
+[165.0]  Finished creating OGR layers for the input feature classes after    28.14 seconds. -- 
+[165.0]    Calculation of spatial correspondences completed in     1.91 s.
+[190.0]    SQL Statement: (FID >= 379) AND (FID <= 380)
+[190.0]    Layer feature count:    2    
+[190.0]    Done gathering intersection information between layer 1 and layer 2 in     1.42 seconds
+[190.0]        2      polygons processed for intersection with grid.     11     total polygon intersections processed.
+[190.0]  Finished creating OGR layers for the input feature classes after    30.81 seconds. -- 
+[190.0]    Calculation of spatial correspondences completed in     2.60 s.
+[212.0]    SQL Statement: (FID >= 423) AND (FID <= 424)
+[212.0]    Layer feature count:    2    
+[212.0]    Done gathering intersection information between layer 1 and layer 2 in     1.46 seconds
+[212.0]        2      polygons processed for intersection with grid.     13     total polygon intersections processed.
+[212.0]  Finished creating OGR layers for the input feature classes after    33.11 seconds. -- 
+[212.0]    Calculation of spatial correspondences completed in     2.38 s.
+[241.0]    SQL Statement: (FID >= 481) AND (FID <= 482)
+[241.0]    Layer feature count:    2    
+[241.0]    Done gathering intersection information between layer 1 and layer 2 in     0.14 seconds
+[241.0]        2      polygons processed for intersection with grid.     2      total polygon intersections processed.
+[241.0]  Finished creating OGR layers for the input feature classes after    34.38 seconds. -- 
+[241.0]    Calculation of spatial correspondences completed in     1.13 s.
+[256.0]    SQL Statement: (FID >= 511) AND (FID <= 512)
+[256.0]    Layer feature count:    2    
+[256.0]    Done gathering intersection information between layer 1 and layer 2 in     0.41 seconds
+[256.0]        2      polygons processed for intersection with grid.     6      total polygon intersections processed.
+[256.0]  Finished creating OGR layers for the input feature classes after    35.42 seconds. -- 
+[256.0]    Calculation of spatial correspondences completed in     1.25 s.
+[280.0]    SQL Statement: (FID >= 559) AND (FID <= 560)
+[280.0]    Layer feature count:    2    
+[280.0]    Done gathering intersection information between layer 1 and layer 2 in     0.69 seconds
+[280.0]        2      polygons processed for intersection with grid.     12     total polygon intersections processed.
+[280.0]  Finished creating OGR layers for the input feature classes after    36.86 seconds. -- 
+[280.0]    Calculation of spatial correspondences completed in     1.38 s.
+[307.0]    SQL Statement: (FID >= 613) AND (FID <= 614)
+[307.0]    Layer feature count:    2    
+[307.0]    Done gathering intersection information between layer 1 and layer 2 in     0.07 seconds
+[307.0]        2      polygons processed for intersection with grid.     21     total polygon intersections processed.
+[307.0]  Finished creating OGR layers for the input feature classes after    38.24 seconds. -- 
+[307.0]    Calculation of spatial correspondences completed in     1.28 s.
+[651.0]    SQL Statement: (FID >= 651) AND (FID <= 651)
+[651.0]    Layer feature count:    1    
+[651.0]    Done gathering intersection information between layer 1 and layer 2 in     0.52 seconds
+[651.0]        1      polygons processed for intersection with grid.     6      total polygon intersections processed.
+[651.0]  Finished creating OGR layers for the input feature classes after    39.73 seconds. -- 
+[651.0]    Calculation of spatial correspondences completed in     1.58 s.
+[21.0]    SQL Statement: (FID >= 41) AND (FID <= 42)
+[21.0]    Layer feature count:    2    
+[21.0]    Done gathering intersection information between layer 1 and layer 2 in     0.23 seconds
+[21.0]        2      polygons processed for intersection with grid.     5      total polygon intersections processed.
+[21.0]  Finished creating OGR layers for the input feature classes after    19.98 seconds. -- 
+[21.0]    Calculation of spatial correspondences completed in     1.25 s.
+[38.0]    SQL Statement: (FID >= 75) AND (FID <= 76)
+[38.0]    Layer feature count:    2    
+[38.0]    Done gathering intersection information between layer 1 and layer 2 in     0.46 seconds
+[38.0]        2      polygons processed for intersection with grid.     6      total polygon intersections processed.
+[38.0]  Finished creating OGR layers for the input feature classes after    21.17 seconds. -- 
+[38.0]    Calculation of spatial correspondences completed in     1.03 s.
+[67.0]    SQL Statement: (FID >= 133) AND (FID <= 134)
+[67.0]    Layer feature count:    2    
+[67.0]    Done gathering intersection information between layer 1 and layer 2 in     1.11 seconds
+[67.0]        2      polygons processed for intersection with grid.     10     total polygon intersections processed.
+[67.0]  Finished creating OGR layers for the input feature classes after    23.23 seconds. -- 
+[67.0]    Calculation of spatial correspondences completed in     2.16 s.
+[114.0]    SQL Statement: (FID >= 227) AND (FID <= 228)
+[114.0]    Layer feature count:    2    
+[114.0]    Done gathering intersection information between layer 1 and layer 2 in     1.57 seconds
+[114.0]        2      polygons processed for intersection with grid.     11     total polygon intersections processed.
+[114.0]  Finished creating OGR layers for the input feature classes after    25.93 seconds. -- 
+[114.0]    Calculation of spatial correspondences completed in     2.72 s.
+[159.0]    SQL Statement: (FID >= 317) AND (FID <= 318)
+[159.0]    Layer feature count:    2    
+[159.0]    Done gathering intersection information between layer 1 and layer 2 in     2.63 seconds
+[159.0]        2      polygons processed for intersection with grid.     16     total polygon intersections processed.
+[159.0]  Finished creating OGR layers for the input feature classes after    29.34 seconds. -- 
+[159.0]    Calculation of spatial correspondences completed in     3.27 s.
+[202.0]    SQL Statement: (FID >= 403) AND (FID <= 404)
+[202.0]    Layer feature count:    2    
+[202.0]    Done gathering intersection information between layer 1 and layer 2 in     3.74 seconds
+[202.0]        2      polygons processed for intersection with grid.     21     total polygon intersections processed.
+[202.0]  Finished creating OGR layers for the input feature classes after    33.94 seconds. -- 
+[202.0]    Calculation of spatial correspondences completed in     4.67 s.
+[250.0]    SQL Statement: (FID >= 499) AND (FID <= 500)
+[250.0]    Layer feature count:    2    
+[250.0]    Done gathering intersection information between layer 1 and layer 2 in     0.57 seconds
+[250.0]        2      polygons processed for intersection with grid.     7      total polygon intersections processed.
+[250.0]  Finished creating OGR layers for the input feature classes after    35.23 seconds. -- 
+[250.0]    Calculation of spatial correspondences completed in     1.21 s.
+[275.0]    SQL Statement: (FID >= 549) AND (FID <= 550)
+[275.0]    Layer feature count:    2    
+[275.0]    Done gathering intersection information between layer 1 and layer 2 in     0.31 seconds
+[275.0]        2      polygons processed for intersection with grid.     6      total polygon intersections processed.
+[275.0]  Finished creating OGR layers for the input feature classes after    36.42 seconds. -- 
+[275.0]    Calculation of spatial correspondences completed in     1.28 s.
+[302.0]    SQL Statement: (FID >= 603) AND (FID <= 604)
+[302.0]    Layer feature count:    2    
+[302.0]    Done gathering intersection information between layer 1 and layer 2 in     2.01 seconds
+[302.0]        2      polygons processed for intersection with grid.     15     total polygon intersections processed.
+[302.0]  Finished creating OGR layers for the input feature classes after    39.70 seconds. -- 
+[302.0]    Calculation of spatial correspondences completed in     3.25 s.
+[12.0]    SQL Statement: (FID >= 23) AND (FID <= 24)
+[12.0]    Layer feature count:    2    
+[12.0]    Done gathering intersection information between layer 1 and layer 2 in     0.51 seconds
+[12.0]        2      polygons processed for intersection with grid.     4      total polygon intersections processed.
+[12.0]  Finished creating OGR layers for the input feature classes after    20.28 seconds. -- 
+[12.0]    Calculation of spatial correspondences completed in     1.44 s.
+[45.0]    SQL Statement: (FID >= 89) AND (FID <= 90)
+[45.0]    Layer feature count:    2    
+[45.0]    Done gathering intersection information between layer 1 and layer 2 in     1.65 seconds
+[45.0]        2      polygons processed for intersection with grid.     12     total polygon intersections processed.
+[45.0]  Finished creating OGR layers for the input feature classes after    22.43 seconds. -- 
+[45.0]    Calculation of spatial correspondences completed in     2.19 s.
+[95.0]    SQL Statement: (FID >= 189) AND (FID <= 190)
+[95.0]    Layer feature count:    2    
+[95.0]    Done gathering intersection information between layer 1 and layer 2 in     0.28 seconds
+[95.0]        2      polygons processed for intersection with grid.     6      total polygon intersections processed.
+[95.0]  Finished creating OGR layers for the input feature classes after    23.51 seconds. -- 
+[95.0]    Calculation of spatial correspondences completed in     0.93 s.
+[121.0]    SQL Statement: (FID >= 241) AND (FID <= 242)
+[121.0]    Layer feature count:    2    
+[121.0]    Done gathering intersection information between layer 1 and layer 2 in     0.95 seconds
+[121.0]        2      polygons processed for intersection with grid.     8      total polygon intersections processed.
+[121.0]  Finished creating OGR layers for the input feature classes after    25.18 seconds. -- 
+[121.0]    Calculation of spatial correspondences completed in     1.87 s.
+[149.0]    SQL Statement: (FID >= 297) AND (FID <= 298)
+[149.0]    Layer feature count:    2    
+[149.0]    Done gathering intersection information between layer 1 and layer 2 in     3.13 seconds
+[149.0]        2      polygons processed for intersection with grid.     20     total polygon intersections processed.
+[149.0]  Finished creating OGR layers for the input feature classes after    29.62 seconds. -- 
+[149.0]    Calculation of spatial correspondences completed in     4.34 s.
+[205.0]    SQL Statement: (FID >= 409) AND (FID <= 410)
+[205.0]    Layer feature count:    2    
+[205.0]    Done gathering intersection information between layer 1 and layer 2 in     0.09 seconds
+[205.0]        2      polygons processed for intersection with grid.     6      total polygon intersections processed.
+[205.0]  Finished creating OGR layers for the input feature classes after    30.64 seconds. -- 
+[205.0]    Calculation of spatial correspondences completed in     0.90 s.
+[210.0]    SQL Statement: (FID >= 419) AND (FID <= 420)
+[210.0]    Layer feature count:    2    
+[210.0]    Done gathering intersection information between layer 1 and layer 2 in     0.99 seconds
+[210.0]        2      polygons processed for intersection with grid.     10     total polygon intersections processed.
+[210.0]  Finished creating OGR layers for the input feature classes after    32.50 seconds. -- 
+[210.0]    Calculation of spatial correspondences completed in     2.12 s.
+[233.0]    SQL Statement: (FID >= 465) AND (FID <= 466)
+[233.0]    Layer feature count:    2    
+[233.0]    Done gathering intersection information between layer 1 and layer 2 in     1.56 seconds
+[233.0]        2      polygons processed for intersection with grid.     16     total polygon intersections processed.
+[233.0]  Finished creating OGR layers for the input feature classes after    35.19 seconds. -- 
+[233.0]    Calculation of spatial correspondences completed in     2.44 s.
+[274.0]    SQL Statement: (FID >= 547) AND (FID <= 548)
+[274.0]    Layer feature count:    2    
+[274.0]    Done gathering intersection information between layer 1 and layer 2 in     0.07 seconds
+[274.0]        2      polygons processed for intersection with grid.     3      total polygon intersections processed.
+[274.0]  Finished creating OGR layers for the input feature classes after    36.15 seconds. -- 
+[274.0]    Calculation of spatial correspondences completed in     1.00 s.
+[291.0]    SQL Statement: (FID >= 581) AND (FID <= 582)
+[291.0]    Layer feature count:    2    
+[291.0]    Done gathering intersection information between layer 1 and layer 2 in     0.85 seconds
+[291.0]        2      polygons processed for intersection with grid.     10     total polygon intersections processed.
+[291.0]  Finished creating OGR layers for the input feature classes after    37.76 seconds. -- 
+[291.0]    Calculation of spatial correspondences completed in     1.75 s.
+[645.0]    SQL Statement: (FID >= 645) AND (FID <= 645)
+[645.0]    Layer feature count:    1    
+[645.0]    Done gathering intersection information between layer 1 and layer 2 in     0.32 seconds
+[645.0]        1      polygons processed for intersection with grid.     4      total polygon intersections processed.
+[645.0]  Finished creating OGR layers for the input feature classes after    39.17 seconds. -- 
+[645.0]    Calculation of spatial correspondences completed in     1.28 s.
+[669.0]    SQL Statement: (FID >= 669) AND (FID <= 669)
+[669.0]    Layer feature count:    1    
+[669.0]    Done gathering intersection information between layer 1 and layer 2 in     0.17 seconds
+[669.0]        1      polygons processed for intersection with grid.     1      total polygon intersections processed.
+[669.0]  Finished creating OGR layers for the input feature classes after    39.79 seconds. -- 
+[669.0]    Calculation of spatial correspondences completed in     0.58 s.
+[4.0]    SQL Statement: (FID >= 7) AND (FID <= 8)
+[4.0]    Layer feature count:    2    
+[4.0]    Done gathering intersection information between layer 1 and layer 2 in     0.59 seconds
+[4.0]        2      polygons processed for intersection with grid.     6      total polygon intersections processed.
+[4.0]  Finished creating OGR layers for the input feature classes after    20.35 seconds. -- 
+[4.0]    Calculation of spatial correspondences completed in     1.57 s.
+[54.0]    SQL Statement: (FID >= 107) AND (FID <= 108)
+[54.0]    Layer feature count:    2    
+[54.0]    Done gathering intersection information between layer 1 and layer 2 in     0.63 seconds
+[54.0]        2      polygons processed for intersection with grid.     7      total polygon intersections processed.
+[54.0]  Finished creating OGR layers for the input feature classes after    21.85 seconds. -- 
+[54.0]    Calculation of spatial correspondences completed in     1.38 s.
+[84.0]    SQL Statement: (FID >= 167) AND (FID <= 168)
+[84.0]    Layer feature count:    2    
+[84.0]    Done gathering intersection information between layer 1 and layer 2 in     0.16 seconds
+[84.0]        2      polygons processed for intersection with grid.     3      total polygon intersections processed.
+[84.0]  Finished creating OGR layers for the input feature classes after    22.96 seconds. -- 
+[84.0]    Calculation of spatial correspondences completed in     1.12 s.
+[109.0]    SQL Statement: (FID >= 217) AND (FID <= 218)
+[109.0]    Layer feature count:    2    
+[109.0]    Done gathering intersection information between layer 1 and layer 2 in     2.14 seconds
+[109.0]        2      polygons processed for intersection with grid.     14     total polygon intersections processed.
+[109.0]  Finished creating OGR layers for the input feature classes after    25.94 seconds. -- 
+[109.0]    Calculation of spatial correspondences completed in     3.11 s.
+[158.0]    SQL Statement: (FID >= 315) AND (FID <= 316)
+[158.0]    Layer feature count:    2    
+[158.0]    Done gathering intersection information between layer 1 and layer 2 in     0.24 seconds
+[158.0]        2      polygons processed for intersection with grid.     15     total polygon intersections processed.
+[158.0]  Finished creating OGR layers for the input feature classes after    27.10 seconds. -- 
+[158.0]    Calculation of spatial correspondences completed in     1.12 s.
+[174.0]    SQL Statement: (FID >= 347) AND (FID <= 348)
+[174.0]    Layer feature count:    2    
+[174.0]    Done gathering intersection information between layer 1 and layer 2 in     0.39 seconds
+[174.0]        2      polygons processed for intersection with grid.     7      total polygon intersections processed.
+[174.0]  Finished creating OGR layers for the input feature classes after    28.25 seconds. -- 
+[174.0]    Calculation of spatial correspondences completed in     1.17 s.
+[192.0]    SQL Statement: (FID >= 383) AND (FID <= 384)
+[192.0]    Layer feature count:    2    
+[192.0]    Done gathering intersection information between layer 1 and layer 2 in     1.55 seconds
+[192.0]        2      polygons processed for intersection with grid.     12     total polygon intersections processed.
+[192.0]  Finished creating OGR layers for the input feature classes after    30.99 seconds. -- 
+[192.0]    Calculation of spatial correspondences completed in     2.73 s.
+[215.0]    SQL Statement: (FID >= 429) AND (FID <= 430)
+[215.0]    Layer feature count:    2    
+[215.0]    Done gathering intersection information between layer 1 and layer 2 in     0.95 seconds
+[215.0]        2      polygons processed for intersection with grid.     7      total polygon intersections processed.
+[215.0]  Finished creating OGR layers for the input feature classes after    32.62 seconds. -- 
+[215.0]    Calculation of spatial correspondences completed in     1.67 s.
+[234.0]    SQL Statement: (FID >= 467) AND (FID <= 468)
+[234.0]    Layer feature count:    2    
+[234.0]    Done gathering intersection information between layer 1 and layer 2 in     0.74 seconds
+[234.0]        2      polygons processed for intersection with grid.     12     total polygon intersections processed.
+[234.0]  Finished creating OGR layers for the input feature classes after    34.07 seconds. -- 
+[234.0]    Calculation of spatial correspondences completed in     1.43 s.
+[254.0]    SQL Statement: (FID >= 507) AND (FID <= 508)
+[254.0]    Layer feature count:    2    
+[254.0]    Done gathering intersection information between layer 1 and layer 2 in     1.05 seconds
+[254.0]        2      polygons processed for intersection with grid.     10     total polygon intersections processed.
+[254.0]  Finished creating OGR layers for the input feature classes after    36.05 seconds. -- 
+[254.0]    Calculation of spatial correspondences completed in     2.10 s.
+[295.0]    SQL Statement: (FID >= 589) AND (FID <= 590)
+[295.0]    Layer feature count:    2    
+[295.0]    Done gathering intersection information between layer 1 and layer 2 in     0.20 seconds
+[295.0]        2      polygons processed for intersection with grid.     4      total polygon intersections processed.
+[295.0]  Finished creating OGR layers for the input feature classes after    37.25 seconds. -- 
+[295.0]    Calculation of spatial correspondences completed in     1.05 s.
+[311.0]    SQL Statement: (FID >= 621) AND (FID <= 622)
+[311.0]    Layer feature count:    2    
+[311.0]    Done gathering intersection information between layer 1 and layer 2 in     1.55 seconds
+[311.0]        2      polygons processed for intersection with grid.     13     total polygon intersections processed.
+[311.0]  Finished creating OGR layers for the input feature classes after    39.74 seconds. -- 
+[311.0]    Calculation of spatial correspondences completed in     2.53 s.
+[31.0]    SQL Statement: (FID >= 61) AND (FID <= 62)
+[31.0]    Layer feature count:    2    
+[31.0]    Done gathering intersection information between layer 1 and layer 2 in     1.07 seconds
+[31.0]        2      polygons processed for intersection with grid.     7      total polygon intersections processed.
+[31.0]  Finished creating OGR layers for the input feature classes after    20.85 seconds. -- 
+[31.0]    Calculation of spatial correspondences completed in     2.05 s.
+[64.0]    SQL Statement: (FID >= 127) AND (FID <= 128)
+[64.0]    Layer feature count:    2    
+[64.0]    Done gathering intersection information between layer 1 and layer 2 in     0.09 seconds
+[64.0]        2      polygons processed for intersection with grid.     6      total polygon intersections processed.
+[64.0]  Finished creating OGR layers for the input feature classes after    22.21 seconds. -- 
+[64.0]    Calculation of spatial correspondences completed in     1.46 s.
+[93.0]    SQL Statement: (FID >= 185) AND (FID <= 186)
+[93.0]    Layer feature count:    2    
+[93.0]    Done gathering intersection information between layer 1 and layer 2 in     2.34 seconds
+[93.0]        2      polygons processed for intersection with grid.     14     total polygon intersections processed.
+[93.0]  Finished creating OGR layers for the input feature classes after    25.64 seconds. -- 
+[93.0]    Calculation of spatial correspondences completed in     3.50 s.
+[153.0]    SQL Statement: (FID >= 305) AND (FID <= 306)
+[153.0]    Layer feature count:    2    
+[153.0]    Done gathering intersection information between layer 1 and layer 2 in     0.95 seconds
+[153.0]        2      polygons processed for intersection with grid.     8      total polygon intersections processed.
+[153.0]  Finished creating OGR layers for the input feature classes after    27.52 seconds. -- 
+[153.0]    Calculation of spatial correspondences completed in     1.61 s.
+[179.0]    SQL Statement: (FID >= 357) AND (FID <= 358)
+[179.0]    Layer feature count:    2    
+[179.0]    Done gathering intersection information between layer 1 and layer 2 in     7.35 seconds
+[179.0]        2      polygons processed for intersection with grid.     31     total polygon intersections processed.
+[179.0]  Finished creating OGR layers for the input feature classes after    35.75 seconds. -- 
+[179.0]    Calculation of spatial correspondences completed in     8.23 s.
+[285.0]    SQL Statement: (FID >= 569) AND (FID <= 570)
+[285.0]    Layer feature count:    2    
+[285.0]    Done gathering intersection information between layer 1 and layer 2 in     2.03 seconds
+[285.0]        2      polygons processed for intersection with grid.     14     total polygon intersections processed.
+[285.0]  Finished creating OGR layers for the input feature classes after    38.66 seconds. -- 
+[285.0]    Calculation of spatial correspondences completed in     2.85 s.
+[659.0]    SQL Statement: (FID >= 659) AND (FID <= 659)
+[659.0]    Layer feature count:    1    
+[659.0]    Done gathering intersection information between layer 1 and layer 2 in     0.36 seconds
+[659.0]        1      polygons processed for intersection with grid.     4      total polygon intersections processed.
+[659.0]  Finished creating OGR layers for the input feature classes after    39.86 seconds. -- 
+[659.0]    Calculation of spatial correspondences completed in     1.23 s.
+[25.0]    SQL Statement: (FID >= 49) AND (FID <= 50)
+[25.0]    Layer feature count:    2    
+[25.0]    Done gathering intersection information between layer 1 and layer 2 in     0.91 seconds
+[25.0]        2      polygons processed for intersection with grid.     8      total polygon intersections processed.
+[25.0]  Finished creating OGR layers for the input feature classes after    20.63 seconds. -- 
+[25.0]    Calculation of spatial correspondences completed in     2.09 s.
+[65.0]    SQL Statement: (FID >= 129) AND (FID <= 130)
+[65.0]    Layer feature count:    2    
+[65.0]    Done gathering intersection information between layer 1 and layer 2 in     0.56 seconds
+[65.0]        2      polygons processed for intersection with grid.     5      total polygon intersections processed.
+[65.0]  Finished creating OGR layers for the input feature classes after    22.69 seconds. -- 
+[65.0]    Calculation of spatial correspondences completed in     1.77 s.
+[99.0]    SQL Statement: (FID >= 197) AND (FID <= 198)
+[99.0]    Layer feature count:    2    
+[99.0]    Done gathering intersection information between layer 1 and layer 2 in     0.66 seconds
+[99.0]        2      polygons processed for intersection with grid.     7      total polygon intersections processed.
+[99.0]  Finished creating OGR layers for the input feature classes after    24.07 seconds. -- 
+[99.0]    Calculation of spatial correspondences completed in     1.31 s.
+[130.0]    SQL Statement: (FID >= 259) AND (FID <= 260)
+[130.0]    Layer feature count:    2    
+[130.0]    Done gathering intersection information between layer 1 and layer 2 in     2.64 seconds
+[130.0]        2      polygons processed for intersection with grid.     13     total polygon intersections processed.
+[130.0]  Finished creating OGR layers for the input feature classes after    27.55 seconds. -- 
+[130.0]    Calculation of spatial correspondences completed in     3.50 s.
+[182.0]    SQL Statement: (FID >= 363) AND (FID <= 364)
+[182.0]    Layer feature count:    2    
+[182.0]    Done gathering intersection information between layer 1 and layer 2 in     0.41 seconds
+[182.0]        2      polygons processed for intersection with grid.     5      total polygon intersections processed.
+[182.0]  Finished creating OGR layers for the input feature classes after    28.92 seconds. -- 
+[182.0]    Calculation of spatial correspondences completed in     1.44 s.
+[197.0]    SQL Statement: (FID >= 393) AND (FID <= 394)
+[197.0]    Layer feature count:    2    
+[197.0]    Done gathering intersection information between layer 1 and layer 2 in     1.05 seconds
+[197.0]        2      polygons processed for intersection with grid.     17     total polygon intersections processed.
+[197.0]  Finished creating OGR layers for the input feature classes after    30.92 seconds. -- 
+[197.0]    Calculation of spatial correspondences completed in     2.01 s.
+[214.0]    SQL Statement: (FID >= 427) AND (FID <= 428)
+[214.0]    Layer feature count:    2    
+[214.0]    Done gathering intersection information between layer 1 and layer 2 in     1.53 seconds
+[214.0]        2      polygons processed for intersection with grid.     12     total polygon intersections processed.
+[214.0]  Finished creating OGR layers for the input feature classes after    33.20 seconds. -- 
+[214.0]    Calculation of spatial correspondences completed in     2.21 s.
+[243.0]    SQL Statement: (FID >= 485) AND (FID <= 486)
+[243.0]    Layer feature count:    2    
+[243.0]    Done gathering intersection information between layer 1 and layer 2 in     0.09 seconds
+[243.0]        2      polygons processed for intersection with grid.     2      total polygon intersections processed.
+[243.0]  Finished creating OGR layers for the input feature classes after    34.45 seconds. -- 
+[243.0]    Calculation of spatial correspondences completed in     1.07 s.
+[259.0]    SQL Statement: (FID >= 517) AND (FID <= 518)
+[259.0]    Layer feature count:    2    
+[259.0]    Done gathering intersection information between layer 1 and layer 2 in     0.15 seconds
+[259.0]        2      polygons processed for intersection with grid.     6      total polygon intersections processed.
+[259.0]  Finished creating OGR layers for the input feature classes after    35.46 seconds. -- 
+[259.0]    Calculation of spatial correspondences completed in     1.19 s.
+[276.0]    SQL Statement: (FID >= 551) AND (FID <= 552)
+[276.0]    Layer feature count:    2    
+[276.0]    Done gathering intersection information between layer 1 and layer 2 in     0.18 seconds
+[276.0]        2      polygons processed for intersection with grid.     6      total polygon intersections processed.
+[276.0]  Finished creating OGR layers for the input feature classes after    36.33 seconds. -- 
+[276.0]    Calculation of spatial correspondences completed in     0.87 s.
+[300.0]    SQL Statement: (FID >= 599) AND (FID <= 600)
+[300.0]    Layer feature count:    2    
+[300.0]    Done gathering intersection information between layer 1 and layer 2 in     0.82 seconds
+[300.0]        2      polygons processed for intersection with grid.     7      total polygon intersections processed.
+[300.0]  Finished creating OGR layers for the input feature classes after    38.33 seconds. -- 
+[300.0]    Calculation of spatial correspondences completed in     1.96 s.
+[654.0]    SQL Statement: (FID >= 654) AND (FID <= 654)
+[654.0]    Layer feature count:    1    
+[654.0]    Done gathering intersection information between layer 1 and layer 2 in     0.56 seconds
+[654.0]        1      polygons processed for intersection with grid.     5      total polygon intersections processed.
+[654.0]  Finished creating OGR layers for the input feature classes after    39.85 seconds. -- 
+[654.0]    Calculation of spatial correspondences completed in     1.52 s.
+[18.0]    SQL Statement: (FID >= 35) AND (FID <= 36)
+[18.0]    Layer feature count:    2    
+[18.0]    Done gathering intersection information between layer 1 and layer 2 in     0.61 seconds
+[18.0]        2      polygons processed for intersection with grid.     6      total polygon intersections processed.
+[18.0]  Finished creating OGR layers for the input feature classes after    20.38 seconds. -- 
+[18.0]    Calculation of spatial correspondences completed in     1.49 s.
+[52.0]    SQL Statement: (FID >= 103) AND (FID <= 104)
+[52.0]    Layer feature count:    2    
+[52.0]    Done gathering intersection information between layer 1 and layer 2 in     0.89 seconds
+[52.0]        2      polygons processed for intersection with grid.     8      total polygon intersections processed.
+[52.0]  Finished creating OGR layers for the input feature classes after    21.95 seconds. -- 
+[52.0]    Calculation of spatial correspondences completed in     1.63 s.
+[87.0]    SQL Statement: (FID >= 173) AND (FID <= 174)
+[87.0]    Layer feature count:    2    
+[87.0]    Done gathering intersection information between layer 1 and layer 2 in     0.39 seconds
+[87.0]        2      polygons processed for intersection with grid.     5      total polygon intersections processed.
+[87.0]  Finished creating OGR layers for the input feature classes after    23.53 seconds. -- 
+[87.0]    Calculation of spatial correspondences completed in     1.52 s.
+[122.0]    SQL Statement: (FID >= 243) AND (FID <= 244)
+[122.0]    Layer feature count:    2    
+[122.0]    Done gathering intersection information between layer 1 and layer 2 in     0.11 seconds
+[122.0]        2      polygons processed for intersection with grid.     11     total polygon intersections processed.
+[122.0]  Finished creating OGR layers for the input feature classes after    24.65 seconds. -- 
+[122.0]    Calculation of spatial correspondences completed in     1.06 s.
+[140.0]    SQL Statement: (FID >= 279) AND (FID <= 280)
+[140.0]    Layer feature count:    2    
+[140.0]    Done gathering intersection information between layer 1 and layer 2 in     0.37 seconds
+[140.0]        2      polygons processed for intersection with grid.     5      total polygon intersections processed.
+[140.0]  Finished creating OGR layers for the input feature classes after    25.69 seconds. -- 
+[140.0]    Calculation of spatial correspondences completed in     1.33 s.
+[154.0]    SQL Statement: (FID >= 307) AND (FID <= 308)
+[154.0]    Layer feature count:    2    
+[154.0]    Done gathering intersection information between layer 1 and layer 2 in     2.58 seconds
+[154.0]        2      polygons processed for intersection with grid.     14     total polygon intersections processed.
+[154.0]  Finished creating OGR layers for the input feature classes after    29.15 seconds. -- 
+[154.0]    Calculation of spatial correspondences completed in     3.26 s.
+[201.0]    SQL Statement: (FID >= 401) AND (FID <= 402)
+[201.0]    Layer feature count:    2    
+[201.0]    Done gathering intersection information between layer 1 and layer 2 in     2.47 seconds
+[201.0]        2      polygons processed for intersection with grid.     14     total polygon intersections processed.
+[201.0]  Finished creating OGR layers for the input feature classes after    32.37 seconds. -- 
+[201.0]    Calculation of spatial correspondences completed in     3.35 s.
+[231.0]    SQL Statement: (FID >= 461) AND (FID <= 462)
+[231.0]    Layer feature count:    2    
+[231.0]    Done gathering intersection information between layer 1 and layer 2 in     1.55 seconds
+[231.0]        2      polygons processed for intersection with grid.     12     total polygon intersections processed.
+[231.0]  Finished creating OGR layers for the input feature classes after    35.03 seconds. -- 
+[231.0]    Calculation of spatial correspondences completed in     2.58 s.
+[271.0]    SQL Statement: (FID >= 541) AND (FID <= 542)
+[271.0]    Layer feature count:    2    
+[271.0]    Done gathering intersection information between layer 1 and layer 2 in     0.07 seconds
+[271.0]        2      polygons processed for intersection with grid.     3      total polygon intersections processed.
+[271.0]  Finished creating OGR layers for the input feature classes after    36.10 seconds. -- 
+[271.0]    Calculation of spatial correspondences completed in     1.14 s.
+[294.0]    SQL Statement: (FID >= 587) AND (FID <= 588)
+[294.0]    Layer feature count:    2    
+[294.0]    Done gathering intersection information between layer 1 and layer 2 in     0.45 seconds
+[294.0]        2      polygons processed for intersection with grid.     6      total polygon intersections processed.
+[294.0]  Finished creating OGR layers for the input feature classes after    37.50 seconds. -- 
+[294.0]    Calculation of spatial correspondences completed in     1.29 s.
+[317.0]    SQL Statement: (FID >= 633) AND (FID <= 634)
+[317.0]    Layer feature count:    2    
+[317.0]    Done gathering intersection information between layer 1 and layer 2 in     0.23 seconds
+[317.0]        2      polygons processed for intersection with grid.     4      total polygon intersections processed.
+[317.0]  Finished creating OGR layers for the input feature classes after    38.71 seconds. -- 
+[317.0]    Calculation of spatial correspondences completed in     1.14 s.
+[660.0]    SQL Statement: (FID >= 660) AND (FID <= 660)
+[660.0]    Layer feature count:    1    
+[660.0]    Done gathering intersection information between layer 1 and layer 2 in     0.38 seconds
+[660.0]        1      polygons processed for intersection with grid.     5      total polygon intersections processed.
+[660.0]  Finished creating OGR layers for the input feature classes after    39.88 seconds. -- 
+[660.0]    Calculation of spatial correspondences completed in     1.17 s.
+[34.0]    SQL Statement: (FID >= 67) AND (FID <= 68)
+[34.0]    Layer feature count:    2    
+[34.0]    Done gathering intersection information between layer 1 and layer 2 in     0.14 seconds
+[34.0]        2      polygons processed for intersection with grid.     5      total polygon intersections processed.
+[34.0]  Finished creating OGR layers for the input feature classes after    19.95 seconds. -- 
+[34.0]    Calculation of spatial correspondences completed in     1.21 s.
+[37.0]    SQL Statement: (FID >= 73) AND (FID <= 74)
+[37.0]    Layer feature count:    2    
+[37.0]    Done gathering intersection information between layer 1 and layer 2 in     0.71 seconds
+[37.0]        2      polygons processed for intersection with grid.     8      total polygon intersections processed.
+[37.0]  Finished creating OGR layers for the input feature classes after    21.40 seconds. -- 
+[37.0]    Calculation of spatial correspondences completed in     1.34 s.
+[73.0]    SQL Statement: (FID >= 145) AND (FID <= 146)
+[73.0]    Layer feature count:    2    
+[73.0]    Done gathering intersection information between layer 1 and layer 2 in     0.89 seconds
+[73.0]        2      polygons processed for intersection with grid.     8      total polygon intersections processed.
+[73.0]  Finished creating OGR layers for the input feature classes after    22.99 seconds. -- 
+[73.0]    Calculation of spatial correspondences completed in     1.52 s.
+[111.0]    SQL Statement: (FID >= 221) AND (FID <= 222)
+[111.0]    Layer feature count:    2    
+[111.0]    Done gathering intersection information between layer 1 and layer 2 in     2.20 seconds
+[111.0]        2      polygons processed for intersection with grid.     12     total polygon intersections processed.
+[111.0]  Finished creating OGR layers for the input feature classes after    26.42 seconds. -- 
+[111.0]    Calculation of spatial correspondences completed in     3.49 s.
+[167.0]    SQL Statement: (FID >= 333) AND (FID <= 334)
+[167.0]    Layer feature count:    2    
+[167.0]    Done gathering intersection information between layer 1 and layer 2 in     0.28 seconds
+[167.0]        2      polygons processed for intersection with grid.     7      total polygon intersections processed.
+[167.0]  Finished creating OGR layers for the input feature classes after    27.83 seconds. -- 
+[167.0]    Calculation of spatial correspondences completed in     1.47 s.
+[185.0]    SQL Statement: (FID >= 369) AND (FID <= 370)
+[185.0]    Layer feature count:    2    
+[185.0]    Done gathering intersection information between layer 1 and layer 2 in     0.31 seconds
+[185.0]        2      polygons processed for intersection with grid.     5      total polygon intersections processed.
+[185.0]  Finished creating OGR layers for the input feature classes after    28.81 seconds. -- 
+[185.0]    Calculation of spatial correspondences completed in     0.85 s.
+[195.0]    SQL Statement: (FID >= 389) AND (FID <= 390)
+[195.0]    Layer feature count:    2    
+[195.0]    Done gathering intersection information between layer 1 and layer 2 in     0.31 seconds
+[195.0]        2      polygons processed for intersection with grid.     10     total polygon intersections processed.
+[195.0]  Finished creating OGR layers for the input feature classes after    30.20 seconds. -- 
+[195.0]    Calculation of spatial correspondences completed in     1.44 s.
+[207.0]    SQL Statement: (FID >= 413) AND (FID <= 414)
+[207.0]    Layer feature count:    2    
+[207.0]    Done gathering intersection information between layer 1 and layer 2 in     3.93 seconds
+[207.0]        2      polygons processed for intersection with grid.     21     total polygon intersections processed.
+[207.0]  Finished creating OGR layers for the input feature classes after    34.72 seconds. -- 
+[207.0]    Calculation of spatial correspondences completed in     4.50 s.
+[267.0]    SQL Statement: (FID >= 533) AND (FID <= 534)
+[267.0]    Layer feature count:    2    
+[267.0]    Done gathering intersection information between layer 1 and layer 2 in     0.14 seconds
+[267.0]        2      polygons processed for intersection with grid.     4      total polygon intersections processed.
+[267.0]  Finished creating OGR layers for the input feature classes after    35.78 seconds. -- 
+[267.0]    Calculation of spatial correspondences completed in     0.99 s.
+[284.0]    SQL Statement: (FID >= 567) AND (FID <= 568)
+[284.0]    Layer feature count:    2    
+[284.0]    Done gathering intersection information between layer 1 and layer 2 in     0.17 seconds
+[284.0]        2      polygons processed for intersection with grid.     4      total polygon intersections processed.
+[284.0]  Finished creating OGR layers for the input feature classes after    36.74 seconds. -- 
+[284.0]    Calculation of spatial correspondences completed in     0.98 s.
+[305.0]    SQL Statement: (FID >= 609) AND (FID <= 610)
+[305.0]    Layer feature count:    2    
+[305.0]    Done gathering intersection information between layer 1 and layer 2 in     0.15 seconds
+[305.0]        2      polygons processed for intersection with grid.     6      total polygon intersections processed.
+[305.0]  Finished creating OGR layers for the input feature classes after    38.08 seconds. -- 
+[305.0]    Calculation of spatial correspondences completed in     1.31 s.
+[647.0]    SQL Statement: (FID >= 647) AND (FID <= 647)
+[647.0]    Layer feature count:    1    
+[647.0]    Done gathering intersection information between layer 1 and layer 2 in     0.19 seconds
+[647.0]        1      polygons processed for intersection with grid.     5      total polygon intersections processed.
+[647.0]  Finished creating OGR layers for the input feature classes after    39.09 seconds. -- 
+[647.0]    Calculation of spatial correspondences completed in     1.17 s.
+[671.0]    SQL Statement: (FID >= 671) AND (FID <= 671)
+[671.0]    Layer feature count:    1    
+[671.0]    Done gathering intersection information between layer 1 and layer 2 in     0.22 seconds
+[671.0]        1      polygons processed for intersection with grid.     4      total polygon intersections processed.
+[671.0]  Finished creating OGR layers for the input feature classes after    39.96 seconds. -- 
+[671.0]    Calculation of spatial correspondences completed in     0.70 s.
+[17.0]    SQL Statement: (FID >= 33) AND (FID <= 34)
+[17.0]    Layer feature count:    2    
+[17.0]    Done gathering intersection information between layer 1 and layer 2 in     0.55 seconds
+[17.0]        2      polygons processed for intersection with grid.     6      total polygon intersections processed.
+[17.0]  Finished creating OGR layers for the input feature classes after    20.33 seconds. -- 
+[17.0]    Calculation of spatial correspondences completed in     1.60 s.
+[60.0]    SQL Statement: (FID >= 119) AND (FID <= 120)
+[60.0]    Layer feature count:    2    
+[60.0]    Done gathering intersection information between layer 1 and layer 2 in     0.64 seconds
+[60.0]        2      polygons processed for intersection with grid.     8      total polygon intersections processed.
+[60.0]  Finished creating OGR layers for the input feature classes after    21.79 seconds. -- 
+[60.0]    Calculation of spatial correspondences completed in     1.28 s.
+[81.0]    SQL Statement: (FID >= 161) AND (FID <= 162)
+[81.0]    Layer feature count:    2    
+[81.0]    Done gathering intersection information between layer 1 and layer 2 in     1.93 seconds
+[81.0]        2      polygons processed for intersection with grid.     17     total polygon intersections processed.
+[81.0]  Finished creating OGR layers for the input feature classes after    24.27 seconds. -- 
+[81.0]    Calculation of spatial correspondences completed in     2.59 s.
+[135.0]    SQL Statement: (FID >= 269) AND (FID <= 270)
+[135.0]    Layer feature count:    2    
+[135.0]    Done gathering intersection information between layer 1 and layer 2 in     0.74 seconds
+[135.0]        2      polygons processed for intersection with grid.     6      total polygon intersections processed.
+[135.0]  Finished creating OGR layers for the input feature classes after    26.00 seconds. -- 
+[135.0]    Calculation of spatial correspondences completed in     1.68 s.
+[160.0]    SQL Statement: (FID >= 319) AND (FID <= 320)
+[160.0]    Layer feature count:    2    
+[160.0]    Done gathering intersection information between layer 1 and layer 2 in     0.35 seconds
+[160.0]        2      polygons processed for intersection with grid.     5      total polygon intersections processed.
+[160.0]  Finished creating OGR layers for the input feature classes after    26.84 seconds. -- 
+[160.0]    Calculation of spatial correspondences completed in     0.81 s.
+[173.0]    SQL Statement: (FID >= 345) AND (FID <= 346)
+[173.0]    Layer feature count:    2    
+[173.0]    Done gathering intersection information between layer 1 and layer 2 in     0.36 seconds
+[173.0]        2      polygons processed for intersection with grid.     8      total polygon intersections processed.
+[173.0]  Finished creating OGR layers for the input feature classes after    27.85 seconds. -- 
+[173.0]    Calculation of spatial correspondences completed in     1.12 s.
+[186.0]    SQL Statement: (FID >= 371) AND (FID <= 372)
+[186.0]    Layer feature count:    2    
+[186.0]    Done gathering intersection information between layer 1 and layer 2 in     2.61 seconds
+[186.0]        2      polygons processed for intersection with grid.     15     total polygon intersections processed.
+[186.0]  Finished creating OGR layers for the input feature classes after    31.49 seconds. -- 
+[186.0]    Calculation of spatial correspondences completed in     3.83 s.
+[223.0]    SQL Statement: (FID >= 445) AND (FID <= 446)
+[223.0]    Layer feature count:    2    
+[223.0]    Done gathering intersection information between layer 1 and layer 2 in     1.24 seconds
+[223.0]        2      polygons processed for intersection with grid.     10     total polygon intersections processed.
+[223.0]  Finished creating OGR layers for the input feature classes after    33.88 seconds. -- 
+[223.0]    Calculation of spatial correspondences completed in     2.19 s.
+[247.0]    SQL Statement: (FID >= 493) AND (FID <= 494)
+[247.0]    Layer feature count:    2    
+[247.0]    Done gathering intersection information between layer 1 and layer 2 in     0.03 seconds
+[247.0]        2      polygons processed for intersection with grid.     4      total polygon intersections processed.
+[247.0]  Finished creating OGR layers for the input feature classes after    34.68 seconds. -- 
+[247.0]    Calculation of spatial correspondences completed in     0.62 s.
+[261.0]    SQL Statement: (FID >= 521) AND (FID <= 522)
+[261.0]    Layer feature count:    2    
+[261.0]    Done gathering intersection information between layer 1 and layer 2 in     0.54 seconds
+[261.0]        2      polygons processed for intersection with grid.     8      total polygon intersections processed.
+[261.0]  Finished creating OGR layers for the input feature classes after    36.22 seconds. -- 
+[261.0]    Calculation of spatial correspondences completed in     1.74 s.
+[297.0]    SQL Statement: (FID >= 593) AND (FID <= 594)
+[297.0]    Layer feature count:    2    
+[297.0]    Done gathering intersection information between layer 1 and layer 2 in     0.74 seconds
+[297.0]        2      polygons processed for intersection with grid.     5      total polygon intersections processed.
+[297.0]  Finished creating OGR layers for the input feature classes after    38.04 seconds. -- 
+[297.0]    Calculation of spatial correspondences completed in     1.69 s.
+[648.0]    SQL Statement: (FID >= 648) AND (FID <= 648)
+[648.0]    Layer feature count:    1    
+[648.0]    Done gathering intersection information between layer 1 and layer 2 in     0.03 seconds
+[648.0]        1      polygons processed for intersection with grid.     3      total polygon intersections processed.
+[648.0]  Finished creating OGR layers for the input feature classes after    39.00 seconds. -- 
+[648.0]    Calculation of spatial correspondences completed in     1.03 s.
+[666.0]    SQL Statement: (FID >= 666) AND (FID <= 666)
+[666.0]    Layer feature count:    1    
+[666.0]    Done gathering intersection information between layer 1 and layer 2 in     0.43 seconds
+[666.0]        1      polygons processed for intersection with grid.     6      total polygon intersections processed.
+[666.0]  Finished creating OGR layers for the input feature classes after    40.00 seconds. -- 
+[666.0]    Calculation of spatial correspondences completed in     0.84 s.
+[3.0]    SQL Statement: (FID >= 5) AND (FID <= 6)
+[3.0]    Layer feature count:    2    
+[3.0]    Done gathering intersection information between layer 1 and layer 2 in     0.63 seconds
+[3.0]        2      polygons processed for intersection with grid.     5      total polygon intersections processed.
+[3.0]  Finished creating OGR layers for the input feature classes after    20.43 seconds. -- 
+[3.0]    Calculation of spatial correspondences completed in     1.62 s.
+[59.0]    SQL Statement: (FID >= 117) AND (FID <= 118)
+[59.0]    Layer feature count:    2    
+[59.0]    Done gathering intersection information between layer 1 and layer 2 in     0.45 seconds
+[59.0]        2      polygons processed for intersection with grid.     5      total polygon intersections processed.
+[59.0]  Finished creating OGR layers for the input feature classes after    21.30 seconds. -- 
+[59.0]    Calculation of spatial correspondences completed in     0.94 s.
+[72.0]    SQL Statement: (FID >= 143) AND (FID <= 144)
+[72.0]    Layer feature count:    2    
+[72.0]    Done gathering intersection information between layer 1 and layer 2 in     0.41 seconds
+[72.0]        2      polygons processed for intersection with grid.     7      total polygon intersections processed.
+[72.0]  Finished creating OGR layers for the input feature classes after    22.76 seconds. -- 
+[72.0]    Calculation of spatial correspondences completed in     1.41 s.
+[102.0]    SQL Statement: (FID >= 203) AND (FID <= 204)
+[102.0]    Layer feature count:    2    
+[102.0]    Done gathering intersection information between layer 1 and layer 2 in     0.46 seconds
+[102.0]        2      polygons processed for intersection with grid.     5      total polygon intersections processed.
+[102.0]  Finished creating OGR layers for the input feature classes after    24.01 seconds. -- 
+[102.0]    Calculation of spatial correspondences completed in     1.22 s.
+[129.0]    SQL Statement: (FID >= 257) AND (FID <= 258)
+[129.0]    Layer feature count:    2    
+[129.0]    Done gathering intersection information between layer 1 and layer 2 in     3.41 seconds
+[129.0]        2      polygons processed for intersection with grid.     17     total polygon intersections processed.
+[129.0]  Finished creating OGR layers for the input feature classes after    28.29 seconds. -- 
+[129.0]    Calculation of spatial correspondences completed in     4.25 s.
+[191.0]    SQL Statement: (FID >= 381) AND (FID <= 382)
+[191.0]    Layer feature count:    2    
+[191.0]    Done gathering intersection information between layer 1 and layer 2 in     1.64 seconds
+[191.0]        2      polygons processed for intersection with grid.     11     total polygon intersections processed.
+[191.0]  Finished creating OGR layers for the input feature classes after    31.03 seconds. -- 
+[191.0]    Calculation of spatial correspondences completed in     2.89 s.
+[218.0]    SQL Statement: (FID >= 435) AND (FID <= 436)
+[218.0]    Layer feature count:    2    
+[218.0]    Done gathering intersection information between layer 1 and layer 2 in     0.55 seconds
+[218.0]        2      polygons processed for intersection with grid.     11     total polygon intersections processed.
+[218.0]  Finished creating OGR layers for the input feature classes after    32.23 seconds. -- 
+[218.0]    Calculation of spatial correspondences completed in     1.13 s.
+[230.0]    SQL Statement: (FID >= 459) AND (FID <= 460)
+[230.0]    Layer feature count:    2    
+[230.0]    Done gathering intersection information between layer 1 and layer 2 in     1.40 seconds
+[230.0]        2      polygons processed for intersection with grid.     10     total polygon intersections processed.
+[230.0]  Finished creating OGR layers for the input feature classes after    34.75 seconds. -- 
+[230.0]    Calculation of spatial correspondences completed in     2.41 s.
+[268.0]    SQL Statement: (FID >= 535) AND (FID <= 536)
+[268.0]    Layer feature count:    2    
+[268.0]    Done gathering intersection information between layer 1 and layer 2 in     0.14 seconds
+[268.0]        2      polygons processed for intersection with grid.     2      total polygon intersections processed.
+[268.0]  Finished creating OGR layers for the input feature classes after    35.91 seconds. -- 
+[268.0]    Calculation of spatial correspondences completed in     1.05 s.
+[287.0]    SQL Statement: (FID >= 573) AND (FID <= 574)
+[287.0]    Layer feature count:    2    
+[287.0]    Done gathering intersection information between layer 1 and layer 2 in     1.14 seconds
+[287.0]        2      polygons processed for intersection with grid.     11     total polygon intersections processed.
+[287.0]  Finished creating OGR layers for the input feature classes after    37.75 seconds. -- 
+[287.0]    Calculation of spatial correspondences completed in     2.00 s.
+[643.0]    SQL Statement: (FID >= 643) AND (FID <= 643)
+[643.0]    Layer feature count:    1    
+[643.0]    Done gathering intersection information between layer 1 and layer 2 in     0.07 seconds
+[643.0]        1      polygons processed for intersection with grid.     4      total polygon intersections processed.
+[643.0]  Finished creating OGR layers for the input feature classes after    38.84 seconds. -- 
+[643.0]    Calculation of spatial correspondences completed in     1.21 s.
+[662.0]    SQL Statement: (FID >= 662) AND (FID <= 662)
+[662.0]    Layer feature count:    1    
+[662.0]    Done gathering intersection information between layer 1 and layer 2 in     0.48 seconds
+[662.0]        1      polygons processed for intersection with grid.     6      total polygon intersections processed.
+[662.0]  Finished creating OGR layers for the input feature classes after    40.00 seconds. -- 
+[662.0]    Calculation of spatial correspondences completed in     0.94 s.
+[15.0]    SQL Statement: (FID >= 29) AND (FID <= 30)
+[15.0]    Layer feature count:    2    
+[15.0]    Done gathering intersection information between layer 1 and layer 2 in     0.61 seconds
+[15.0]        2      polygons processed for intersection with grid.     5      total polygon intersections processed.
+[15.0]  Finished creating OGR layers for the input feature classes after    20.42 seconds. -- 
+[15.0]    Calculation of spatial correspondences completed in     1.56 s.
+[56.0]    SQL Statement: (FID >= 111) AND (FID <= 112)
+[56.0]    Layer feature count:    2    
+[56.0]    Done gathering intersection information between layer 1 and layer 2 in     0.56 seconds
+[56.0]        2      polygons processed for intersection with grid.     8      total polygon intersections processed.
+[56.0]  Finished creating OGR layers for the input feature classes after    22.02 seconds. -- 
+[56.0]    Calculation of spatial correspondences completed in     1.58 s.
+[89.0]    SQL Statement: (FID >= 177) AND (FID <= 178)
+[89.0]    Layer feature count:    2    
+[89.0]    Done gathering intersection information between layer 1 and layer 2 in     0.40 seconds
+[89.0]        2      polygons processed for intersection with grid.     5      total polygon intersections processed.
+[89.0]  Finished creating OGR layers for the input feature classes after    23.46 seconds. -- 
+[89.0]    Calculation of spatial correspondences completed in     1.33 s.
+[118.0]    SQL Statement: (FID >= 235) AND (FID <= 236)
+[118.0]    Layer feature count:    2    
+[118.0]    Done gathering intersection information between layer 1 and layer 2 in     0.13 seconds
+[118.0]        2      polygons processed for intersection with grid.     4      total polygon intersections processed.
+[118.0]  Finished creating OGR layers for the input feature classes after    24.52 seconds. -- 
+[118.0]    Calculation of spatial correspondences completed in     1.17 s.
+[138.0]    SQL Statement: (FID >= 275) AND (FID <= 276)
+[138.0]    Layer feature count:    2    
+[138.0]    Done gathering intersection information between layer 1 and layer 2 in     0.85 seconds
+[138.0]        2      polygons processed for intersection with grid.     7      total polygon intersections processed.
+[138.0]  Finished creating OGR layers for the input feature classes after    26.16 seconds. -- 
+[138.0]    Calculation of spatial correspondences completed in     1.71 s.
+[163.0]    SQL Statement: (FID >= 325) AND (FID <= 326)
+[163.0]    Layer feature count:    2    
+[163.0]    Done gathering intersection information between layer 1 and layer 2 in     2.09 seconds
+[163.0]        2      polygons processed for intersection with grid.     13     total polygon intersections processed.
+[163.0]  Finished creating OGR layers for the input feature classes after    29.34 seconds. -- 
+[163.0]    Calculation of spatial correspondences completed in     3.26 s.
+[204.0]    SQL Statement: (FID >= 407) AND (FID <= 408)
+[204.0]    Layer feature count:    2    
+[204.0]    Done gathering intersection information between layer 1 and layer 2 in     0.87 seconds
+[204.0]        2      polygons processed for intersection with grid.     10     total polygon intersections processed.
+[204.0]  Finished creating OGR layers for the input feature classes after    31.08 seconds. -- 
+[204.0]    Calculation of spatial correspondences completed in     1.61 s.
+[217.0]    SQL Statement: (FID >= 433) AND (FID <= 434)
+[217.0]    Layer feature count:    2    
+[217.0]    Done gathering intersection information between layer 1 and layer 2 in     2.49 seconds
+[217.0]        2      polygons processed for intersection with grid.     15     total polygon intersections processed.
+[217.0]  Finished creating OGR layers for the input feature classes after    34.18 seconds. -- 
+[217.0]    Calculation of spatial correspondences completed in     3.10 s.
+[255.0]    SQL Statement: (FID >= 509) AND (FID <= 510)
+[255.0]    Layer feature count:    2    
+[255.0]    Done gathering intersection information between layer 1 and layer 2 in     0.42 seconds
+[255.0]        2      polygons processed for intersection with grid.     9      total polygon intersections processed.
+[255.0]  Finished creating OGR layers for the input feature classes after    35.44 seconds. -- 
+[255.0]    Calculation of spatial correspondences completed in     1.32 s.
+[278.0]    SQL Statement: (FID >= 555) AND (FID <= 556)
+[278.0]    Layer feature count:    2    
+[278.0]    Done gathering intersection information between layer 1 and layer 2 in     0.16 seconds
+[278.0]        2      polygons processed for intersection with grid.     6      total polygon intersections processed.
+[278.0]  Finished creating OGR layers for the input feature classes after    36.34 seconds. -- 
+[278.0]    Calculation of spatial correspondences completed in     0.75 s.
+[296.0]    SQL Statement: (FID >= 591) AND (FID <= 592)
+[296.0]    Layer feature count:    2    
+[296.0]    Done gathering intersection information between layer 1 and layer 2 in     0.07 seconds
+[296.0]        2      polygons processed for intersection with grid.     5      total polygon intersections processed.
+[296.0]  Finished creating OGR layers for the input feature classes after    37.11 seconds. -- 
+[296.0]    Calculation of spatial correspondences completed in     0.77 s.
+[308.0]    SQL Statement: (FID >= 615) AND (FID <= 616)
+[308.0]    Layer feature count:    2    
+[308.0]    Done gathering intersection information between layer 1 and layer 2 in     0.38 seconds
+[308.0]        2      polygons processed for intersection with grid.     8      total polygon intersections processed.
+[308.0]  Finished creating OGR layers for the input feature classes after    38.39 seconds. -- 
+[308.0]    Calculation of spatial correspondences completed in     1.39 s.
+[656.0]    SQL Statement: (FID >= 656) AND (FID <= 656)
+[656.0]    Layer feature count:    1    
+[656.0]    Done gathering intersection information between layer 1 and layer 2 in     0.62 seconds
+[656.0]        1      polygons processed for intersection with grid.     6      total polygon intersections processed.
+[656.0]  Finished creating OGR layers for the input feature classes after    40.06 seconds. -- 
+[656.0]    Calculation of spatial correspondences completed in     1.53 s.
+[14.0]    SQL Statement: (FID >= 27) AND (FID <= 28)
+[14.0]    Layer feature count:    2    
+[14.0]    Done gathering intersection information between layer 1 and layer 2 in     0.59 seconds
+[14.0]        2      polygons processed for intersection with grid.     7      total polygon intersections processed.
+[14.0]  Finished creating OGR layers for the input feature classes after    20.33 seconds. -- 
+[14.0]    Calculation of spatial correspondences completed in     1.59 s.
+[57.0]    SQL Statement: (FID >= 113) AND (FID <= 114)
+[57.0]    Layer feature count:    2    
+[57.0]    Done gathering intersection information between layer 1 and layer 2 in     0.28 seconds
+[57.0]        2      polygons processed for intersection with grid.     5      total polygon intersections processed.
+[57.0]  Finished creating OGR layers for the input feature classes after    21.64 seconds. -- 
+[57.0]    Calculation of spatial correspondences completed in     1.25 s.
+[77.0]    SQL Statement: (FID >= 153) AND (FID <= 154)
+[77.0]    Layer feature count:    2    
+[77.0]    Done gathering intersection information between layer 1 and layer 2 in     0.46 seconds
+[77.0]        2      polygons processed for intersection with grid.     16     total polygon intersections processed.
+[77.0]  Finished creating OGR layers for the input feature classes after    22.89 seconds. -- 
+[77.0]    Calculation of spatial correspondences completed in     1.21 s.
+[108.0]    SQL Statement: (FID >= 215) AND (FID <= 216)
+[108.0]    Layer feature count:    2    
+[108.0]    Done gathering intersection information between layer 1 and layer 2 in     2.51 seconds
+[108.0]        2      polygons processed for intersection with grid.     13     total polygon intersections processed.
+[108.0]  Finished creating OGR layers for the input feature classes after    26.10 seconds. -- 
+[108.0]    Calculation of spatial correspondences completed in     3.14 s.
+[162.0]    SQL Statement: (FID >= 323) AND (FID <= 324)
+[162.0]    Layer feature count:    2    
+[162.0]    Done gathering intersection information between layer 1 and layer 2 in     1.84 seconds
+[162.0]        2      polygons processed for intersection with grid.     12     total polygon intersections processed.
+[162.0]  Finished creating OGR layers for the input feature classes after    28.87 seconds. -- 
+[162.0]    Calculation of spatial correspondences completed in     2.97 s.
+[199.0]    SQL Statement: (FID >= 397) AND (FID <= 398)
+[199.0]    Layer feature count:    2    
+[199.0]    Done gathering intersection information between layer 1 and layer 2 in     4.20 seconds
+[199.0]        2      polygons processed for intersection with grid.     31     total polygon intersections processed.
+[199.0]  Finished creating OGR layers for the input feature classes after    34.10 seconds. -- 
+[199.0]    Calculation of spatial correspondences completed in     5.12 s.
+[253.0]    SQL Statement: (FID >= 505) AND (FID <= 506)
+[253.0]    Layer feature count:    2    
+[253.0]    Done gathering intersection information between layer 1 and layer 2 in     1.85 seconds
+[253.0]        2      polygons processed for intersection with grid.     15     total polygon intersections processed.
+[253.0]  Finished creating OGR layers for the input feature classes after    36.71 seconds. -- 
+[253.0]    Calculation of spatial correspondences completed in     2.57 s.
+[306.0]    SQL Statement: (FID >= 611) AND (FID <= 612)
+[306.0]    Layer feature count:    2    
+[306.0]    Done gathering intersection information between layer 1 and layer 2 in     0.34 seconds
+[306.0]        2      polygons processed for intersection with grid.     7      total polygon intersections processed.
+[306.0]  Finished creating OGR layers for the input feature classes after    38.27 seconds. -- 
+[306.0]    Calculation of spatial correspondences completed in     1.56 s.
+[652.0]    SQL Statement: (FID >= 652) AND (FID <= 652)
+[652.0]    Layer feature count:    1    
+[652.0]    Done gathering intersection information between layer 1 and layer 2 in     1.05 seconds
+[652.0]        1      polygons processed for intersection with grid.     8      total polygon intersections processed.
+[652.0]  Finished creating OGR layers for the input feature classes after    40.04 seconds. -- 
+[652.0]    Calculation of spatial correspondences completed in     1.67 s.
+[26.0]    SQL Statement: (FID >= 51) AND (FID <= 52)
+[26.0]    Layer feature count:    2    
+[26.0]    Done gathering intersection information between layer 1 and layer 2 in     2.20 seconds
+[26.0]        2      polygons processed for intersection with grid.     14     total polygon intersections processed.
+[26.0]  Finished creating OGR layers for the input feature classes after    22.01 seconds. -- 
+[26.0]    Calculation of spatial correspondences completed in     3.11 s.
+[88.0]    SQL Statement: (FID >= 175) AND (FID <= 176)
+[88.0]    Layer feature count:    2    
+[88.0]    Done gathering intersection information between layer 1 and layer 2 in     0.11 seconds
+[88.0]        2      polygons processed for intersection with grid.     6      total polygon intersections processed.
+[88.0]  Finished creating OGR layers for the input feature classes after    23.28 seconds. -- 
+[88.0]    Calculation of spatial correspondences completed in     1.30 s.
+[112.0]    SQL Statement: (FID >= 223) AND (FID <= 224)
+[112.0]    Layer feature count:    2    
+[112.0]    Done gathering intersection information between layer 1 and layer 2 in     1.31 seconds
+[112.0]        2      polygons processed for intersection with grid.     9      total polygon intersections processed.
+[112.0]  Finished creating OGR layers for the input feature classes after    25.69 seconds. -- 
+[112.0]    Calculation of spatial correspondences completed in     2.56 s.
+[151.0]    SQL Statement: (FID >= 301) AND (FID <= 302)
+[151.0]    Layer feature count:    2    
+[151.0]    Done gathering intersection information between layer 1 and layer 2 in     0.88 seconds
+[151.0]        2      polygons processed for intersection with grid.     8      total polygon intersections processed.
+[151.0]  Finished creating OGR layers for the input feature classes after    27.40 seconds. -- 
+[151.0]    Calculation of spatial correspondences completed in     1.69 s.
+[180.0]    SQL Statement: (FID >= 359) AND (FID <= 360)
+[180.0]    Layer feature count:    2    
+[180.0]    Done gathering intersection information between layer 1 and layer 2 in     3.15 seconds
+[180.0]        2      polygons processed for intersection with grid.     17     total polygon intersections processed.
+[180.0]  Finished creating OGR layers for the input feature classes after    31.75 seconds. -- 
+[180.0]    Calculation of spatial correspondences completed in     4.30 s.
+[226.0]    SQL Statement: (FID >= 451) AND (FID <= 452)
+[226.0]    Layer feature count:    2    
+[226.0]    Done gathering intersection information between layer 1 and layer 2 in     1.03 seconds
+[226.0]        2      polygons processed for intersection with grid.     10     total polygon intersections processed.
+[226.0]  Finished creating OGR layers for the input feature classes after    33.34 seconds. -- 
+[226.0]    Calculation of spatial correspondences completed in     1.53 s.
+[245.0]    SQL Statement: (FID >= 489) AND (FID <= 490)
+[245.0]    Layer feature count:    2    
+[245.0]    Done gathering intersection information between layer 1 and layer 2 in     0.52 seconds
+[245.0]        2      polygons processed for intersection with grid.     6      total polygon intersections processed.
+[245.0]  Finished creating OGR layers for the input feature classes after    35.00 seconds. -- 
+[245.0]    Calculation of spatial correspondences completed in     1.68 s.
+[270.0]    SQL Statement: (FID >= 539) AND (FID <= 540)
+[270.0]    Layer feature count:    2    
+[270.0]    Done gathering intersection information between layer 1 and layer 2 in     0.31 seconds
+[270.0]        2      polygons processed for intersection with grid.     6      total polygon intersections processed.
+[270.0]  Finished creating OGR layers for the input feature classes after    36.34 seconds. -- 
+[270.0]    Calculation of spatial correspondences completed in     1.29 s.
+[298.0]    SQL Statement: (FID >= 595) AND (FID <= 596)
+[298.0]    Layer feature count:    2    
+[298.0]    Done gathering intersection information between layer 1 and layer 2 in     0.78 seconds
+[298.0]        2      polygons processed for intersection with grid.     6      total polygon intersections processed.
+[298.0]  Finished creating OGR layers for the input feature classes after    38.07 seconds. -- 
+[298.0]    Calculation of spatial correspondences completed in     1.73 s.
+[649.0]    SQL Statement: (FID >= 649) AND (FID <= 649)
+[649.0]    Layer feature count:    1    
+[649.0]    Done gathering intersection information between layer 1 and layer 2 in     0.16 seconds
+[649.0]        1      polygons processed for intersection with grid.     4      total polygon intersections processed.
+[649.0]  Finished creating OGR layers for the input feature classes after    39.15 seconds. -- 
+[649.0]    Calculation of spatial correspondences completed in     1.12 s.
+[670.0]    SQL Statement: (FID >= 670) AND (FID <= 670)
+[670.0]    Layer feature count:    1    
+[670.0]    Done gathering intersection information between layer 1 and layer 2 in     0.28 seconds
+[670.0]        1      polygons processed for intersection with grid.     5      total polygon intersections processed.
+[670.0]  Finished creating OGR layers for the input feature classes after    40.04 seconds. -- 
+[670.0]    Calculation of spatial correspondences completed in     0.76 s.
+[19.0]    SQL Statement: (FID >= 37) AND (FID <= 38)
+[19.0]    Layer feature count:    2    
+[19.0]    Done gathering intersection information between layer 1 and layer 2 in     0.39 seconds
+[19.0]        2      polygons processed for intersection with grid.     5      total polygon intersections processed.
+[19.0]  Finished creating OGR layers for the input feature classes after    20.19 seconds. -- 
+[19.0]    Calculation of spatial correspondences completed in     1.39 s.
+[44.0]    SQL Statement: (FID >= 87) AND (FID <= 88)
+[44.0]    Layer feature count:    2    
+[44.0]    Done gathering intersection information between layer 1 and layer 2 in     0.93 seconds
+[44.0]        2      polygons processed for intersection with grid.     10     total polygon intersections processed.
+[44.0]  Finished creating OGR layers for the input feature classes after    21.73 seconds. -- 
+[44.0]    Calculation of spatial correspondences completed in     1.53 s.
+[83.0]    SQL Statement: (FID >= 165) AND (FID <= 166)
+[83.0]    Layer feature count:    2    
+[83.0]    Done gathering intersection information between layer 1 and layer 2 in     1.16 seconds
+[83.0]        2      polygons processed for intersection with grid.     11     total polygon intersections processed.
+[83.0]  Finished creating OGR layers for the input feature classes after    23.77 seconds. -- 
+[83.0]    Calculation of spatial correspondences completed in     2.13 s.
+[125.0]    SQL Statement: (FID >= 249) AND (FID <= 250)
+[125.0]    Layer feature count:    2    
+[125.0]    Done gathering intersection information between layer 1 and layer 2 in     0.19 seconds
+[125.0]        2      polygons processed for intersection with grid.     7      total polygon intersections processed.
+[125.0]  Finished creating OGR layers for the input feature classes after    24.87 seconds. -- 
+[125.0]    Calculation of spatial correspondences completed in     0.95 s.
+[145.0]    SQL Statement: (FID >= 289) AND (FID <= 290)
+[145.0]    Layer feature count:    2    
+[145.0]    Done gathering intersection information between layer 1 and layer 2 in     7.23 seconds
+[145.0]        2      polygons processed for intersection with grid.     31     total polygon intersections processed.
+[145.0]  Finished creating OGR layers for the input feature classes after    32.69 seconds. -- 
+[145.0]    Calculation of spatial correspondences completed in     7.88 s.
+[236.0]    SQL Statement: (FID >= 471) AND (FID <= 472)
+[236.0]    Layer feature count:    2    
+[236.0]    Done gathering intersection information between layer 1 and layer 2 in     0.70 seconds
+[236.0]        2      polygons processed for intersection with grid.     8      total polygon intersections processed.
+[236.0]  Finished creating OGR layers for the input feature classes after    34.40 seconds. -- 
+[236.0]    Calculation of spatial correspondences completed in     1.63 s.
+[260.0]    SQL Statement: (FID >= 519) AND (FID <= 520)
+[260.0]    Layer feature count:    2    
+[260.0]    Done gathering intersection information between layer 1 and layer 2 in     0.31 seconds
+[260.0]        2      polygons processed for intersection with grid.     5      total polygon intersections processed.
+[260.0]  Finished creating OGR layers for the input feature classes after    35.67 seconds. -- 
+[260.0]    Calculation of spatial correspondences completed in     1.20 s.
+[282.0]    SQL Statement: (FID >= 563) AND (FID <= 564)
+[282.0]    Layer feature count:    2    
+[282.0]    Done gathering intersection information between layer 1 and layer 2 in     1.59 seconds
+[282.0]        2      polygons processed for intersection with grid.     12     total polygon intersections processed.
+[282.0]  Finished creating OGR layers for the input feature classes after    37.71 seconds. -- 
+[282.0]    Calculation of spatial correspondences completed in     2.15 s.
+[321.0]    SQL Statement: (FID >= 641) AND (FID <= 642)
+[321.0]    Layer feature count:    2    
+[321.0]    Done gathering intersection information between layer 1 and layer 2 in     0.28 seconds
+[321.0]        2      polygons processed for intersection with grid.     7      total polygon intersections processed.
+[321.0]  Finished creating OGR layers for the input feature classes after    39.07 seconds. -- 
+[321.0]    Calculation of spatial correspondences completed in     1.34 s.
+[667.0]    SQL Statement: (FID >= 667) AND (FID <= 667)
+[667.0]    Layer feature count:    1    
+[667.0]    Done gathering intersection information between layer 1 and layer 2 in     0.49 seconds
+[667.0]        1      polygons processed for intersection with grid.     7      total polygon intersections processed.
+[667.0]  Finished creating OGR layers for the input feature classes after    40.09 seconds. -- 
+[667.0]    Calculation of spatial correspondences completed in     0.88 s.
+[30.0]    SQL Statement: (FID >= 59) AND (FID <= 60)
+[30.0]    Layer feature count:    2    
+[30.0]    Done gathering intersection information between layer 1 and layer 2 in     0.50 seconds
+[30.0]        2      polygons processed for intersection with grid.     4      total polygon intersections processed.
+[30.0]  Finished creating OGR layers for the input feature classes after    20.31 seconds. -- 
+[30.0]    Calculation of spatial correspondences completed in     1.44 s.
+[50.0]    SQL Statement: (FID >= 99) AND (FID <= 100)
+[50.0]    Layer feature count:    2    
+[50.0]    Done gathering intersection information between layer 1 and layer 2 in     1.94 seconds
+[50.0]        2      polygons processed for intersection with grid.     13     total polygon intersections processed.
+[50.0]  Finished creating OGR layers for the input feature classes after    22.75 seconds. -- 
+[50.0]    Calculation of spatial correspondences completed in     2.49 s.
+[104.0]    SQL Statement: (FID >= 207) AND (FID <= 208)
+[104.0]    Layer feature count:    2    
+[104.0]    Done gathering intersection information between layer 1 and layer 2 in     0.50 seconds
+[104.0]        2      polygons processed for intersection with grid.     15     total polygon intersections processed.
+[104.0]  Finished creating OGR layers for the input feature classes after    24.14 seconds. -- 
+[104.0]    Calculation of spatial correspondences completed in     1.27 s.
+[131.0]    SQL Statement: (FID >= 261) AND (FID <= 262)
+[131.0]    Layer feature count:    2    
+[131.0]    Done gathering intersection information between layer 1 and layer 2 in     1.75 seconds
+[131.0]        2      polygons processed for intersection with grid.     10     total polygon intersections processed.
+[131.0]  Finished creating OGR layers for the input feature classes after    26.60 seconds. -- 
+[131.0]    Calculation of spatial correspondences completed in     2.56 s.
+[169.0]    SQL Statement: (FID >= 337) AND (FID <= 338)
+[169.0]    Layer feature count:    2    
+[169.0]    Done gathering intersection information between layer 1 and layer 2 in     3.71 seconds
+[169.0]        2      polygons processed for intersection with grid.     19     total polygon intersections processed.
+[169.0]  Finished creating OGR layers for the input feature classes after    31.37 seconds. -- 
+[169.0]    Calculation of spatial correspondences completed in     4.69 s.
+[221.0]    SQL Statement: (FID >= 441) AND (FID <= 442)
+[221.0]    Layer feature count:    2    
+[221.0]    Done gathering intersection information between layer 1 and layer 2 in     0.82 seconds
+[221.0]        2      polygons processed for intersection with grid.     10     total polygon intersections processed.
+[221.0]  Finished creating OGR layers for the input feature classes after    33.05 seconds. -- 
+[221.0]    Calculation of spatial correspondences completed in     1.71 s.
+[239.0]    SQL Statement: (FID >= 477) AND (FID <= 478)
+[239.0]    Layer feature count:    2    
+[239.0]    Done gathering intersection information between layer 1 and layer 2 in     0.46 seconds
+[239.0]        2      polygons processed for intersection with grid.     7      total polygon intersections processed.
+[239.0]  Finished creating OGR layers for the input feature classes after    34.63 seconds. -- 
+[239.0]    Calculation of spatial correspondences completed in     1.58 s.
+[262.0]    SQL Statement: (FID >= 523) AND (FID <= 524)
+[262.0]    Layer feature count:    2    
+[262.0]    Done gathering intersection information between layer 1 and layer 2 in     0.17 seconds
+[262.0]        2      polygons processed for intersection with grid.     3      total polygon intersections processed.
+[262.0]  Finished creating OGR layers for the input feature classes after    35.97 seconds. -- 
+[262.0]    Calculation of spatial correspondences completed in     1.18 s.
+[289.0]    SQL Statement: (FID >= 577) AND (FID <= 578)
+[289.0]    Layer feature count:    2    
+[289.0]    Done gathering intersection information between layer 1 and layer 2 in     0.66 seconds
+[289.0]        2      polygons processed for intersection with grid.     7      total polygon intersections processed.
+[289.0]  Finished creating OGR layers for the input feature classes after    37.39 seconds. -- 
+[289.0]    Calculation of spatial correspondences completed in     1.62 s.
+[314.0]    SQL Statement: (FID >= 627) AND (FID <= 628)
+[314.0]    Layer feature count:    2    
+[314.0]    Done gathering intersection information between layer 1 and layer 2 in     0.86 seconds
+[314.0]        2      polygons processed for intersection with grid.     12     total polygon intersections processed.
+[314.0]  Finished creating OGR layers for the input feature classes after    39.17 seconds. -- 
+[314.0]    Calculation of spatial correspondences completed in     1.68 s.
+[668.0]    SQL Statement: (FID >= 668) AND (FID <= 668)
+[668.0]    Layer feature count:    1    
+[668.0]    Done gathering intersection information between layer 1 and layer 2 in     0.50 seconds
+[668.0]        1      polygons processed for intersection with grid.     6      total polygon intersections processed.
+[668.0]  Finished creating OGR layers for the input feature classes after    40.12 seconds. -- 
+[668.0]    Calculation of spatial correspondences completed in     0.90 s.
+[27.0]    SQL Statement: (FID >= 53) AND (FID <= 54)
+[27.0]    Layer feature count:    2    
+[27.0]    Done gathering intersection information between layer 1 and layer 2 in     0.39 seconds
+[27.0]        2      polygons processed for intersection with grid.     4      total polygon intersections processed.
+[27.0]  Finished creating OGR layers for the input feature classes after    20.12 seconds. -- 
+[27.0]    Calculation of spatial correspondences completed in     1.34 s.
+[43.0]    SQL Statement: (FID >= 85) AND (FID <= 86)
+[43.0]    Layer feature count:    2    
+[43.0]    Done gathering intersection information between layer 1 and layer 2 in     0.70 seconds
+[43.0]        2      polygons processed for intersection with grid.     8      total polygon intersections processed.
+[43.0]  Finished creating OGR layers for the input feature classes after    21.46 seconds. -- 
+[43.0]    Calculation of spatial correspondences completed in     1.42 s.
+[75.0]    SQL Statement: (FID >= 149) AND (FID <= 150)
+[75.0]    Layer feature count:    2    
+[75.0]    Done gathering intersection information between layer 1 and layer 2 in     0.70 seconds
+[75.0]        2      polygons processed for intersection with grid.     8      total polygon intersections processed.
+[75.0]  Finished creating OGR layers for the input feature classes after    22.79 seconds. -- 
+[75.0]    Calculation of spatial correspondences completed in     1.17 s.
+[103.0]    SQL Statement: (FID >= 205) AND (FID <= 206)
+[103.0]    Layer feature count:    2    
+[103.0]    Done gathering intersection information between layer 1 and layer 2 in     0.66 seconds
+[103.0]        2      polygons processed for intersection with grid.     10     total polygon intersections processed.
+[103.0]  Finished creating OGR layers for the input feature classes after    24.23 seconds. -- 
+[103.0]    Calculation of spatial correspondences completed in     1.48 s.
+[134.0]    SQL Statement: (FID >= 267) AND (FID <= 268)
+[134.0]    Layer feature count:    2    
+[134.0]    Done gathering intersection information between layer 1 and layer 2 in     3.72 seconds
+[134.0]        2      polygons processed for intersection with grid.     18     total polygon intersections processed.
+[134.0]  Finished creating OGR layers for the input feature classes after    28.99 seconds. -- 
+[134.0]    Calculation of spatial correspondences completed in     4.79 s.
+[200.0]    SQL Statement: (FID >= 399) AND (FID <= 400)
+[200.0]    Layer feature count:    2    
+[200.0]    Done gathering intersection information between layer 1 and layer 2 in     1.48 seconds
+[200.0]        2      polygons processed for intersection with grid.     11     total polygon intersections processed.
+[200.0]  Finished creating OGR layers for the input feature classes after    31.49 seconds. -- 
+[200.0]    Calculation of spatial correspondences completed in     2.41 s.
+[222.0]    SQL Statement: (FID >= 443) AND (FID <= 444)
+[222.0]    Layer feature count:    2    
+[222.0]    Done gathering intersection information between layer 1 and layer 2 in     4.91 seconds
+[222.0]        2      polygons processed for intersection with grid.     22     total polygon intersections processed.
+[222.0]  Finished creating OGR layers for the input feature classes after    37.38 seconds. -- 
+[222.0]    Calculation of spatial correspondences completed in     5.90 s.
+[312.0]    SQL Statement: (FID >= 623) AND (FID <= 624)
+[312.0]    Layer feature count:    2    
+[312.0]    Done gathering intersection information between layer 1 and layer 2 in     1.84 seconds
+[312.0]        2      polygons processed for intersection with grid.     13     total polygon intersections processed.
+[312.0]  Finished creating OGR layers for the input feature classes after    40.19 seconds. -- 
+[312.0]    Calculation of spatial correspondences completed in     2.67 s.
+[1.0]    SQL Statement: (FID >= 1) AND (FID <= 2)
+[1.0]    Layer feature count:    2    
+[1.0]    Done gathering intersection information between layer 1 and layer 2 in     3.66 seconds
+[1.0]        2      polygons processed for intersection with grid.     18     total polygon intersections processed.
+[1.0]  Finished creating OGR layers for the input feature classes after    23.44 seconds. -- 
+[1.0]    Calculation of spatial correspondences completed in     4.52 s.
+[119.0]    SQL Statement: (FID >= 237) AND (FID <= 238)
+[119.0]    Layer feature count:    2    
+[119.0]    Done gathering intersection information between layer 1 and layer 2 in     0.14 seconds
+[119.0]        2      polygons processed for intersection with grid.     8      total polygon intersections processed.
+[119.0]  Finished creating OGR layers for the input feature classes after    24.61 seconds. -- 
+[119.0]    Calculation of spatial correspondences completed in     1.24 s.
+[142.0]    SQL Statement: (FID >= 283) AND (FID <= 284)
+[142.0]    Layer feature count:    2    
+[142.0]    Done gathering intersection information between layer 1 and layer 2 in    14.80 seconds
+[142.0]        2      polygons processed for intersection with grid.     57     total polygon intersections processed.
+[142.0]  Finished creating OGR layers for the input feature classes after    40.17 seconds. -- 
+[142.0]    Calculation of spatial correspondences completed in    15.51 s.
+[35.0]    SQL Statement: (FID >= 69) AND (FID <= 70)
+[35.0]    Layer feature count:    2    
+[35.0]    Done gathering intersection information between layer 1 and layer 2 in     0.77 seconds
+[35.0]        2      polygons processed for intersection with grid.     13     total polygon intersections processed.
+[35.0]  Finished creating OGR layers for the input feature classes after    20.56 seconds. -- 
+[35.0]    Calculation of spatial correspondences completed in     1.64 s.
+[61.0]    SQL Statement: (FID >= 121) AND (FID <= 122)
+[61.0]    Layer feature count:    2    
+[61.0]    Done gathering intersection information between layer 1 and layer 2 in     0.66 seconds
+[61.0]        2      polygons processed for intersection with grid.     9      total polygon intersections processed.
+[61.0]  Finished creating OGR layers for the input feature classes after    22.45 seconds. -- 
+[61.0]    Calculation of spatial correspondences completed in     2.04 s.
+[97.0]    SQL Statement: (FID >= 193) AND (FID <= 194)
+[97.0]    Layer feature count:    2    
+[97.0]    Done gathering intersection information between layer 1 and layer 2 in     0.08 seconds
+[97.0]        2      polygons processed for intersection with grid.     7      total polygon intersections processed.
+[97.0]  Finished creating OGR layers for the input feature classes after    23.29 seconds. -- 
+[97.0]    Calculation of spatial correspondences completed in     0.73 s.
+[115.0]    SQL Statement: (FID >= 229) AND (FID <= 230)
+[115.0]    Layer feature count:    2    
+[115.0]    Done gathering intersection information between layer 1 and layer 2 in     0.46 seconds
+[115.0]        2      polygons processed for intersection with grid.     6      total polygon intersections processed.
+[115.0]  Finished creating OGR layers for the input feature classes after    24.82 seconds. -- 
+[115.0]    Calculation of spatial correspondences completed in     1.61 s.
+[146.0]    SQL Statement: (FID >= 291) AND (FID <= 292)
+[146.0]    Layer feature count:    2    
+[146.0]    Done gathering intersection information between layer 1 and layer 2 in     6.41 seconds
+[146.0]        2      polygons processed for intersection with grid.     27     total polygon intersections processed.
+[146.0]  Finished creating OGR layers for the input feature classes after    32.07 seconds. -- 
+[146.0]    Calculation of spatial correspondences completed in     7.17 s.
+[229.0]    SQL Statement: (FID >= 457) AND (FID <= 458)
+[229.0]    Layer feature count:    2    
+[229.0]    Done gathering intersection information between layer 1 and layer 2 in     0.64 seconds
+[229.0]        2      polygons processed for intersection with grid.     8      total polygon intersections processed.
+[229.0]  Finished creating OGR layers for the input feature classes after    33.94 seconds. -- 
+[229.0]    Calculation of spatial correspondences completed in     1.95 s.
+[251.0]    SQL Statement: (FID >= 501) AND (FID <= 502)
+[251.0]    Layer feature count:    2    
+[251.0]    Done gathering intersection information between layer 1 and layer 2 in     0.28 seconds
+[251.0]        2      polygons processed for intersection with grid.     5      total polygon intersections processed.
+[251.0]  Finished creating OGR layers for the input feature classes after    35.09 seconds. -- 
+[251.0]    Calculation of spatial correspondences completed in     1.09 s.
+[272.0]    SQL Statement: (FID >= 543) AND (FID <= 544)
+[272.0]    Layer feature count:    2    
+[272.0]    Done gathering intersection information between layer 1 and layer 2 in     1.11 seconds
+[272.0]        2      polygons processed for intersection with grid.     8      total polygon intersections processed.
+[272.0]  Finished creating OGR layers for the input feature classes after    37.15 seconds. -- 
+[272.0]    Calculation of spatial correspondences completed in     2.10 s.
+[310.0]    SQL Statement: (FID >= 619) AND (FID <= 620)
+[310.0]    Layer feature count:    2    
+[310.0]    Done gathering intersection information between layer 1 and layer 2 in     0.78 seconds
+[310.0]        2      polygons processed for intersection with grid.     9      total polygon intersections processed.
+[310.0]  Finished creating OGR layers for the input feature classes after    38.95 seconds. -- 
+[310.0]    Calculation of spatial correspondences completed in     1.80 s.
+[664.0]    SQL Statement: (FID >= 664) AND (FID <= 664)
+[664.0]    Layer feature count:    1    
+[664.0]    Done gathering intersection information between layer 1 and layer 2 in     0.67 seconds
+[664.0]        1      polygons processed for intersection with grid.     7      total polygon intersections processed.
+[664.0]  Finished creating OGR layers for the input feature classes after    40.24 seconds. -- 
+[664.0]    Calculation of spatial correspondences completed in     1.09 s.
+[5.0]    SQL Statement: (FID >= 9) AND (FID <= 10)
+[5.0]    Layer feature count:    2    
+[5.0]    Done gathering intersection information between layer 1 and layer 2 in     0.44 seconds
+[5.0]        2      polygons processed for intersection with grid.     4      total polygon intersections processed.
+[5.0]  Finished creating OGR layers for the input feature classes after    20.25 seconds. -- 
+[5.0]    Calculation of spatial correspondences completed in     1.46 s.
+[47.0]    SQL Statement: (FID >= 93) AND (FID <= 94)
+[47.0]    Layer feature count:    2    
+[47.0]    Done gathering intersection information between layer 1 and layer 2 in     0.42 seconds
+[47.0]        2      polygons processed for intersection with grid.     6      total polygon intersections processed.
+[47.0]  Finished creating OGR layers for the input feature classes after    21.21 seconds. -- 
+[47.0]    Calculation of spatial correspondences completed in     0.94 s.
+[68.0]    SQL Statement: (FID >= 135) AND (FID <= 136)
+[68.0]    Layer feature count:    2    
+[68.0]    Done gathering intersection information between layer 1 and layer 2 in     0.58 seconds
+[68.0]        2      polygons processed for intersection with grid.     6      total polygon intersections processed.
+[68.0]  Finished creating OGR layers for the input feature classes after    22.82 seconds. -- 
+[68.0]    Calculation of spatial correspondences completed in     1.62 s.
+[106.0]    SQL Statement: (FID >= 211) AND (FID <= 212)
+[106.0]    Layer feature count:    2    
+[106.0]    Done gathering intersection information between layer 1 and layer 2 in     1.95 seconds
+[106.0]        2      polygons processed for intersection with grid.     13     total polygon intersections processed.
+[106.0]  Finished creating OGR layers for the input feature classes after    25.67 seconds. -- 
+[106.0]    Calculation of spatial correspondences completed in     3.05 s.
+[155.0]    SQL Statement: (FID >= 309) AND (FID <= 310)
+[155.0]    Layer feature count:    2    
+[155.0]    Done gathering intersection information between layer 1 and layer 2 in     1.50 seconds
+[155.0]        2      polygons processed for intersection with grid.     10     total polygon intersections processed.
+[155.0]  Finished creating OGR layers for the input feature classes after    28.04 seconds. -- 
+[155.0]    Calculation of spatial correspondences completed in     2.23 s.
+[189.0]    SQL Statement: (FID >= 377) AND (FID <= 378)
+[189.0]    Layer feature count:    2    
+[189.0]    Done gathering intersection information between layer 1 and layer 2 in     1.69 seconds
+[189.0]        2      polygons processed for intersection with grid.     13     total polygon intersections processed.
+[189.0]  Finished creating OGR layers for the input feature classes after    31.04 seconds. -- 
+[189.0]    Calculation of spatial correspondences completed in     2.93 s.
+[216.0]    SQL Statement: (FID >= 431) AND (FID <= 432)
+[216.0]    Layer feature count:    2    
+[216.0]    Done gathering intersection information between layer 1 and layer 2 in     0.36 seconds
+[216.0]        2      polygons processed for intersection with grid.     5      total polygon intersections processed.
+[216.0]  Finished creating OGR layers for the input feature classes after    32.03 seconds. -- 
+[216.0]    Calculation of spatial correspondences completed in     0.95 s.
+[228.0]    SQL Statement: (FID >= 455) AND (FID <= 456)
+[228.0]    Layer feature count:    2    
+[228.0]    Done gathering intersection information between layer 1 and layer 2 in     1.44 seconds
+[228.0]        2      polygons processed for intersection with grid.     12     total polygon intersections processed.
+[228.0]  Finished creating OGR layers for the input feature classes after    34.69 seconds. -- 
+[228.0]    Calculation of spatial correspondences completed in     2.66 s.
+[264.0]    SQL Statement: (FID >= 527) AND (FID <= 528)
+[264.0]    Layer feature count:    2    
+[264.0]    Done gathering intersection information between layer 1 and layer 2 in     0.17 seconds
+[264.0]        2      polygons processed for intersection with grid.     5      total polygon intersections processed.
+[264.0]  Finished creating OGR layers for the input feature classes after    35.50 seconds. -- 
+[264.0]    Calculation of spatial correspondences completed in     0.81 s.
+[277.0]    SQL Statement: (FID >= 553) AND (FID <= 554)
+[277.0]    Layer feature count:    2    
+[277.0]    Done gathering intersection information between layer 1 and layer 2 in     0.11 seconds
+[277.0]        2      polygons processed for intersection with grid.     8      total polygon intersections processed.
+[277.0]  Finished creating OGR layers for the input feature classes after    36.20 seconds. -- 
+[277.0]    Calculation of spatial correspondences completed in     0.71 s.
+[293.0]    SQL Statement: (FID >= 585) AND (FID <= 586)
+[293.0]    Layer feature count:    2    
+[293.0]    Done gathering intersection information between layer 1 and layer 2 in     0.14 seconds
+[293.0]        2      polygons processed for intersection with grid.     4      total polygon intersections processed.
+[293.0]  Finished creating OGR layers for the input feature classes after    37.06 seconds. -- 
+[293.0]    Calculation of spatial correspondences completed in     0.83 s.
+[309.0]    SQL Statement: (FID >= 617) AND (FID <= 618)
+[309.0]    Layer feature count:    2    
+[309.0]    Done gathering intersection information between layer 1 and layer 2 in     0.64 seconds
+[309.0]        2      polygons processed for intersection with grid.     8      total polygon intersections processed.
+[309.0]  Finished creating OGR layers for the input feature classes after    38.81 seconds. -- 
+[309.0]    Calculation of spatial correspondences completed in     1.95 s.
+[663.0]    SQL Statement: (FID >= 663) AND (FID <= 663)
+[663.0]    Layer feature count:    1    
+[663.0]    Done gathering intersection information between layer 1 and layer 2 in     0.72 seconds
+[663.0]        1      polygons processed for intersection with grid.     8      total polygon intersections processed.
+[663.0]  Finished creating OGR layers for the input feature classes after    40.28 seconds. -- 
+[663.0]    Calculation of spatial correspondences completed in     1.13 s.
+[6.0]    SQL Statement: (FID >= 11) AND (FID <= 12)
+[6.0]    Layer feature count:    2    
+[6.0]    Done gathering intersection information between layer 1 and layer 2 in     0.59 seconds
+[6.0]        2      polygons processed for intersection with grid.     5      total polygon intersections processed.
+[6.0]  Finished creating OGR layers for the input feature classes after    20.31 seconds. -- 
+[6.0]    Calculation of spatial correspondences completed in     1.48 s.
+[49.0]    SQL Statement: (FID >= 97) AND (FID <= 98)
+[49.0]    Layer feature count:    2    
+[49.0]    Done gathering intersection information between layer 1 and layer 2 in     0.49 seconds
+[49.0]        2      polygons processed for intersection with grid.     8      total polygon intersections processed.
+[49.0]  Finished creating OGR layers for the input feature classes after    21.29 seconds. -- 
+[49.0]    Calculation of spatial correspondences completed in     1.00 s.
+[70.0]    SQL Statement: (FID >= 139) AND (FID <= 140)
+[70.0]    Layer feature count:    2    
+[70.0]    Done gathering intersection information between layer 1 and layer 2 in     0.25 seconds
+[70.0]        2      polygons processed for intersection with grid.     13     total polygon intersections processed.
+[70.0]  Finished creating OGR layers for the input feature classes after    22.45 seconds. -- 
+[70.0]    Calculation of spatial correspondences completed in     1.25 s.
+[96.0]    SQL Statement: (FID >= 191) AND (FID <= 192)
+[96.0]    Layer feature count:    2    
+[96.0]    Done gathering intersection information between layer 1 and layer 2 in     1.32 seconds
+[96.0]        2      polygons processed for intersection with grid.     10     total polygon intersections processed.
+[96.0]  Finished creating OGR layers for the input feature classes after    24.67 seconds. -- 
+[96.0]    Calculation of spatial correspondences completed in     2.08 s.
+[143.0]    SQL Statement: (FID >= 285) AND (FID <= 286)
+[143.0]    Layer feature count:    2    
+[143.0]    Done gathering intersection information between layer 1 and layer 2 in     1.39 seconds
+[143.0]        2      polygons processed for intersection with grid.     21     total polygon intersections processed.
+[143.0]  Finished creating OGR layers for the input feature classes after    26.72 seconds. -- 
+[143.0]    Calculation of spatial correspondences completed in     2.14 s.
+[172.0]    SQL Statement: (FID >= 343) AND (FID <= 344)
+[172.0]    Layer feature count:    2    
+[172.0]    Done gathering intersection information between layer 1 and layer 2 in    12.52 seconds
+[172.0]        2      polygons processed for intersection with grid.     44     total polygon intersections processed.
+[172.0]  Finished creating OGR layers for the input feature classes after    40.34 seconds. -- 
+[172.0]    Calculation of spatial correspondences completed in    13.39 s.
+[29.0]    SQL Statement: (FID >= 57) AND (FID <= 58)
+[29.0]    Layer feature count:    2    
+[29.0]    Done gathering intersection information between layer 1 and layer 2 in     1.89 seconds
+[29.0]        2      polygons processed for intersection with grid.     11     total polygon intersections processed.
+[29.0]  Finished creating OGR layers for the input feature classes after    21.69 seconds. -- 
+[29.0]    Calculation of spatial correspondences completed in     2.82 s.
+[78.0]    SQL Statement: (FID >= 155) AND (FID <= 156)
+[78.0]    Layer feature count:    2    
+[78.0]    Done gathering intersection information between layer 1 and layer 2 in     4.52 seconds
+[78.0]        2      polygons processed for intersection with grid.     23     total polygon intersections processed.
+[78.0]  Finished creating OGR layers for the input feature classes after    27.23 seconds. -- 
+[78.0]    Calculation of spatial correspondences completed in     5.52 s.
+[176.0]    SQL Statement: (FID >= 351) AND (FID <= 352)
+[176.0]    Layer feature count:    2    
+[176.0]    Done gathering intersection information between layer 1 and layer 2 in    12.55 seconds
+[176.0]        2      polygons processed for intersection with grid.     46     total polygon intersections processed.
+[176.0]  Finished creating OGR layers for the input feature classes after    40.39 seconds. -- 
+[176.0]    Calculation of spatial correspondences completed in    13.02 s.
+[32.0]    SQL Statement: (FID >= 63) AND (FID <= 64)
+[32.0]    Layer feature count:    2    
+[32.0]    Done gathering intersection information between layer 1 and layer 2 in     0.65 seconds
+[32.0]        2      polygons processed for intersection with grid.     4      total polygon intersections processed.
+[32.0]  Finished creating OGR layers for the input feature classes after    20.38 seconds. -- 
+[32.0]    Calculation of spatial correspondences completed in     1.48 s.
+[53.0]    SQL Statement: (FID >= 105) AND (FID <= 106)
+[53.0]    Layer feature count:    2    
+[53.0]    Done gathering intersection information between layer 1 and layer 2 in     0.54 seconds
+[53.0]        2      polygons processed for intersection with grid.     5      total polygon intersections processed.
+[53.0]  Finished creating OGR layers for the input feature classes after    21.66 seconds. -- 
+[53.0]    Calculation of spatial correspondences completed in     1.37 s.
+[80.0]    SQL Statement: (FID >= 159) AND (FID <= 160)
+[80.0]    Layer feature count:    2    
+[80.0]    Done gathering intersection information between layer 1 and layer 2 in     0.28 seconds
+[80.0]        2      polygons processed for intersection with grid.     10     total polygon intersections processed.
+[80.0]  Finished creating OGR layers for the input feature classes after    22.70 seconds. -- 
+[80.0]    Calculation of spatial correspondences completed in     0.99 s.
+[98.0]    SQL Statement: (FID >= 195) AND (FID <= 196)
+[98.0]    Layer feature count:    2    
+[98.0]    Done gathering intersection information between layer 1 and layer 2 in     0.40 seconds
+[98.0]        2      polygons processed for intersection with grid.     5      total polygon intersections processed.
+[98.0]  Finished creating OGR layers for the input feature classes after    23.81 seconds. -- 
+[98.0]    Calculation of spatial correspondences completed in     1.18 s.
+[124.0]    SQL Statement: (FID >= 247) AND (FID <= 248)
+[124.0]    Layer feature count:    2    
+[124.0]    Done gathering intersection information between layer 1 and layer 2 in     0.99 seconds
+[124.0]        2      polygons processed for intersection with grid.     8      total polygon intersections processed.
+[124.0]  Finished creating OGR layers for the input feature classes after    25.59 seconds. -- 
+[124.0]    Calculation of spatial correspondences completed in     1.75 s.
+[150.0]    SQL Statement: (FID >= 299) AND (FID <= 300)
+[150.0]    Layer feature count:    2    
+[150.0]    Done gathering intersection information between layer 1 and layer 2 in     0.73 seconds
+[150.0]        2      polygons processed for intersection with grid.     8      total polygon intersections processed.
+[150.0]  Finished creating OGR layers for the input feature classes after    26.72 seconds. -- 
+[150.0]    Calculation of spatial correspondences completed in     1.12 s.
+[171.0]    SQL Statement: (FID >= 341) AND (FID <= 342)
+[171.0]    Layer feature count:    2    
+[171.0]    Done gathering intersection information between layer 1 and layer 2 in    12.76 seconds
+[171.0]        2      polygons processed for intersection with grid.     56     total polygon intersections processed.
+[171.0]  Finished creating OGR layers for the input feature classes after    40.59 seconds. -- 
+[171.0]    Calculation of spatial correspondences completed in    13.63 s.
+[2.0]    SQL Statement: (FID >= 3) AND (FID <= 4)
+[2.0]    Layer feature count:    2    
+[2.0]    Done gathering intersection information between layer 1 and layer 2 in     3.32 seconds
+[2.0]        2      polygons processed for intersection with grid.     21     total polygon intersections processed.
+[2.0]  Finished creating OGR layers for the input feature classes after    23.11 seconds. -- 
+[2.0]    Calculation of spatial correspondences completed in     4.47 s.
+[113.0]    SQL Statement: (FID >= 225) AND (FID <= 226)
+[113.0]    Layer feature count:    2    
+[113.0]    Done gathering intersection information between layer 1 and layer 2 in     1.50 seconds
+[113.0]        2      polygons processed for intersection with grid.     10     total polygon intersections processed.
+[113.0]  Finished creating OGR layers for the input feature classes after    25.87 seconds. -- 
+[113.0]    Calculation of spatial correspondences completed in     2.71 s.
+[156.0]    SQL Statement: (FID >= 311) AND (FID <= 312)
+[156.0]    Layer feature count:    2    
+[156.0]    Done gathering intersection information between layer 1 and layer 2 in     0.86 seconds
+[156.0]        2      polygons processed for intersection with grid.     9      total polygon intersections processed.
+[156.0]  Finished creating OGR layers for the input feature classes after    27.53 seconds. -- 
+[156.0]    Calculation of spatial correspondences completed in     1.56 s.
+[183.0]    SQL Statement: (FID >= 365) AND (FID <= 366)
+[183.0]    Layer feature count:    2    
+[183.0]    Done gathering intersection information between layer 1 and layer 2 in     0.33 seconds
+[183.0]        2      polygons processed for intersection with grid.     6      total polygon intersections processed.
+[183.0]  Finished creating OGR layers for the input feature classes after    28.92 seconds. -- 
+[183.0]    Calculation of spatial correspondences completed in     1.44 s.
+[198.0]    SQL Statement: (FID >= 395) AND (FID <= 396)
+[198.0]    Layer feature count:    2    
+[198.0]    Done gathering intersection information between layer 1 and layer 2 in     1.20 seconds
+[198.0]        2      polygons processed for intersection with grid.     9      total polygon intersections processed.
+[198.0]  Finished creating OGR layers for the input feature classes after    30.91 seconds. -- 
+[198.0]    Calculation of spatial correspondences completed in     1.95 s.
+[213.0]    SQL Statement: (FID >= 425) AND (FID <= 426)
+[213.0]    Layer feature count:    2    
+[213.0]    Done gathering intersection information between layer 1 and layer 2 in     0.10 seconds
+[213.0]        2      polygons processed for intersection with grid.     5      total polygon intersections processed.
+[213.0]  Finished creating OGR layers for the input feature classes after    31.76 seconds. -- 
+[213.0]    Calculation of spatial correspondences completed in     0.87 s.
+[225.0]    SQL Statement: (FID >= 449) AND (FID <= 450)
+[225.0]    Layer feature count:    2    
+[225.0]    Done gathering intersection information between layer 1 and layer 2 in     0.44 seconds
+[225.0]        2      polygons processed for intersection with grid.     8      total polygon intersections processed.
+[225.0]  Finished creating OGR layers for the input feature classes after    32.79 seconds. -- 
+[225.0]    Calculation of spatial correspondences completed in     0.99 s.
+[238.0]    SQL Statement: (FID >= 475) AND (FID <= 476)
+[238.0]    Layer feature count:    2    
+[238.0]    Done gathering intersection information between layer 1 and layer 2 in     0.23 seconds
+[238.0]        2      polygons processed for intersection with grid.     5      total polygon intersections processed.
+[238.0]  Finished creating OGR layers for the input feature classes after    33.99 seconds. -- 
+[238.0]    Calculation of spatial correspondences completed in     1.18 s.
+[248.0]    SQL Statement: (FID >= 495) AND (FID <= 496)
+[248.0]    Layer feature count:    2    
+[248.0]    Done gathering intersection information between layer 1 and layer 2 in     0.06 seconds
+[248.0]        2      polygons processed for intersection with grid.     4      total polygon intersections processed.
+[248.0]  Finished creating OGR layers for the input feature classes after    34.68 seconds. -- 
+[248.0]    Calculation of spatial correspondences completed in     0.73 s.
+[266.0]    SQL Statement: (FID >= 531) AND (FID <= 532)
+[266.0]    Layer feature count:    2    
+[266.0]    Done gathering intersection information between layer 1 and layer 2 in     0.50 seconds
+[266.0]        2      polygons processed for intersection with grid.     8      total polygon intersections processed.
+[266.0]  Finished creating OGR layers for the input feature classes after    36.23 seconds. -- 
+[266.0]    Calculation of spatial correspondences completed in     1.62 s.
+[299.0]    SQL Statement: (FID >= 597) AND (FID <= 598)
+[299.0]    Layer feature count:    2    
+[299.0]    Done gathering intersection information between layer 1 and layer 2 in     0.09 seconds
+[299.0]        2      polygons processed for intersection with grid.     4      total polygon intersections processed.
+[299.0]  Finished creating OGR layers for the input feature classes after    37.34 seconds. -- 
+[299.0]    Calculation of spatial correspondences completed in     1.10 s.
+[315.0]    SQL Statement: (FID >= 629) AND (FID <= 630)
+[315.0]    Layer feature count:    2    
+[315.0]    Done gathering intersection information between layer 1 and layer 2 in     2.39 seconds
+[315.0]        2      polygons processed for intersection with grid.     31     total polygon intersections processed.
+[315.0]  Finished creating OGR layers for the input feature classes after    40.77 seconds. -- 
+[315.0]    Calculation of spatial correspondences completed in     3.14 s.
+[33.0]    SQL Statement: (FID >= 65) AND (FID <= 66)
+[33.0]    Layer feature count:    2    
+[33.0]    Done gathering intersection information between layer 1 and layer 2 in     0.31 seconds
+[33.0]        2      polygons processed for intersection with grid.     2      total polygon intersections processed.
+[33.0]  Finished creating OGR layers for the input feature classes after    20.06 seconds. -- 
+[33.0]    Calculation of spatial correspondences completed in     1.32 s.
+[39.0]    SQL Statement: (FID >= 77) AND (FID <= 78)
+[39.0]    Layer feature count:    2    
+[39.0]    Done gathering intersection information between layer 1 and layer 2 in     0.54 seconds
+[39.0]        2      polygons processed for intersection with grid.     11     total polygon intersections processed.
+[39.0]  Finished creating OGR layers for the input feature classes after    21.30 seconds. -- 
+[39.0]    Calculation of spatial correspondences completed in     1.15 s.
+[71.0]    SQL Statement: (FID >= 141) AND (FID <= 142)
+[71.0]    Layer feature count:    2    
+[71.0]    Done gathering intersection information between layer 1 and layer 2 in     0.17 seconds
+[71.0]        2      polygons processed for intersection with grid.     5      total polygon intersections processed.
+[71.0]  Finished creating OGR layers for the input feature classes after    22.49 seconds. -- 
+[71.0]    Calculation of spatial correspondences completed in     1.08 s.
+[94.0]    SQL Statement: (FID >= 187) AND (FID <= 188)
+[94.0]    Layer feature count:    2    
+[94.0]    Done gathering intersection information between layer 1 and layer 2 in     1.29 seconds
+[94.0]        2      polygons processed for intersection with grid.     9      total polygon intersections processed.
+[94.0]  Finished creating OGR layers for the input feature classes after    24.60 seconds. -- 
+[94.0]    Calculation of spatial correspondences completed in     2.16 s.
+[141.0]    SQL Statement: (FID >= 281) AND (FID <= 282)
+[141.0]    Layer feature count:    2    
+[141.0]    Done gathering intersection information between layer 1 and layer 2 in     0.86 seconds
+[141.0]        2      polygons processed for intersection with grid.     7      total polygon intersections processed.
+[141.0]  Finished creating OGR layers for the input feature classes after    26.22 seconds. -- 
+[141.0]    Calculation of spatial correspondences completed in     1.62 s.
+[164.0]    SQL Statement: (FID >= 327) AND (FID <= 328)
+[164.0]    Layer feature count:    2    
+[164.0]    Done gathering intersection information between layer 1 and layer 2 in     3.22 seconds
+[164.0]        2      polygons processed for intersection with grid.     36     total polygon intersections processed.
+[164.0]  Finished creating OGR layers for the input feature classes after    30.49 seconds. -- 
+[164.0]    Calculation of spatial correspondences completed in     4.31 s.
+[209.0]    SQL Statement: (FID >= 417) AND (FID <= 418)
+[209.0]    Layer feature count:    2    
+[209.0]    Done gathering intersection information between layer 1 and layer 2 in     1.93 seconds
+[209.0]        2      polygons processed for intersection with grid.     12     total polygon intersections processed.
+[209.0]  Finished creating OGR layers for the input feature classes after    33.19 seconds. -- 
+[209.0]    Calculation of spatial correspondences completed in     2.69 s.
+[242.0]    SQL Statement: (FID >= 483) AND (FID <= 484)
+[242.0]    Layer feature count:    2    
+[242.0]    Done gathering intersection information between layer 1 and layer 2 in     0.19 seconds
+[242.0]        2      polygons processed for intersection with grid.     3      total polygon intersections processed.
+[242.0]  Finished creating OGR layers for the input feature classes after    34.18 seconds. -- 
+[242.0]    Calculation of spatial correspondences completed in     0.82 s.
+[252.0]    SQL Statement: (FID >= 503) AND (FID <= 504)
+[252.0]    Layer feature count:    2    
+[252.0]    Done gathering intersection information between layer 1 and layer 2 in     0.94 seconds
+[252.0]        2      polygons processed for intersection with grid.     10     total polygon intersections processed.
+[252.0]  Finished creating OGR layers for the input feature classes after    35.68 seconds. -- 
+[252.0]    Calculation of spatial correspondences completed in     1.64 s.
+[283.0]    SQL Statement: (FID >= 565) AND (FID <= 566)
+[283.0]    Layer feature count:    2    
+[283.0]    Done gathering intersection information between layer 1 and layer 2 in     0.75 seconds
+[283.0]        2      polygons processed for intersection with grid.     7      total polygon intersections processed.
+[283.0]  Finished creating OGR layers for the input feature classes after    37.32 seconds. -- 
+[283.0]    Calculation of spatial correspondences completed in     1.77 s.
+[316.0]    SQL Statement: (FID >= 631) AND (FID <= 632)
+[316.0]    Layer feature count:    2    
+[316.0]    Done gathering intersection information between layer 1 and layer 2 in     2.88 seconds
+[316.0]        2      polygons processed for intersection with grid.     57     total polygon intersections processed.
+[316.0]  Finished creating OGR layers for the input feature classes after    41.37 seconds. -- 
+[316.0]    Calculation of spatial correspondences completed in     3.73 s.
+[28.0]    SQL Statement: (FID >= 55) AND (FID <= 56)
+[28.0]    Layer feature count:    2    
+[28.0]    Done gathering intersection information between layer 1 and layer 2 in     1.88 seconds
+[28.0]        2      polygons processed for intersection with grid.     10     total polygon intersections processed.
+[28.0]  Finished creating OGR layers for the input feature classes after    21.69 seconds. -- 
+[28.0]    Calculation of spatial correspondences completed in     2.85 s.
+[79.0]    SQL Statement: (FID >= 157) AND (FID <= 158)
+[79.0]    Layer feature count:    2    
+[79.0]    Done gathering intersection information between layer 1 and layer 2 in     0.18 seconds
+[79.0]        2      polygons processed for intersection with grid.     6      total polygon intersections processed.
+[79.0]  Finished creating OGR layers for the input feature classes after    22.79 seconds. -- 
+[79.0]    Calculation of spatial correspondences completed in     1.08 s.
+[101.0]    SQL Statement: (FID >= 201) AND (FID <= 202)
+[101.0]    Layer feature count:    2    
+[101.0]    Done gathering intersection information between layer 1 and layer 2 in     0.28 seconds
+[101.0]        2      polygons processed for intersection with grid.     7      total polygon intersections processed.
+[101.0]  Finished creating OGR layers for the input feature classes after    23.53 seconds. -- 
+[101.0]    Calculation of spatial correspondences completed in     0.73 s.
+[123.0]    SQL Statement: (FID >= 245) AND (FID <= 246)
+[123.0]    Layer feature count:    2    
+[123.0]    Done gathering intersection information between layer 1 and layer 2 in     0.31 seconds
+[123.0]        2      polygons processed for intersection with grid.     6      total polygon intersections processed.
+[123.0]  Finished creating OGR layers for the input feature classes after    24.90 seconds. -- 
+[123.0]    Calculation of spatial correspondences completed in     1.39 s.
+[148.0]    SQL Statement: (FID >= 295) AND (FID <= 296)
+[148.0]    Layer feature count:    2    
+[148.0]    Done gathering intersection information between layer 1 and layer 2 in     1.01 seconds
+[148.0]        2      polygons processed for intersection with grid.     11     total polygon intersections processed.
+[148.0]  Finished creating OGR layers for the input feature classes after    27.18 seconds. -- 
+[148.0]    Calculation of spatial correspondences completed in     2.31 s.
+[177.0]    SQL Statement: (FID >= 353) AND (FID <= 354)
+[177.0]    Layer feature count:    2    
+[177.0]    Done gathering intersection information between layer 1 and layer 2 in    13.76 seconds
+[177.0]        2      polygons processed for intersection with grid.     92     total polygon intersections processed.
+[177.0]  Finished creating OGR layers for the input feature classes after    41.76 seconds. -- 
+[177.0]    Calculation of spatial correspondences completed in    14.34 s.
+    Step 2: Compute spatial weights completed in 23.33333921432495 seconds.
+    Step 3: Create correspondence netCDF file starting.
+    Beginning to grow all returned dictionaries
+      Size of spatialweights: 671
+      Size of regridweights: 671
+      Size of other_attributes: 671
+      Size of min/max of dictionary lists: min=1, max=72
+    Beginning to build weights netCDF file: ./mapping_gefs_xconus_to_camels_gII.nc . Time elapsed: 42.02137756347656
+    NetCDF correspondence file creation started.
+        Dimensions created after     0.00 seconds.
+        Coordinate variable created after     0.00 seconds.
+        Variables created after     0.00 seconds.
+        Variable attributes set after     0.00 seconds.
+        All dictionaries found to have the same keys: True
+        All dictionaries found to have the same shapes: True
+        polyid data set after     0.01 seconds.
+        intersector data set after     0.01 seconds.
+        overlaps data set after     0.01 seconds.
+        mask data set after     0.01 seconds.
+        weight data set after     0.01 seconds.
+        regridweight data set after     0.01 seconds.
+        i_index data set after    42.04 seconds.
+        j_index data set after    42.04 seconds.
+        lon_cen data set after    42.04 seconds.
+        lat_cen data set after    42.04 seconds.
+    NetCDF correspondence file created in     0.02 seconds.
+    Finished building weights netCDF file: ./mapping_gefs_xconus_to_camels_gII.nc in 0.02410149574279785 seconds
+    Beginning to run correspondence file through checking routines.
+        Number of basins: 671
+        Number of intersections: 3488
+        Sum of overlaps: 3488
+        Minimum sum of weights: 0.9999999999999168
+        Number of weights with sum=0: 0
+        Maximum sum of weights: 1.0000000000001776
+        Mean sum of weights: 0.9999999999999997
+        Number of weights within .001 of 1.0: 671 of 671
+        Maximum number of overlaps: 72.0
+        Minimum number of overlaps: 1.0
+        Mean number of overlaps: 5.198211624441132
+        Found 0 differences between overlaps value and number of the same polyid in IDmask
+        671 of 671 values have a match between overlaps varable and IDmasks variable
+    Removing intermediate projected GeoPackage: ./GEFS_v12.25d.xconus_proj.gpkg
+Process completed. Total time elapsed: 42.108771085739136 seconds.

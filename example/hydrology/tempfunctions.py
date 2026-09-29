@@ -20,11 +20,7 @@ def get_config_path(model_type="d3"):
     config_map = {
         "d3": "../example/conf/config_dhbv_1_1p.yaml",
         "d2": "../example/conf/config_dhbv_2.yaml",
-        "static": "../example/conf/config_dhbv_purestatic.yaml",
-        # optional aliases
-        "dynamic3": "../example/conf/config_dhbv_1_1p.yaml",
-        "dynamic2": "../example/conf/config_dhbv_2.yaml",
-        "purestatic": "../example/conf/config_dhbv_purestatic.yaml",
+        "static": "../example/conf/config_dhbv_purestatic.yaml", 
     }
 
     if model_type not in config_map:

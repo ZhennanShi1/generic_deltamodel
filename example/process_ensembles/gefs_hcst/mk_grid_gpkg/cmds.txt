@@ -1,0 +1,16 @@
+# making a grid mask gpkg
+
+to run the grid2gpkg command, need to
+* module load python2.7
+* ncar_pylib
+then
+
+## GEFS ##
+
+# if starting from a geotiff (can use gdaltranslate to convert netcdf to geotiff)
+
+# Example from AORC - 1km
+gdal_translate NETCDF:"aorc.v1_1.1km.grid.nc":TMP_2maboveground aorc.v1_1.1km.grid.tif
+gdalwarp -s_srs EPSG:4326 aorc.v1_1.1km.grid.tif aorc.v1_1.1km.grid.proj.tif
+python grid2gpkg.py3.py aorc.v1_1.1km.grid.proj.tif aorc.v1_1.1km.grid.gpkg gpkg
+

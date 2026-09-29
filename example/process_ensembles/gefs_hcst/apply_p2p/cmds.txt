@@ -1,0 +1,1 @@
+python apply_p2p.remap_ts.GEFS.ngen.py ../mapping_gefs_xconus_to_camels_ngen_hf.v2_2.nc /beegfs/projects/aw-ciroh/common/met_fcsts/gefs_v12/XCONUS/hcst/2000/gefs_v12_hcst.2000010100_all_members.XCONUS.nc gefs_v12_hcst.2000010100.camels_ngen_hf_v2_2.nc str 0H

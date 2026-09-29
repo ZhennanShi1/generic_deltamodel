@@ -1,0 +1,41 @@
+# J Sturtevant, Nov 2024
+# Downloaded 1km AORC zarr files, aggregated to 4km
+# Use 1km AORC p2p mapping steps
+
+### NOTE: you must use "divide_id" for the ngen hf target layer, or else terminal basins will be omitted ###
+
+# GEFS hindcasts
+python poly2poly_py3.py /beegfs/projects/aw-ciroh/common/gis/hydrofabrics/conus/ngen.v2_2.camels.divides.gpkg divide_id ./mk_grid_gpkg/GEFS_v12.25d.xconus.gpkg id GRID ./mapping_gefs_xconus_to_camels_ngen_hf.v2_2.nc
+python poly2poly_py3.py /beegfs/sets/aw-ciroh/common/gis/camels_revised_awood/gagesII_671_shp_albers.clean.gpkg GAGE_ID ./mk_grid_gpkg/GEFS_v12.25d.xconus.gpkg id GRID ./mapping_gefs_xconus_to_camels_gII.nc
+
+###########
+other notes
+###########
+
+
+steps to map ecmwf data
+1) make grid (see mk_grid_gpkg)
+2) subset shapes (see shape)
+
+#poly2poly with i,j grid
+#python poly2poly.py ./shape/pnw_huc12.gpkg HUCIDXint ./mk_grid_gpkg/gefs.pnw.gpkg id GRID mapping_gefs_to_PNWhuc12.nc
+#python poly2poly.i_j_version.v3.py ./shape/riogrd_huc12.gpkg HUCIDXint ./mk_grid_gpkg/WEST.elev.125.gpkg id GRID mapping_riogrd_to_wUShuc12.nc
+
+
+## GEFS ##
+python poly2poly.i_j_version.v4.py ./shape/PNW_HUC12_ext_v5_merit.trim2.mod.gpkg HUCIDXint ./mk_grid_gpkg/gefs25.pnw.gpkg id GRID ./mapping_gefs25_to_PNWhuc12.nc
+
+## GMET ##
+python poly2poly.i_j_version.v4.py ./shape/PNW_HUC12_ext_v5_merit.trim2.mod.gpkg HUCIDXint ./mk_grid_gpkg/WEST.elev.0625.gpkg id GRID ./mapping_gmet0625_to_PNWhuc12.nc
+python poly2poly.i_j_version.v4.py ./shape/WBD_HUC4_XCONUS.gpkg huc4 ./mk_grid_gpkg/WEST.elev.0625.gpkg id GRID ./mapping_gmet0625_to_WBDhuc4_xconus.nc
+
+# prev
+
+#remap forcing data
+python apply_p2p.remap_ts.GEFS.interp.py ./mapping_gefs25_to_PNWhuc12.nc ../../SHARP/sharp_data/rt_feeds/gefs/2022/20220316/gep01.t06z.pgrb2s.0p25.PNW.nc ./test.nc float attributes.v1.nc T
+
+
+# GMET
+python ./apply_p2p.remap_ts.GMET.py /glade/work/hydrofcst/SHARP/sharp_support/forcing_prep/p2p/mapping_gmet0625_to_WBDhuc4_xconus.nc /glade/p/ral/hap/andywood/SHARP/wreg/wUShuc12/forcings3/0625/gmet_ens/ens_forc.WEST.0625.1970.001.nc /glade/p/cgd/tss/people/hydrofcst/SHARP/forcings/gmet_huc4/ens_forc.WEST.huc4.1970.001.nc int64 ./attributes.wUShuc12.v2b.nc
+
+#python ./ecmwf_mapping/apply_p2p.remap_ts.ECMWF.interp.py ./ecmwf_mapping/mapping.ecmwf_to_wUShuc12.ij_grid.nc /glade/scratch/sturtevant/sharp/met_fcst/ecmwf/current/ecmwf.20200925.ens_mean.v1.nc /glade/scratch/sturtevant/sharp/met_fcst/ecmwf/current/ecmwf.20200925.ens_mean.v1.huc12.nc int64 /glade/u/home/andywood/proj/SHARP/wreg/wUShuc12/attributes.wUShuc12.v1.nc

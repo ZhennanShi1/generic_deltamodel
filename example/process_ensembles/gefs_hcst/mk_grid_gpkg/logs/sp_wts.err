@@ -1,0 +1,3 @@
+/projects/shared_conda_envs/envs/npl-2024b/lib/python3.11/site-packages/osgeo/ogr.py:601: FutureWarning: Neither ogr.UseExceptions() nor ogr.DontUseExceptions() has been explicitly called. In GDAL 4.0, exceptions will be enabled by default.
+  warnings.warn(
+Warning 1: Layer 'gefs25.xconus' has been declared with non-Z geometry type Polygon, but it does contain geometries with Z. Setting the Z=2 hint into gpkg_geometry_columns
