@@ -31,7 +31,7 @@ data_loader: HydroLoader
 data_sampler: HydroSampler
 trainer: Trainer
 
-model_dir: # ./output/camels_531/train1999-2008/no_multi/CudnnLstmModel_E100_R365_B100_H256_n16_noLn_noWU_111111/Hbv_1_1p/NseBatchLoss/3dyn/parBETA_parK0_parBETAET/
+model_dir: ./output/Hbv_1_1p/0dyn/None/
 output_dir: ./output/camels_531/test_results/
 sim_dir: ./output/camels_531/sim_results/
 plot_dir: ./output/camels_531/plots/
@@ -90,7 +90,7 @@ model:
     warm_up_states: False
     dy_drop: 0.0
     dynamic_params:
-      Hbv_1_1p: [parBETA, parK0, parBETAET]
+      Hbv_1_1p: []
 
     routing: True
     nearzero: 1e-5

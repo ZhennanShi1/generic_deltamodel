@@ -15,12 +15,13 @@ def get_config_path(model_type="d3"):
     model_type options:
         - "d3"     : DHBV 1.1p with 3 dynamic parameters
         - "d2"     : DHBV 1.1p with 2 dynamic parameters
-        - "static" : pure static parameters
+        - "static" : DHBV 1.1p with no dynamic parameters (pure static parameters)
+        - "1.0_d2" : DHBV 1.0 with 2 dynamic parameters ###waiting to be added
     """
     config_map = {
-        "d3": "../example/conf/config_dhbv_1_1p.yaml",
-        "d2": "../example/conf/config_dhbv_2.yaml",
-        "static": "../example/conf/config_dhbv_purestatic.yaml", 
+        "d3": "../example/conf/config_dhbv_1_1p_3dyn.yaml",
+        "d2": "../example/conf/config_dhbv_1_1p_2dyn.yaml",
+        "static": "../example/conf/config_dhbv_1_1p_0dyn.yaml", 
     }
 
     if model_type not in config_map:
@@ -30,9 +31,6 @@ def get_config_path(model_type="d3"):
         )
 
     config_path = config_map[model_type]
-
-    if not os.path.exists(config_path):
-        raise FileNotFoundError(f"Config file not found: {config_path}")
 
     return config_path
  
