@@ -16,6 +16,17 @@ python -m ipykernel install --user --name dmg312 --display-name "Python (dmg312_
 
 4. Now you can select on the Jupter notebook: Kenrnel --> Reconnect to (select the one you created), skip if you used the same kernel as last time
 
+5. Since wendian has switched to v100 GPU temporarily, i created a new kernel for it as well, and the environment is named as dmg312_v100：
+    dmg312
+    /u/au/ac/zhennanshi/.conda/envs/dmg312
+    → newer CUDA/PyTorch
+    → use for newer GPU
+
+    dmg312_v100
+    /u/au/ac/zhennanshi/scratch/conda_envs/dmg312_v100
+    → PyTorch 2.7.1 + CUDA 12.6
+    → use for V100
+
 ## For hydrodl2:
 Since you also used hydrodl2, which is at https://github.com/mhpi/hydrodl2, make sure it is up-to-date:
 

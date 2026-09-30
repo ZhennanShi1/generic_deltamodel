@@ -32,9 +32,9 @@ data_sampler: HydroSampler
 trainer: Trainer
 
 model_dir: ./output/Hbv_1_1p/0dyn/None/
-output_dir: ./output/camels_531/test_results/
-sim_dir: ./output/camels_531/sim_results/
-plot_dir: ./output/camels_531/plots/
+output_dir: ./output/Hbv_1_1p/0dyn/None/camels_531/test_results/
+sim_dir: ./output/Hbv_1_1p/0dyn/None/camels_531/sim_results/
+plot_dir: ./output/Hbv_1_1p/0dyn/None/camels_531/plots/
 # camels_531/train1999-2008/no_multi/CudnnLstmModel_E100_R365_B100_H256_n16_noLn_noWU_111111/Hbv_1_1p/NseBatchLoss/3dyn/parBETA_parK0_parBETAET/
 
 ## Training ------------------------------# use 100 epochs change from 50 epochs 03/06/2026
