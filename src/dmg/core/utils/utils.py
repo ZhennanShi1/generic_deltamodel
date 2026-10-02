@@ -160,6 +160,8 @@ def initialize_config(
         )  # NOTE: necessary for ngen
         os.makedirs(config['plot_dir'], exist_ok=True)
         os.makedirs(config['sim_dir'], exist_ok=True)
+        #zhennan added here for output dir
+        os.makedirs(config['output_dir'], exist_ok=True)
         if config['logging']:
             os.makedirs(config['log_dir'], exist_ok=True)
 

@@ -26,6 +26,14 @@ python -m ipykernel install --user --name dmg312 --display-name "Python (dmg312_
     /u/au/ac/zhennanshi/scratch/conda_envs/dmg312_v100
     → PyTorch 2.7.1 + CUDA 12.6
     → use for V100
+    
+    Note: you need the hydrodl2 package as well, so make sure you install the hdydrodl2 from you local wendian hydrodl2, check the step as following:
+    "## For hydrodl2: -> 4. Go to where the toml file is at in hydrodl2, then run:
+        python -m pip install -e ."
+        And you can verify: python -c "import dmg; import hydrodl2; print('dmg:', dmg.__file__); print('hydrodl2:', hydrodl2.__file__)"
+        you should see:
+            dmg: /wendianHome/u/au/ac/zhennanshi/znprojects/generic_deltamodel/src/dmg/__init__.py
+            hydrodl2: /wendianHome/u/au/ac/zhennanshi/znprojects/hydrodl2/src/hydrodl2/__init__.py
 
 ## For hydrodl2:
 Since you also used hydrodl2, which is at https://github.com/mhpi/hydrodl2, make sure it is up-to-date:
