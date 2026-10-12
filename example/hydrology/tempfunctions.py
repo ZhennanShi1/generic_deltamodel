@@ -1536,3 +1536,1224 @@ def plot_forecast_separate(
     plt.close(fig1)
     plt.close(fig2)
     plt.close(fig3)
+    
+    
+# ============================================================
+# CONTINUOUS HBV SIMULATION AND CALIBRATION DIAGNOSTICS
+# ============================================================ 
+from scipy.stats import pearsonr
+from matplotlib.backends.backend_pdf import PdfPages
+
+from plot_basin_diagnostics import (
+    plot_basin_page,
+    load_names,
+)
+
+
+# ============================================================
+# 1. CALCULATE METRICS
+# ============================================================
+
+def calculate_metrics(obs, sim):
+
+    obs = np.asarray(obs).reshape(-1)
+    sim = np.asarray(sim).reshape(-1)
+
+    valid = np.isfinite(obs) & np.isfinite(sim)
+
+    obs = obs[valid]
+    sim = sim[valid]
+
+    empty = {
+        "KGE": np.nan,
+        "NSE": np.nan,
+        "r": np.nan,
+        "alpha": np.nan,
+        "Bias": np.nan,
+    }
+
+    if len(obs) < 2:
+        return empty
+
+    obs_mean = np.mean(obs)
+    sim_mean = np.mean(sim)
+
+    obs_std = np.std(obs)
+    sim_std = np.std(sim)
+
+    if obs_std == 0 or obs_mean == 0:
+        return empty
+
+    r = pearsonr(obs, sim).statistic
+
+    alpha = sim_std / obs_std
+    beta = sim_mean / obs_mean
+
+    kge = 1 - np.sqrt(
+        (r - 1)**2 +
+        (alpha - 1)**2 +
+        (beta - 1)**2
+    )
+
+    nse = 1 - (
+        np.sum((obs - sim)**2) /
+        np.sum((obs - obs_mean)**2)
+    )
+
+    bias = 100 * np.sum(sim - obs) / np.sum(obs)
+
+    return {
+        "KGE": float(kge),
+        "NSE": float(nse),
+        "r": float(r),
+        "alpha": float(alpha),
+        "Bias": float(bias),
+    }
+
+
+# ============================================================
+# 2. CONSTRUCT SIMULATION DATES
+# ============================================================
+
+def get_simulation_dates(config, n_timesteps):
+
+    sim_time = config["sim_time"]
+
+    if isinstance(sim_time, (list, tuple)):
+        start = sim_time[0]
+
+    elif isinstance(sim_time, dict):
+        start = None
+
+        for key in [
+            "start",
+            "start_date",
+            "start_time",
+            "begin",
+        ]:
+            if key in sim_time:
+                start = sim_time[key]
+                break
+
+        if start is None:
+            raise ValueError(
+                f"Unknown sim_time format: {sim_time}"
+            )
+
+    elif isinstance(sim_time, (str, pd.Timestamp)):
+        start = sim_time
+
+    else:
+        raise ValueError(
+            f"Unsupported sim_time format: {sim_time}"
+        )
+
+    dates = pd.date_range(
+        start=pd.to_datetime(start),
+        periods=n_timesteps,
+        freq="D"
+    )
+
+    return dates
+
+
+# ============================================================
+# 3. MAIN FUNCTION
+# ============================================================
+
+def run_calibration_diagnostics(
+    model,
+    data_loader,
+    config,
+    basin_pool,
+    GAGE_NAME_PATH,
+    run_segment,
+    calibration_name="HBV11p_calibration_A",
+    WARMUP=365,
+    device=None,
+    selected_basins=None,
+):
+    """
+    Run continuous HBV simulation for selected basins.
+
+    Steps
+    -----
+    1. Set up output directory
+    2. Construct simulation dates
+    3. Run continuous HBV simulation
+    4. Calculate KGE, NSE, correlation, alpha and bias
+    5. Save metrics CSV
+    6. Generate multi-page diagnostic PDF
+    7. Save failed basin log
+    8. Return results to Jupyter notebook
+
+    Returns
+    -------
+    basin_results : dict
+    metrics_df : pandas.DataFrame
+    output_paths : dict
+    """
+
+    # --------------------------------------------------------
+    # STEP 1: SETTINGS
+    # --------------------------------------------------------
+
+    if device is None:
+        device = torch.device(
+            "cuda" if torch.cuda.is_available() else "cpu"
+        )
+
+    if selected_basins is None:
+        selected_basins = list(basin_pool)
+
+    selected_basins = list(selected_basins)
+
+    name = list(model.model_dict.keys())[0]
+
+    save_dir = os.path.join(
+        config["plot_dir"],
+        "calibration_diagnostics",
+        calibration_name
+    )
+
+    os.makedirs(save_dir, exist_ok=True)
+
+    basin_names = load_names(GAGE_NAME_PATH)
+
+    print("Calibration:", calibration_name)
+    print("Model:", name)
+    print("Number of basins:", len(selected_basins))
+    print("Device:", device)
+    print("Simulation time:", config["sim_time"])
+
+    # --------------------------------------------------------
+    # STEP 2: CONSTRUCT SIMULATION DATES
+    # --------------------------------------------------------
+
+    n_timesteps = data_loader.dataset["target"].shape[0]
+
+    dates_all = get_simulation_dates(
+        config,
+        n_timesteps
+    )
+
+    print("\nDate alignment:")
+    print("First dataset date:", dates_all[0])
+    print("Last dataset date:", dates_all[-1])
+    print("Total timesteps:", len(dates_all))
+    print("Warmup days:", WARMUP)
+    print("Expected evaluation days:", n_timesteps - WARMUP)
+
+    # --------------------------------------------------------
+    # STEP 3: RUN CONTINUOUS HBV SIMULATIONS
+    # --------------------------------------------------------
+
+    basin_results = {}
+    failed_basins = []
+
+    basin_lookup = {
+        int(bid): idx
+        for idx, bid in enumerate(basin_pool)
+    }
+
+    for i, GAGE_ID in enumerate(selected_basins):
+
+        bid = str(GAGE_ID)
+
+        print(
+            f"\n[{i+1}/{len(selected_basins)}] "
+            f"Running basin {bid}"
+        )
+
+        try:
+
+            basin_idx = basin_lookup[int(GAGE_ID)]
+
+            # Run continuous HBV simulation without GEFS
+            Q_all_np = run_segment(
+                model=model,
+                dataset=data_loader.dataset,
+                basin_idx=basin_idx,
+                device=device,
+                name=name,
+                start_idx=None,
+                end_idx=None,
+                warm_up=WARMUP,
+                cache_states=False,
+                warm_up_states=True,
+            )
+
+            sim = np.asarray(Q_all_np).reshape(-1)
+
+            # Extract observed streamflow
+            target = data_loader.dataset["target"][
+                :, basin_idx, 0
+            ]
+
+            if isinstance(target, torch.Tensor):
+                obs_all = (
+                    target.detach().cpu().numpy()
+                )
+            else:
+                obs_all = np.asarray(target)
+
+            # Remove warmup period
+            obs = obs_all[WARMUP:]
+            dates = dates_all[WARMUP:]
+
+            # Check alignment
+            if not (
+                len(obs) == len(sim) == len(dates)
+            ):
+                raise ValueError(
+                    f"Length mismatch for basin {bid}: "
+                    f"obs={len(obs)}, "
+                    f"sim={len(sim)}, "
+                    f"dates={len(dates)}"
+                )
+
+            # Calculate metrics
+            metrics = calculate_metrics(obs, sim)
+
+            basin_results[bid] = {
+                "dates": dates,
+                "obs": obs,
+                "sim": sim,
+                "metrics": metrics,
+            }
+
+            print(
+                f"KGE={metrics['KGE']:.3f}, "
+                f"NSE={metrics['NSE']:.3f}"
+            )
+
+        except Exception as e:
+
+            print(f"FAILED basin {bid}: {e}")
+
+            failed_basins.append({
+                "basin": bid,
+                "error": str(e)
+            })
+
+    # --------------------------------------------------------
+    # STEP 4: SAVE METRICS CSV
+    # --------------------------------------------------------
+
+    if not basin_results:
+        raise RuntimeError(
+            "No successful basin simulations."
+        )
+
+    metrics_df = pd.DataFrame([
+        {
+            "basin": bid,
+            **bd["metrics"]
+        }
+        for bid, bd in basin_results.items()
+    ])
+
+    metrics_df = metrics_df.sort_values(
+        by="KGE",
+        ascending=False,
+        na_position="last"
+    )
+
+    metrics_csv = os.path.join(
+        save_dir,
+        "basin_metrics.csv"
+    )
+
+    metrics_df.to_csv(
+        metrics_csv,
+        index=False
+    )
+
+    print("\nTop 10 basins:")
+    print(metrics_df.head(10).to_string(index=False))
+    print("\nMetrics saved:", metrics_csv)
+
+    # --------------------------------------------------------
+    # STEP 5: GENERATE MULTI-PAGE PDF
+    # --------------------------------------------------------
+
+    sorted_ids = metrics_df["basin"].astype(str).tolist()
+
+    pdf_path = os.path.join(
+        save_dir,
+        f"{calibration_name}_diagnostics.pdf"
+    )
+
+    print("\nGenerating PDF...")
+
+    with PdfPages(pdf_path) as pdf:
+
+        for i, bid in enumerate(sorted_ids):
+
+            bd = basin_results[bid]
+
+            fig = plot_basin_page(
+                dates=bd["dates"],
+                obs=bd["obs"],
+                sim=bd["sim"],
+                basin_id=bid,
+                metrics=bd["metrics"],
+                target_label="Flow (mm/day)",
+                basin_name=basin_names.get(bid)
+            )
+
+            pdf.savefig(fig, dpi=100)
+            plt.close(fig)
+
+            print(
+                f"[{i+1}/{len(sorted_ids)}] "
+                f"{bid} "
+                f"KGE={bd['metrics']['KGE']:.3f}"
+            )
+
+    print("\nPDF saved:", pdf_path)
+
+    # --------------------------------------------------------
+    # STEP 6: SAVE FAILED BASINS
+    # --------------------------------------------------------
+
+    failed_path = os.path.join(
+        save_dir,
+        "failed_basins.csv"
+    )
+
+    pd.DataFrame(
+        failed_basins,
+        columns=["basin", "error"]
+    ).to_csv(
+        failed_path,
+        index=False
+    )
+
+    print("\nFailed basins:", len(failed_basins))
+
+    # --------------------------------------------------------
+    # STEP 7: SUMMARY
+    # --------------------------------------------------------
+
+    best = metrics_df.iloc[0]
+
+    print("\n========== SUMMARY ==========")
+    print("Calibration:", calibration_name)
+    print("Successful basins:", len(basin_results))
+    print("Failed basins:", len(failed_basins))
+
+    print("\nBest basin:")
+    print("Basin:", best["basin"])
+    print("KGE:", best["KGE"])
+    print("NSE:", best["NSE"])
+
+    print("\nOutput directory:", save_dir)
+
+    # --------------------------------------------------------
+    # STEP 8: RETURN RESULTS TO NOTEBOOK
+    # --------------------------------------------------------
+
+    output_paths = {
+        "save_dir": save_dir,
+        "pdf": pdf_path,
+        "metrics_csv": metrics_csv,
+        "failed_csv": failed_path,
+        "dates_all": dates_all,
+    }
+
+    return basin_results, metrics_df, output_paths
+
+
+# ============================================================
+# ONE-YEAR GEFS ENSEMBLE FORECAST
+# ============================================================
+
+import os
+import numpy as np
+import pandas as pd
+import torch
+
+
+def run_gefs_one_year(
+    GAGE_ID,
+    model,
+    data_loader,
+    config,
+    basin_pool,
+    startid_endid,
+    run_segment,
+    run_warm_forecasts_restart,
+    post_processing,
+    START_DATE="2012-01-01",
+    END_DATE="2012-12-31",
+    FORECAST=10,
+    N_ENSEMBLES=5,
+    WARMUP=365,
+    WINDOW=30,
+    PRE="scalar",
+    POST=True,
+    device=None,
+    GEFS_DIR=None,
+    STATE_PATH=None,
+    skip_existing=True,
+):
+    """
+    Run daily GEFS ensemble streamflow forecasts for one basin.
+
+    For each initialization date:
+      1. Determine simulation indices.
+      2. Run historical HBV simulation.
+      3. Save model states.
+      4. Run GEFS ensemble forecast.
+      5. Apply optional post-processing.
+      6. Save forecast as NPZ.
+
+    Returns
+    -------
+    dict
+        Basin ID, output directory, saved/skipped/failed
+        counts, and failure log path.
+    """
+
+    # ========================================================
+    # STEP 1: SETTINGS
+    # ========================================================
+
+    GAGE_ID = int(GAGE_ID)
+
+    if device is None:
+        device = torch.device(
+            "cuda" if torch.cuda.is_available() else "cpu"
+        )
+
+    if GEFS_DIR is None:
+        GEFS_DIR = (
+            "/beegfs/sets/aw-ciroh/common/met_fcsts/"
+            "gefs_v12/camels_gII/camels671/zn_processed_hcst"
+        )
+
+    if STATE_PATH is None:
+        STATE_PATH = os.path.join(
+            config["sim_dir"],
+            "simulation_gefs",
+            "save_states_restart",
+            "model_states.pt"
+        )
+
+    SAVE_DIR = os.path.join(
+        config["sim_dir"],
+        "GEFS_1year_forecasts",
+        f"{GAGE_ID:08d}"
+    )
+
+    os.makedirs(SAVE_DIR, exist_ok=True)
+
+    basin_idx = list(basin_pool).index(GAGE_ID)
+    name = list(model.model_dict.keys())[0]
+
+    init_dates = pd.date_range(
+        START_DATE,
+        END_DATE,
+        freq="D"
+    )
+
+    failed_dates = []
+    n_saved = 0
+    n_skipped = 0
+
+    print("\n========== GEFS FORECAST ==========")
+    print("Basin:", f"{GAGE_ID:08d}")
+    print("Initialization dates:", len(init_dates))
+    print("Forecast horizon:", FORECAST)
+    print("Ensemble members:", N_ENSEMBLES)
+    print("Simulation range:", config["sim_time"])
+    print("Output directory:", SAVE_DIR)
+
+    # ========================================================
+    # STEP 2: LOOP THROUGH INITIALIZATION DATES
+    # ========================================================
+
+    for i, PRED_DATE in enumerate(init_dates):
+
+        save_path = os.path.join(
+            SAVE_DIR,
+            f"forecast_{PRED_DATE:%Y%m%d}.npz"
+        )
+
+        # ----------------------------------------------------
+        # A. Skip previously completed forecasts
+        # ----------------------------------------------------
+
+        if skip_existing and os.path.exists(save_path):
+            print("Skipping:", PRED_DATE.date())
+            n_skipped += 1
+            continue
+
+        print(
+            f"\n[{i+1}/{len(init_dates)}] "
+            f"Initialization: {PRED_DATE.date()}"
+        )
+
+        try:
+
+            # ------------------------------------------------
+            # B. Determine simulation indices
+            # ------------------------------------------------
+
+            sidx, eidx, timesteps, history_len = (
+                startid_endid(
+                    config,
+                    WARMUP,
+                    PRED_DATE,
+                    FORECAST
+                )
+            )
+
+            # ------------------------------------------------
+            # C. Run historical simulation up to init date
+            # ------------------------------------------------
+
+            sim_pre_GEFS = run_segment(
+                model=model,
+                dataset=data_loader.dataset,
+                basin_idx=basin_idx,
+                device=device,
+                name=name,
+                start_idx=None,
+                end_idx=sidx,
+                warm_up=WARMUP,
+                cache_states=True,
+                warm_up_states=True,
+            )
+
+            # ------------------------------------------------
+            # D. Save model states
+            # ------------------------------------------------
+
+            model.verbose = False
+            model.save_states()
+
+            # ------------------------------------------------
+            # E. Run GEFS ensemble forecast
+            # ------------------------------------------------
+
+            ens_preds = run_warm_forecasts_restart(
+                model=model,
+                data_loader=data_loader,
+                state_path=STATE_PATH,
+                gage_id=GAGE_ID,
+                basin_idx=basin_idx,
+                start_date=PRED_DATE,
+                horizon=FORECAST,
+                N_ENSEMBLES=N_ENSEMBLES,
+                GEFS_DIR=GEFS_DIR,
+                timesteps=timesteps,
+                WINDOW=WINDOW,
+                CORRECTION=PRE,
+                device=device,
+                verbose=False,
+            )
+
+            # ------------------------------------------------
+            # F. Optional post-processing
+            # ------------------------------------------------
+
+            if POST:
+                ens_preds = post_processing(
+                    sim_pre_GEFS,
+                    ens_preds
+                )
+
+            # ------------------------------------------------
+            # G. Convert forecast to NumPy
+            # ------------------------------------------------
+
+            if isinstance(ens_preds, torch.Tensor):
+                ens_preds = (
+                    ens_preds.detach().cpu().numpy()
+                )
+
+            ens_preds = np.asarray(ens_preds)
+
+            expected_shape = (N_ENSEMBLES, FORECAST)
+
+            if ens_preds.shape != expected_shape:
+                raise ValueError(
+                    f"Unexpected forecast shape "
+                    f"{ens_preds.shape}; "
+                    f"expected {expected_shape}"
+                )
+
+            # ------------------------------------------------
+            # H. Save forecast
+            # ------------------------------------------------
+
+            np.savez_compressed(
+                save_path,
+                forecast=ens_preds,
+                init_date=PRED_DATE.strftime("%Y-%m-%d"),
+                basin_id=f"{GAGE_ID:08d}",
+            )
+
+            n_saved += 1
+
+            print(
+                "Saved:",
+                save_path,
+                "Shape:",
+                ens_preds.shape
+            )
+
+        except Exception as e:
+
+            print(
+                f"FAILED {PRED_DATE.date()}: {e}"
+            )
+
+            failed_dates.append({
+                "init_date": str(PRED_DATE.date()),
+                "error": str(e)
+            })
+
+    # ========================================================
+    # STEP 3: SAVE FAILED DATE LOG
+    # ========================================================
+
+    failed_path = os.path.join(
+        SAVE_DIR,
+        "failed_dates.csv"
+    )
+
+    pd.DataFrame(
+        failed_dates,
+        columns=["init_date", "error"]
+    ).to_csv(
+        failed_path,
+        index=False
+    )
+
+    # ========================================================
+    # STEP 4: SUMMARY
+    # ========================================================
+
+    print("\n========== SUMMARY ==========")
+    print("Basin:", f"{GAGE_ID:08d}")
+    print("Total initialization dates:", len(init_dates))
+    print("Newly saved:", n_saved)
+    print("Skipped existing:", n_skipped)
+    print("Failed:", len(failed_dates))
+    print("Output directory:", SAVE_DIR)
+
+    return {
+        "basin_id": f"{GAGE_ID:08d}",
+        "save_dir": SAVE_DIR,
+        "n_total": len(init_dates),
+        "n_saved": n_saved,
+        "n_skipped": n_skipped,
+        "n_failed": len(failed_dates),
+        "failed_dates": failed_dates,
+        "failed_csv": failed_path,
+    }
+
+
+
+# ============================================================
+# GEFS CRPSS: SINGLE OR MULTIPLE BASINS
+# ============================================================
+
+import os
+import glob
+import warnings
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+
+def _gefs_ensemble_crps(forecast, reference):
+    """
+    forecast: (n_dates, n_leads, n_members)
+    reference: (n_dates, n_leads)
+    """
+    term1 = np.mean(
+        np.abs(forecast - reference[:, :, None]), axis=2
+    )
+    term2 = 0.5 * np.mean(
+        np.abs(
+            forecast[:, :, :, None] -
+            forecast[:, :, None, :]
+        ),
+        axis=(2, 3)
+    )
+    return term1 - term2
+
+
+def _gefs_basin_crpss(
+    basin_id,
+    basin_results,
+    save_root,
+    year,
+    n_leads,
+    n_ensembles,
+    lead1_offset,
+    min_valid_cases,
+):
+    """Calculate lead-wise CRPSS for one basin."""
+
+    basin_id = f"{int(basin_id):08d}"
+    basin_dir = os.path.join(save_root, basin_id)
+
+    files = sorted(glob.glob(
+        os.path.join(basin_dir, "forecast_*.npz")
+    ))
+
+    forecasts_list = []
+    init_dates_list = []
+
+    # 1. Load forecast NPZ files
+    for path in files:
+        with np.load(path) as data:
+            fc = np.asarray(data["forecast"], dtype=float)
+            init_date = pd.Timestamp(
+                str(data["init_date"].item())
+            ).normalize()
+
+        if init_date.year != year:
+            continue
+
+        if fc.shape != (n_ensembles, n_leads):
+            raise ValueError(
+                f"Invalid forecast shape {fc.shape}: {path}"
+            )
+
+        forecasts_list.append(fc.T)
+        init_dates_list.append(init_date)
+
+    if not forecasts_list:
+        raise FileNotFoundError(
+            f"No {year} forecasts for {basin_id}"
+        )
+
+    forecasts = np.stack(forecasts_list)
+    init_dates = pd.DatetimeIndex(init_dates_list)
+
+    if not init_dates.is_unique:
+        raise ValueError(
+            f"Duplicate forecast dates: {basin_id}"
+        )
+
+    # 2. Load continuous HBV reference
+    basin_data = next(
+        (
+            value for key, value in basin_results.items()
+            if int(key) == int(basin_id)
+        ),
+        None
+    )
+
+    if basin_data is None:
+        raise KeyError(
+            f"Missing basin_results for {basin_id}"
+        )
+
+    qsim = np.asarray(
+        basin_data["sim"], dtype=float
+    ).reshape(-1)
+
+    qsim_dates = pd.DatetimeIndex(
+        basin_data["dates"]
+    ).normalize()
+
+    if len(qsim) != len(qsim_dates):
+        raise ValueError(
+            f"HBV reference length mismatch: {basin_id}"
+        )
+
+    if not qsim_dates.is_unique:
+        raise ValueError(
+            f"Duplicate HBV reference dates: {basin_id}"
+        )
+
+    qsim_series = pd.Series(qsim, index=qsim_dates)
+
+    # 3. Align valid dates
+    offsets = np.arange(
+        lead1_offset, lead1_offset + n_leads
+    )
+
+    valid_dates = (
+        init_dates.values[:, None]
+        + offsets[None, :].astype("timedelta64[D]")
+    )
+
+    reference = qsim_series.reindex(
+        pd.DatetimeIndex(valid_dates.ravel())
+    ).to_numpy().reshape(valid_dates.shape)
+
+    initial_flow = qsim_series.reindex(
+        init_dates
+    ).to_numpy()
+
+    # 4. Valid forecast cases
+    valid = (
+        np.isfinite(forecasts).all(axis=2)
+        & np.isfinite(reference)
+        & np.isfinite(initial_flow[:, None])
+    )
+
+    n_valid = valid.sum(axis=0)
+
+    # 5. Forecast CRPS
+    crps_fc_cases = _gefs_ensemble_crps(
+        forecasts, reference
+    )
+
+    # 6. Persistence CRPS
+    crps_pf_cases = np.abs(
+        reference - initial_flow[:, None]
+    )
+
+    # 7. Average-discharge CRPS
+    q_mean = np.nanmean(qsim)
+    crps_ad_cases = np.abs(reference - q_mean)
+
+    # Use identical valid cases for all references
+    crps_fc_cases[~valid] = np.nan
+    crps_pf_cases[~valid] = np.nan
+    crps_ad_cases[~valid] = np.nan
+
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", RuntimeWarning)
+
+        crps_fc = np.nanmean(crps_fc_cases, axis=0)
+        crps_pf = np.nanmean(crps_pf_cases, axis=0)
+        crps_ad = np.nanmean(crps_ad_cases, axis=0)
+
+    # 8. CRPSS
+    crpss_pf = np.full(n_leads, np.nan)
+    crpss_ad = np.full(n_leads, np.nan)
+
+    valid_pf = (
+        (n_valid >= min_valid_cases)
+        & np.isfinite(crps_fc)
+        & np.isfinite(crps_pf)
+        & (crps_pf > 0)
+    )
+
+    valid_ad = (
+        (n_valid >= min_valid_cases)
+        & np.isfinite(crps_fc)
+        & np.isfinite(crps_ad)
+        & (crps_ad > 0)
+    )
+
+    crpss_pf[valid_pf] = (
+        1 - crps_fc[valid_pf] / crps_pf[valid_pf]
+    )
+
+    crpss_ad[valid_ad] = (
+        1 - crps_fc[valid_ad] / crps_ad[valid_ad]
+    )
+
+    return {
+        "basin_id": basin_id,
+        "CRPSS_pf": crpss_pf,
+        "CRPSS_ad": crpss_ad,
+        "CRPS_forecast": crps_fc,
+        "n_valid": n_valid,
+        "n_init_dates": len(init_dates),
+    }
+
+
+def run_gefs_crpss(
+    mode,
+    config,
+    basin_results,
+    basin_pool=None,
+    GAGE_ID=None,
+    YEAR=2012,
+    N_LEADS=10,
+    N_ENSEMBLES=5,
+    LEAD1_OFFSET=0,
+    MIN_VALID_CASES=30,
+    show_plot=True,
+):
+    """
+    Unified GEFS CRPSS evaluation.
+
+    mode="single":
+        Evaluate and plot one basin using GAGE_ID.
+
+    mode="multiple":
+        Evaluate every basin in basin_pool and plot
+        spatial means and percentile bands.
+
+    Returns a dictionary containing results and paths.
+    """
+
+    mode = mode.lower().strip()
+
+    if mode == "single":
+        if GAGE_ID is None:
+            raise ValueError(
+                "GAGE_ID is required for single mode."
+            )
+        selected_basins = [int(GAGE_ID)]
+
+    elif mode == "multiple":
+        if basin_pool is None:
+            raise ValueError(
+                "basin_pool is required for multiple mode."
+            )
+        selected_basins = [
+            int(bid) for bid in basin_pool
+        ]
+
+    else:
+        raise ValueError(
+            "mode must be 'single' or 'multiple'."
+        )
+
+    selected_basins = list(dict.fromkeys(selected_basins))
+
+    if not selected_basins:
+        raise ValueError("No basins selected.")
+
+    # 1. Paths
+    save_root = os.path.join(
+        config["sim_dir"], "GEFS_1year_forecasts"
+    )
+
+    output_dir = os.path.join(
+        save_root,
+        "CRPSS_single_basin"
+        if mode == "single" else "CRPSS_multi_basin"
+    )
+
+    os.makedirs(output_dir, exist_ok=True)
+
+    # 2. Evaluate selected basins
+    basin_crpss = []
+    failed_basins = []
+
+    print(f"Mode: {mode}")
+    print(f"Requested basins: {len(selected_basins)}")
+
+    for i, bid in enumerate(selected_basins):
+        basin_id = f"{bid:08d}"
+
+        try:
+            result = _gefs_basin_crpss(
+                basin_id=bid,
+                basin_results=basin_results,
+                save_root=save_root,
+                year=YEAR,
+                n_leads=N_LEADS,
+                n_ensembles=N_ENSEMBLES,
+                lead1_offset=LEAD1_OFFSET,
+                min_valid_cases=MIN_VALID_CASES,
+            )
+
+            basin_crpss.append(result)
+
+            print(
+                f"[{i+1}/{len(selected_basins)}] "
+                f"{basin_id}: "
+                f"{result['n_init_dates']} forecasts"
+            )
+
+        except Exception as e:
+            failed_basins.append({
+                "basin_id": basin_id,
+                "error": str(e),
+            })
+            print(f"FAILED {basin_id}: {e}")
+
+    if not basin_crpss:
+        raise RuntimeError(
+            "No basins evaluated successfully."
+        )
+
+    # 3. Assemble basin-level arrays
+    pf_all = np.stack([
+        r["CRPSS_pf"] for r in basin_crpss
+    ])
+    ad_all = np.stack([
+        r["CRPSS_ad"] for r in basin_crpss
+    ])
+
+    leads = np.arange(1, N_LEADS + 1)
+
+    # 4. Save basin-level results
+    rows = []
+
+    for result in basin_crpss:
+        for j, lead in enumerate(leads):
+            rows.append({
+                "basin_id": result["basin_id"],
+                "lead_time": lead,
+                "CRPSS_pf": result["CRPSS_pf"][j],
+                "CRPSS_ad": result["CRPSS_ad"][j],
+                "CRPS_forecast": result["CRPS_forecast"][j],
+                "n_valid": result["n_valid"][j],
+            })
+
+    results_df = pd.DataFrame(rows)
+
+    csv_path = os.path.join(
+        output_dir,
+        f"CRPSS_{mode}_{YEAR}.csv"
+    )
+    results_df.to_csv(csv_path, index=False)
+
+    failed_csv = os.path.join(
+        output_dir, "failed_basins.csv"
+    )
+    pd.DataFrame(
+        failed_basins,
+        columns=["basin_id", "error"]
+    ).to_csv(failed_csv, index=False)
+
+    # 5. Calculate mean and spatial percentiles
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", RuntimeWarning)
+
+        pf_mean = np.nanmean(pf_all, axis=0)
+        ad_mean = np.nanmean(ad_all, axis=0)
+
+        pf_p05 = np.nanpercentile(pf_all, 5, axis=0)
+        pf_p25 = np.nanpercentile(pf_all, 25, axis=0)
+        pf_p75 = np.nanpercentile(pf_all, 75, axis=0)
+        pf_p95 = np.nanpercentile(pf_all, 95, axis=0)
+
+        ad_p25 = np.nanpercentile(ad_all, 25, axis=0)
+        ad_p75 = np.nanpercentile(ad_all, 75, axis=0)
+
+    summary_df = pd.DataFrame({
+        "lead_time": leads,
+        "CRPSS_pf_mean": pf_mean,
+        "CRPSS_ad_mean": ad_mean,
+        "CRPSS_pf_p05": pf_p05,
+        "CRPSS_pf_p25": pf_p25,
+        "CRPSS_pf_p75": pf_p75,
+        "CRPSS_pf_p95": pf_p95,
+        "CRPSS_ad_p25": ad_p25,
+        "CRPSS_ad_p75": ad_p75,
+        "n_basins_pf": np.isfinite(pf_all).sum(axis=0),
+        "n_basins_ad": np.isfinite(ad_all).sum(axis=0),
+    })
+
+    summary_csv = os.path.join(
+        output_dir,
+        f"CRPSS_summary_{mode}_{YEAR}.csv"
+    )
+    summary_df.to_csv(summary_csv, index=False)
+
+    # ========================================================
+    # 6. PLOT: SINGLE OR MULTIPLE
+    # ========================================================
+
+    fig, ax = plt.subplots(figsize=(8, 5))
+
+    if mode == "multiple":
+        # Spatial 5-95% range
+        ax.fill_between(
+            leads, pf_p05, pf_p95,
+            color="lightgray",
+            alpha=0.8,
+            label="5–95% (persistence)"
+        )
+
+        # Spatial 25-75% range
+        ax.fill_between(
+            leads, pf_p25, pf_p75,
+            color="gray",
+            alpha=0.65,
+            label="25–75% (persistence)"
+        )
+
+        # Average-discharge percentile boundaries
+        ax.plot(
+            leads, ad_p25,
+            color="black", linewidth=1, linestyle=":"
+        )
+        ax.plot(
+            leads, ad_p75,
+            color="black", linewidth=1, linestyle=":",
+            label="25–75% (average discharge)"
+        )
+
+        ax.set_title(
+            f"GEFS Forecast Skill Across "
+            f"{len(basin_crpss)} Basins ({YEAR})"
+        )
+
+        fig_name = f"CRPSS_spatial_{YEAR}.png"
+
+    else:
+        basin_id = basin_crpss[0]["basin_id"]
+
+        ax.set_title(
+            f"GEFS Forecast Skill: Basin "
+            f"{basin_id} ({YEAR})"
+        )
+
+        fig_name = f"CRPSS_{basin_id}_{YEAR}.png"
+
+    # Shared mean/individual curves
+    ax.plot(
+        leads, pf_mean,
+        color="black", linewidth=2, linestyle="-",
+        label=r"CRPSS$_{pf}$"
+    )
+
+    ax.plot(
+        leads, ad_mean,
+        color="black", linewidth=2, linestyle="--",
+        label=r"CRPSS$_{ad}$"
+    )
+
+    ax.axhline(
+        0, color="black", linewidth=0.7
+    )
+
+    ax.set_xlabel("Lead time [days]")
+    ax.set_ylabel("CRPSS")
+    ax.set_xticks(leads)
+    ax.legend(frameon=False, fontsize=9)
+
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+
+    plt.tight_layout()
+
+    fig_path = os.path.join(output_dir, fig_name)
+    fig.savefig(
+        fig_path, dpi=300, bbox_inches="tight"
+    )
+
+    if show_plot:
+        plt.show()
+    else:
+        plt.close(fig)
+
+    # 7. Return
+    print("\nEvaluated:", len(basin_crpss))
+    print("Failed:", len(failed_basins))
+    print("Figure:", fig_path)
+    print("CSV:", csv_path)
+
+    return {
+        "mode": mode,
+        "basin_crpss": basin_crpss,
+        "crpss_pf_all": pf_all,
+        "crpss_ad_all": ad_all,
+        "results_df": results_df,
+        "summary_df": summary_df,
+        "failed_basins": failed_basins,
+        "figure_path": fig_path,
+        "csv_path": csv_path,
+        "summary_csv": summary_csv,
+        "output_dir": output_dir,
+    }
+
