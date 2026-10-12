@@ -1666,7 +1666,7 @@ def run_calibration_diagnostics(
     basin_pool,
     GAGE_NAME_PATH,
     run_segment,
-    calibration_name="HBV11p_calibration_A",
+    calibration_name="Default_Calibration",
     WARMUP=365,
     device=None,
     selected_basins=None,
@@ -1722,7 +1722,6 @@ def run_calibration_diagnostics(
     print("Model:", name)
     print("Number of basins:", len(selected_basins))
     print("Device:", device)
-    print("Simulation time:", config["sim_time"])
 
     # --------------------------------------------------------
     # STEP 2: CONSTRUCT SIMULATION DATES
@@ -2042,9 +2041,9 @@ def run_gefs_one_year(
     SAVE_DIR = os.path.join(
         config["sim_dir"],
         "GEFS_1year_forecasts",
-        f"{GAGE_ID:08d}"
+        f"{START_DATE}_{END_DATE}_pre-{PRE}_w{WINDOW}_post-{POST}",
+        f"{int(GAGE_ID):08d}"
     )
-
     os.makedirs(SAVE_DIR, exist_ok=True)
 
     basin_idx = list(basin_pool).index(GAGE_ID)
@@ -2088,10 +2087,10 @@ def run_gefs_one_year(
             n_skipped += 1
             continue
 
-        print(
-            f"\n[{i+1}/{len(init_dates)}] "
-            f"Initialization: {PRED_DATE.date()}"
-        )
+        # print(
+        #     f"\n[{i+1}/{len(init_dates)}] "
+        #     f"Initialization: {PRED_DATE.date()}"
+        # )
 
         try:
 
@@ -2196,12 +2195,12 @@ def run_gefs_one_year(
 
             n_saved += 1
 
-            print(
-                "Saved:",
-                save_path,
-                "Shape:",
-                ens_preds.shape
-            )
+            # print(
+            #     "Saved:",
+            #     save_path,
+            #     "Shape:",
+            #     ens_preds.shape
+            # )
 
         except Exception as e:
 
@@ -2236,11 +2235,8 @@ def run_gefs_one_year(
     # ========================================================
 
     print("\n========== SUMMARY ==========")
-    print("Basin:", f"{GAGE_ID:08d}")
-    print("Total initialization dates:", len(init_dates))
-    print("Newly saved:", n_saved)
-    print("Skipped existing:", n_skipped)
-    print("Failed:", len(failed_dates))
+    print("Basin:", f"{GAGE_ID:08d}") 
+    print("Newly saved:", n_saved, "Skipped existing:", n_skipped, "Failed:", len(failed_dates)) 
     print("Output directory:", SAVE_DIR)
 
     return {
