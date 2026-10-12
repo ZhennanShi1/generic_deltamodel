@@ -3,6 +3,8 @@ import pandas as pd
 import json
 import torch 
 import os 
+import glob
+import xarray as xr
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 from src.dmg.core.utils import Dates  
@@ -43,110 +45,688 @@ def kge(sim, obs):
     beta  = sim.mean() / obs.mean()
     return 1 - np.sqrt((r - 1)**2 + (alpha - 1)**2 + (beta - 1)**2)
 
+import numpy as np
+import matplotlib.pyplot as plt
 
-def compute_bias_correction_from_dataset(
-    daymet_tensor, gefs_df, timesteps, basin_idx, window=15, method="scalar"
+
+# ============================================================
+# Eq. (5): Empirical CDF F(y)
+# ============================================================
+
+def empirical_cdf(esp, y):
+    """
+    esp : shape (n_members,)
+        ESP ensemble streamflow forecasts at one time.
+    y : scalar
+        Possible streamflow value.
+    """
+    esp = np.asarray(esp)
+    return np.mean(esp <= y)
+
+
+# ============================================================
+# Eq. (6): Observation step function F0(y)
+# ============================================================
+
+def observation_cdf(obs, y):
+    """
+    F0(y) =
+        0, y < obs
+        1, y >= obs
+    """
+    return 1.0 if y >= obs else 0.0
+
+
+# ============================================================
+# Eq. (5): CRPS for one forecast case
+# ============================================================
+
+def crps_single(esp, obs, num_grid=1000):
+    """
+    esp : shape (n_members,)
+        Ensemble forecast for one basin, one init date, one lead time.
+    obs : scalar
+        Observed/reference streamflow at target date.
+    """
+
+    esp = np.asarray(esp, dtype=float)
+
+    if np.all(np.isnan(esp)) or np.isnan(obs):
+        return np.nan
+
+    y_min = min(np.nanmin(esp), obs)
+    y_max = max(np.nanmax(esp), obs)
+
+    if y_min == y_max:
+        return 0.0
+
+    ys = np.linspace(y_min, y_max, num_grid)
+    dy = ys[1] - ys[0]
+
+    integral = 0.0
+
+    for y in ys:
+        F_y = empirical_cdf(esp, y)
+        F0_y = observation_cdf(obs, y)
+        integral += (F_y - F0_y) ** 2
+
+    return integral * dy
+
+
+# ============================================================
+# Average CRPS_forecast for one basin and one lead time
+# ============================================================
+
+def average_crps(esps, obs):
+    """
+    esps : shape (n_members, n_init_dates)
+        Ensemble forecasts for one basin and one lead time.
+    obs : shape (n_init_dates,)
+        Reference streamflow at target dates.
+    """
+
+    esps = np.asarray(esps, dtype=float)
+    obs = np.asarray(obs, dtype=float)
+
+    crps_values = []
+
+    for t in range(len(obs)):
+        esp_t = esps[:, t]
+        obs_t = obs[t]
+
+        crps_values.append(
+            crps_single(esp_t, obs_t)
+        )
+
+    return np.nanmean(crps_values)
+
+
+# ============================================================
+# Eq. (7): CRPS_ref,ad
+# climatological average discharge reference
+# ============================================================
+
+def crps_ref_climatology(qsim):
+    """
+    qsim : shape (n_total_days,)
+        Continuous reference streamflow for one basin.
+
+    CRPS_ref,ad =
+        mean |qsim(t) - mean(qsim)|
+    """
+
+    qsim = np.asarray(qsim, dtype=float)
+    q_mean = np.nanmean(qsim)
+
+    return np.nanmean(np.abs(qsim - q_mean))
+
+
+# ============================================================
+# Eq. (8): CRPS_ref,pf(LT)
+# persistence reference
+# ============================================================
+
+def crps_ref_persistence(qsim, init_indices, lead_time):
+    """
+    qsim : shape (n_total_days,)
+        Continuous reference streamflow for one basin.
+
+    init_indices : shape (n_init_dates,)
+        Indices of forecast initialization dates.
+
+    lead_time : int
+        LT = 1, 2, ..., 15
+
+    Persistence forecast:
+        qsim(init_date)
+
+    Target:
+        qsim(init_date + LT)
+    """
+
+    qsim = np.asarray(qsim, dtype=float)
+
+    target_indices = init_indices + lead_time
+    init_indices = np.asarray(init_indices)
+
+    target_q = qsim[target_indices]
+    init_q = qsim[init_indices]
+
+    return np.nanmean(np.abs(target_q - init_q))
+
+
+# ============================================================
+# Eq. (4): CRPSS for one basin and one lead time
+# ============================================================
+
+def crpss_one_basin_one_lead(
+    esps,
+    obs,
+    qsim,
+    init_indices,
+    lead_time,
+    reference_type="persistence"
 ):
     """
-    Compute bias correction factors (scalar or CDF-based) for GEFS forcings
-    using Daymet climatology in a moving DOY window.
+    esps : shape (n_members, n_init_dates)
+    obs : shape (n_init_dates,)
+    qsim : shape (n_total_days,)
+    init_indices : shape (n_init_dates,)
+    lead_time : int
+    """
 
-    Parameters
-    ----------
-    daymet_tensor : torch.Tensor [time, basin, 3]
-        Historical Daymet forcings from the dataset.
-    gefs_df : pd.DataFrame
-        GEFS historical forcings with columns: date, prcp, tmean, pet.
-    timesteps : np.ndarray
-        Daily time axis corresponding to Daymet.
-    basin_idx : int
-        Basin index to select from Daymet tensor.
-    window : int
-        ±days around each DOY to compute moving-window stats.
-    method : str, {"scalar", "cdf"}
-        Bias correction method:
-        - "scalar": mean ratio (current method)
-        - "cdf": quantile mapping / CDF matching
+    crps_forecast = average_crps(esps, obs)
+
+    if reference_type == "climatology":
+        crps_reference = crps_ref_climatology(qsim)
+
+    elif reference_type == "persistence":
+        crps_reference = crps_ref_persistence(
+            qsim=qsim,
+            init_indices=init_indices,
+            lead_time=lead_time
+        )
+
+    else:
+        raise ValueError("reference_type must be 'climatology' or 'persistence'.")
+
+    crpss_value = (
+        crps_reference - crps_forecast
+    ) / crps_reference
+
+    return crpss_value, crps_forecast, crps_reference
+
+
+# ============================================================
+# Main function: compute CRPSS for all basins and lead times
+# ============================================================
+
+def compute_crpss_all_basins(
+    forecasts,
+    qsim,
+    init_indices,
+    max_lead=15
+):
+    """
+    forecasts : shape (n_basins, n_init_dates, n_lead_times, n_members)
+    qsim : shape (n_basins, n_total_days)
+    init_indices : shape (n_init_dates,)
+    max_lead : int
+    """
+
+    forecasts = np.asarray(forecasts, dtype=float)
+    qsim = np.asarray(qsim, dtype=float)
+    init_indices = np.asarray(init_indices)
+
+    n_basins = forecasts.shape[0]
+
+    crpss_pf_all = np.full((n_basins, max_lead), np.nan)
+    crpss_ad_all = np.full((n_basins, max_lead), np.nan)
+
+    crps_forecast_all = np.full((n_basins, max_lead), np.nan)
+    crps_ref_pf_all = np.full((n_basins, max_lead), np.nan)
+    crps_ref_ad_all = np.full((n_basins, max_lead), np.nan)
+
+    for b in range(n_basins):
+
+        qsim_basin = qsim[b, :]
+
+        for lt in range(1, max_lead + 1):
+
+            # forecasts for one basin and one lead time
+            # original shape: (n_init_dates, n_members)
+            esps_lt = forecasts[b, :, lt - 1, :]
+
+            # convert to shape required by average_crps:
+            # (n_members, n_init_dates)
+            esps_lt = esps_lt.T
+
+            # target dates = init date + lead time
+            target_indices = init_indices + lt
+            obs_lt = qsim_basin[target_indices]
+
+            # CRPSS using persistence reference
+            crpss_pf, crps_fc, crps_ref_pf = crpss_one_basin_one_lead(
+                esps=esps_lt,
+                obs=obs_lt,
+                qsim=qsim_basin,
+                init_indices=init_indices,
+                lead_time=lt,
+                reference_type="persistence"
+            )
+
+            # CRPSS using climatological average discharge reference
+            crpss_ad, _, crps_ref_ad = crpss_one_basin_one_lead(
+                esps=esps_lt,
+                obs=obs_lt,
+                qsim=qsim_basin,
+                init_indices=init_indices,
+                lead_time=lt,
+                reference_type="climatology"
+            )
+
+            crpss_pf_all[b, lt - 1] = crpss_pf
+            crpss_ad_all[b, lt - 1] = crpss_ad
+
+            crps_forecast_all[b, lt - 1] = crps_fc
+            crps_ref_pf_all[b, lt - 1] = crps_ref_pf
+            crps_ref_ad_all[b, lt - 1] = crps_ref_ad
+
+    return {
+        "CRPSS_pf": crpss_pf_all,
+        "CRPSS_ad": crpss_ad_all,
+        "CRPS_forecast": crps_forecast_all,
+        "CRPS_ref_pf": crps_ref_pf_all,
+        "CRPS_ref_ad": crps_ref_ad_all,
+        "lead_times": np.arange(1, max_lead + 1)
+    }
+
+
+# ============================================================
+# Plot paper-style figure
+# ============================================================
+
+def plot_crpss_lead_time(result):
+    """
+    result : output from compute_crpss_all_basins()
+    """
+
+    lead_times = result["lead_times"]
+
+    crpss_pf_all = result["CRPSS_pf"]
+    crpss_ad_all = result["CRPSS_ad"]
+
+    # CRPSS_pf statistics across basins
+    pf_mean = np.nanmean(crpss_pf_all, axis=0)
+    pf_p05 = np.nanpercentile(crpss_pf_all, 5, axis=0)
+    pf_p25 = np.nanpercentile(crpss_pf_all, 25, axis=0)
+    pf_p75 = np.nanpercentile(crpss_pf_all, 75, axis=0)
+    pf_p95 = np.nanpercentile(crpss_pf_all, 95, axis=0)
+
+    # CRPSS_ad statistics across basins
+    ad_mean = np.nanmean(crpss_ad_all, axis=0)
+    ad_p25 = np.nanpercentile(crpss_ad_all, 25, axis=0)
+    ad_p75 = np.nanpercentile(crpss_ad_all, 75, axis=0)
+
+    plt.figure(figsize=(7, 5))
+
+    # light gray: 5–95% range for CRPSS_pf
+    plt.fill_between(
+        lead_times,
+        pf_p05,
+        pf_p95,
+        color="lightgray",
+        label="CRPSS_pf 5–95%"
+    )
+
+    # dark gray: 25–75% range for CRPSS_pf
+    plt.fill_between(
+        lead_times,
+        pf_p25,
+        pf_p75,
+        color="gray",
+        alpha=0.6,
+        label="CRPSS_pf 25–75%"
+    )
+
+    # solid black: mean CRPSS_pf
+    plt.plot(
+        lead_times,
+        pf_mean,
+        color="black",
+        linewidth=2,
+        label="CRPSS_pf"
+    )
+
+    # dashed black: mean CRPSS_ad
+    plt.plot(
+        lead_times,
+        ad_mean,
+        color="black",
+        linestyle="--",
+        linewidth=2,
+        label="CRPSS_ad"
+    )
+
+    # dotted black: 25–75% range for CRPSS_ad
+    plt.plot(
+        lead_times,
+        ad_p25,
+        color="black",
+        linestyle=":",
+        linewidth=1
+    )
+
+    plt.plot(
+        lead_times,
+        ad_p75,
+        color="black",
+        linestyle=":",
+        linewidth=1
+    )
+
+    plt.axhline(0, color="black", linewidth=1)
+
+    plt.xlabel("Lead time [days]")
+    plt.ylabel("CRPSS")
+    plt.xlim(0, lead_times[-1] + 0.5)
+    plt.ylim(0, 1.05)
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
+    
+    
+def _clim_doy(dates):
+    """
+    Use a consistent 365-day climatological calendar.
+    Feb 29 is assigned to Feb 28's DOY.
+    """
+    dates = pd.DatetimeIndex(pd.to_datetime(dates))
+    doy = dates.dayofyear.to_numpy().copy()
+    leap = dates.is_leap_year
+    after_feb = dates.month > 2
+    doy[leap & after_feb] -= 1
+    return doy
+
+
+def _season_mask(doys, target_doy, window):
+    """Circular +/- window around a climatological DOY."""
+    dist = np.abs(np.asarray(doys) - target_doy)
+    return np.minimum(dist, 365 - dist) <= window
+
+ 
+
+
+def compute_bias_correction_from_dataset(
+    daymet_tensor,
+    GEFS_DIR,
+    timesteps,
+    basin_idx,
+    gage_id,
+    ens_id,
+    start_date,
+    window=30,
+    method="scalar",
+):
+    """
+    Calculate GEFS bias corrections using only the previous
+    `window` days before start_date.
+
+    GEFS data:
+        Separate NetCDF files for each initialization.
+        Each file contains 10 forecast leads.
+
+    Daymet data:
+        Historical observed forcings from x_phy.
 
     Returns
     -------
-    dict
-        A dictionary of corrections per variable.
-        For "scalar" → corrections[var][doy] = scalar value
-        For "cdf" → corrections[var][doy] = (p_grid, mapped_values)
+    corrections[lead][var]
+
+    Scalar:
+        prcp, pet -> multiplicative ratio
+        tmean     -> additive difference
+
+    CDF:
+        Quantile mapping for each variable and lead.
     """
-    # Convert Daymet tensor → DataFrame
-    df_daymet = pd.DataFrame({
-        "date": pd.to_datetime(timesteps),
-        "prcp": daymet_tensor[:, basin_idx, 0].detach().cpu().numpy(),
-        "tmean": daymet_tensor[:, basin_idx, 1].detach().cpu().numpy(),
-        "pet": daymet_tensor[:, basin_idx, 2].detach().cpu().numpy(),
-    })
-    df_daymet["doy"] = df_daymet["date"].dt.dayofyear
 
-    gefs_df = gefs_df.copy()
-    gefs_df["doy"] = gefs_df["date"].dt.dayofyear
+    if method not in ("scalar", "cdf"):
+        raise ValueError(f"Unknown correction method: {method}")
 
-    corrections = {v: {} for v in ["prcp","tmean","pet"]}
+    if window < 1:
+        raise ValueError("window must be at least 1 day")
 
-    for var in ["prcp","tmean","pet"]:
-        for doy in range(1, 366):
-            mask_d = (df_daymet["doy"] - doy).abs() <= window
-            mask_g = (gefs_df["doy"] - doy).abs() <= window
+    variables = ["prcp", "tmean", "pet"]
 
-            vals_d = df_daymet.loc[mask_d, var].dropna()
-            vals_g = gefs_df.loc[mask_g, var].dropna()
+    pred_date = pd.Timestamp(start_date).normalize()
+    hist_start = pred_date - pd.Timedelta(days=window)
 
+    basin_id = str(gage_id).zfill(8)
+    ens_name = f"ens{ens_id + 1:02d}"
+
+    # --------------------------------------------------
+    # 1. Historical Daymet data
+    # --------------------------------------------------
+    daymet_values = (
+        daymet_tensor[:, basin_idx, :3]
+        .detach()
+        .cpu()
+        .numpy()
+    )
+
+    df_daymet = pd.DataFrame(
+        daymet_values,
+        columns=variables,
+    )
+
+    df_daymet["date"] = pd.to_datetime(timesteps).normalize()
+
+    if len(df_daymet) != len(timesteps):
+        raise ValueError(
+            "Daymet tensor and timesteps lengths do not match"
+        )
+
+    df_daymet = df_daymet[
+        (df_daymet["date"] >= hist_start) &
+        (df_daymet["date"] < pred_date)
+    ].copy()
+
+    if df_daymet.empty:
+        raise ValueError(
+            f"No Daymet data available between "
+            f"{hist_start.date()} and {pred_date.date()}"
+        )
+
+    # --------------------------------------------------
+    # 2. Find GEFS initialization files in window
+    # --------------------------------------------------
+    nc_files = []
+
+    for day in pd.date_range(
+        hist_start,
+        pred_date - pd.Timedelta(days=1),
+        freq="D",
+    ):
+
+        init_str = day.strftime("%Y%m%d00")
+
+        f_path = os.path.join(
+            GEFS_DIR,
+            f"gefs_processed_{ens_name}",
+            f"gefs_processed.{init_str}.{ens_name}.nc",
+        )
+
+        if os.path.exists(f_path):
+            nc_files.append(f_path)
+
+    if not nc_files:
+        raise FileNotFoundError(
+            f"No GEFS files found in previous {window} days"
+        )
+
+    # --------------------------------------------------
+    # 3. Collect historical GEFS forecasts
+    # --------------------------------------------------
+    records = []
+
+    for nc_file in nc_files:
+
+        with xr.open_dataset(nc_file) as ds:
+
+            basin = ds.sel({
+                "catchment-id": basin_id
+            })
+
+            dates_g = pd.DatetimeIndex(
+                pd.to_datetime(basin["time"].values)
+            ).normalize()
+
+            values = {
+                var: basin[var].values
+                for var in variables
+            }
+
+            for i, valid_date in enumerate(dates_g):
+
+                # Use only valid dates in historical window
+                if not (hist_start <= valid_date < pred_date):
+                    continue
+
+                records.append({
+                    "date": valid_date,
+                    "lead": i + 1,
+                    "prcp": float(values["prcp"][i]),
+                    "tmean": float(values["tmean"][i]),
+                    "pet": float(values["pet"][i]),
+                })
+
+    if not records:
+        raise ValueError(
+            "No GEFS forecast values available "
+            "within the historical window"
+        )
+
+    df_gefs = pd.DataFrame(records)
+
+    # --------------------------------------------------
+    # 4. Calculate lead-specific corrections
+    # --------------------------------------------------
+    corrections = {}
+
+    for lead in range(1, 11):
+
+        gefs_lead = df_gefs[
+            df_gefs["lead"] == lead
+        ]
+
+        corrections[lead] = {}
+
+        for var in variables:
+
+            vals_d = df_daymet[var].dropna().to_numpy()
+            vals_g = gefs_lead[var].dropna().to_numpy()
+
+            # Require at least 10 values from each dataset
             if len(vals_d) < 10 or len(vals_g) < 10:
                 continue
 
             if method == "scalar":
+
                 mean_d = vals_d.mean()
                 mean_g = vals_g.mean()
-                corrections[var][doy] = mean_d / mean_g if mean_g > 1e-6 else 1.0
 
-            elif method == "cdf":
-                # Create percentile grid (0–100)
-                p_grid = np.linspace(0, 100, 101)
-                q_daymet = np.percentile(vals_d, p_grid)
-                q_gefs = np.percentile(vals_g, p_grid)
-                corrections[var][doy] = (q_gefs, q_daymet)  # (x_in, x_out)
-            else:
-                raise ValueError(f"Unknown correction method '{method}'")
+                if var == "tmean":
+                    correction = mean_d - mean_g
+                else:
+                    correction = (
+                        mean_d / mean_g
+                        if mean_g > 1e-6 else 1.0
+                    )
+
+            else:  # CDF
+
+                percentiles = np.linspace(0, 100, 101)
+
+                q_gefs = np.percentile(
+                    vals_g, percentiles
+                )
+
+                q_daymet = np.percentile(
+                    vals_d, percentiles
+                )
+
+                # Remove duplicate GEFS quantiles
+                unique_x, inverse = np.unique(
+                    q_gefs,
+                    return_inverse=True,
+                )
+
+                unique_y = np.full(
+                    len(unique_x),
+                    -np.inf,
+                )
+
+                np.maximum.at(
+                    unique_y,
+                    inverse,
+                    q_daymet,
+                )
+
+                correction = (unique_x, unique_y)
+
+            corrections[lead][var] = correction
 
     return corrections
 
 
 def pre_processing(df, corrections, method="scalar"):
     """
-    Apply bias correction (scalar or CDF) to GEFS forecast DataFrame.
+    Apply lead-specific GEFS bias corrections.
+
+    Supports:
+        scalar: mean ratio / additive temperature correction
+        cdf: empirical quantile mapping
     """
+
+    if method not in ("scalar", "cdf"):
+        raise ValueError(f"Unknown correction method: {method}")
+
     df = df.copy()
-    df["doy"] = df["date"].dt.dayofyear
 
-    for var in ["prcp", "tmean", "pet"]:
-        if method == "scalar":
-            df[var] *= df["doy"].map(lambda d: corrections[var].get(d, 1.0))
+    # Forecast leads: 1, 2, ..., horizon
+    if "lead" not in df.columns:
+        df["lead"] = np.arange(1, len(df) + 1)
 
-        elif method == "cdf":
-            corrected_vals = []
-            for i, row in df.iterrows():
-                doy = row["doy"]
-                val = row[var]
-                if doy not in corrections[var]:
-                    corrected_vals.append(val)
-                    continue
-                q_in, q_out = corrections[var][doy]
-                # interpolate within empirical CDFs
-                corrected_vals.append(np.interp(val, q_in, q_out))
-            df[var] = corrected_vals
+    for idx, row in df.iterrows():
 
-        else:
-            raise ValueError(f"Unknown correction method '{method}'")
+        lead = int(row["lead"])
+
+        for var in ["prcp", "tmean", "pet"]:
+
+            correction = corrections.get(
+                lead, {}
+            ).get(var)
+
+            # No correction available: keep original value
+            if correction is None:
+                continue
+
+            value = row[var]
+
+            if pd.isna(value):
+                continue
+
+            if method == "scalar":
+
+                if var == "tmean":
+                    corrected = value + correction
+                else:
+                    corrected = value * correction
+
+            elif method == "cdf":
+
+                q_in, q_out = correction
+
+                corrected = np.interp(
+                    value,
+                    q_in,
+                    q_out,
+                )
+
+                # Preserve zero-precipitation forecasts
+                if var == "prcp" and value <= 0:
+                    corrected = 0.0
+
+            # Physical constraints
+            if var in ("prcp", "pet"):
+                corrected = max(0.0, corrected)
+
+            df.at[idx, var] = corrected
 
     return df
 
-
+   
 def post_processing(sim_pre_GEFS, ens_preds): # post processing
     """
     Apply a constant offset correction so that the first forecasted streamflow
@@ -227,38 +807,84 @@ def run_warm_forecasts_restart(
     for ens_id in range(N_ENSEMBLES): 
         # 1. Reset to saved stop-point states 
         model.load_states(path=state_path)
- 
-        # 2. Read GEFS forcings 
-        f_path = os.path.join(GEFS_DIR, f"ens0{ens_id+1}", f"{gage_id:08d}.txt")
+
+        # 2. Read GEFS forcings
+        ens_num = ens_id + 1
+        init_date = pd.Timestamp(start_date).normalize()
+        init_str = init_date.strftime("%Y%m%d00")
+
+        f_path = os.path.join(
+            GEFS_DIR,
+            f"gefs_processed_ens{ens_num:02d}",
+            f"gefs_processed.{init_str}.ens{ens_num:02d}.nc"
+        )
+
         if not os.path.exists(f_path):
-            raise ValueError(f"Missing GEFS file: {f_path}")
+            raise FileNotFoundError(f"Missing GEFS nc file: {f_path}")
+         
+        with xr.open_dataset(f_path) as ds:
 
-        df = pd.read_csv(f_path, sep=r"\s+", header=0)
-        df = df.rename(columns={
-            "Year": "year", "Mnth": "month", "Day": "day",
-            "prcp(mm/day)": "prcp", "tmean(C)": "tmean", "pet(mm/day)": "pet"
-        })
-        df["date"] = pd.to_datetime(df[["year", "month", "day"]])
+            # Select basin using 8-digit string ID
+            basin_id = str(gage_id).zfill(8)
+            basin_ds = ds.sel({"catchment-id": basin_id})
 
-        idx_list = df.index[df["date"] == start_date].to_list()
-        if not idx_list:
-            raise ValueError(f"Start date {start_date} not found in {f_path}")
+            # Check available forecast days
+            available_days = basin_ds.sizes["time"]
 
-        fc_block = df.iloc[idx_list[0]: idx_list[0] + horizon].copy()
-        GEFSdataErrorCheck(idx_list, fc_block, horizon, start_date)
- 
-        # 3. Bias correction 
+            if horizon > available_days:
+                raise ValueError(
+                    f"Requested {horizon} forecast days, "
+                    f"but only {available_days} are available."
+                )
+
+            # Select forecast horizon
+            basin_ds = basin_ds.isel(time=slice(0, horizon))
+
+            # Convert to DataFrame
+            fc_block = (
+                basin_ds[["prcp", "tmean", "pet"]]
+                .to_dataframe()
+                .reset_index()
+            )
+        
+        # Convert timestamps to daily dates
+        fc_block["date"] = pd.to_datetime(
+            fc_block["time"]
+        ).dt.normalize()
+
+        # Add forecast lead (1 to horizon)
+        fc_block["lead"] = np.arange(1, len(fc_block) + 1)
+
+        # Check forecast length
+        if len(fc_block) != horizon:
+            raise ValueError(
+                f"Expected {horizon} days, got {len(fc_block)}"
+            )
+
+        # Verify first forecast date
+        if fc_block["date"].iloc[0] != init_date:
+            raise ValueError(
+                f"Forecast starts on {fc_block['date'].iloc[0]}, "
+                f"but initialization date is {init_date}"
+            )
+        
+        print("end here")
+
+        # 3. Bias correction
         if CORRECTION:
             bias_corrections = compute_bias_correction_from_dataset(
                 data_loader.dataset["x_phy"],
-                df,
+                GEFS_DIR,
                 timesteps,
                 basin_idx,
+                gage_id,
+                ens_id,
+                start_date=start_date,
                 window=WINDOW,
                 method=CORRECTION,
             )
-            fc_block = pre_processing(fc_block, bias_corrections, method=CORRECTION)
- 
+        fc_block = pre_processing(fc_block, bias_corrections, method=CORRECTION)
+        
         # 4. Build HBV forcing tensor 
         raw_np = fc_block[["prcp", "tmean", "pet"]].to_numpy().astype(np.float32)
         x_phy_fc = torch.tensor(raw_np[:, np.newaxis, :], dtype=torch.float32, device=device)
@@ -291,9 +917,6 @@ def run_warm_forecasts_restart(
     return np.array(ens_preds)
 
 def build_xc_nn_norm_forecast(data_loader, basin_idx, fc_block, device, verbose):
-    import numpy as np
-    import torch
-
     if verbose:
         print("===== BUILD XC_NN_NORM FORECAST =====")
 

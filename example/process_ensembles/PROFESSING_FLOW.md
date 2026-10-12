@@ -65,3 +65,7 @@ otherwise:
         │   │ └─── 03 = day
         │   └───── 01 = month
         └───────── 2000 = year
+        
+        
+        You can also check the difference between the original gefs data with the processed gefs data using checker.py
+        Run: python checker.py
