@@ -867,9 +867,7 @@ def run_warm_forecasts_restart(
                 f"Forecast starts on {fc_block['date'].iloc[0]}, "
                 f"but initialization date is {init_date}"
             )
-        
-        print("end here")
-
+         
         # 3. Bias correction
         if CORRECTION:
             bias_corrections = compute_bias_correction_from_dataset(
@@ -1262,11 +1260,11 @@ def plot_forecast_separate(
 
     metric_text = (
         f"Pre-Forecast\n"
-        f"NSE={pre_nse:.3f}, KGE={pre_kge:.3f}\n\n"
-        f"GEFS Ensembles\n"
+        f"NSE={pre_nse:.3f}, KGE={pre_kge:.3f}"
+        # f"GEFS Ensembles\n"
     )
-    for i in range(len(ens_nse_arr)):
-        metric_text += f"E{i+1}: NSE={ens_nse_arr[i]:.3f}, KGE={ens_kge_arr[i]:.3f}\n"
+    # for i in range(len(ens_nse_arr)):
+    #     metric_text += f"E{i+1}: NSE={ens_nse_arr[i]:.3f}, KGE={ens_kge_arr[i]:.3f}\n"
 
     # ---------- Restart dates for connector-style plotting ----------
     has_det = det_pred is not None
@@ -2297,8 +2295,24 @@ def _gefs_basin_crpss(
     n_ensembles,
     lead1_offset,
     min_valid_cases,
+    reference="observed",
+    climatology_years=None,
 ):
-    """Calculate lead-wise CRPSS for one basin."""
+    """
+    Calculate lead-wise CRPSS for one basin.
+
+    reference:
+        "observed"  -> basin_results["obs"]
+        "simulated" -> basin_results["sim"]
+
+    climatology_years:
+        Optional years used to calculate climatological mean.
+        Example: range(2009, 2012).
+        None uses the complete available reference series.
+
+    Forecast NPZ:
+        forecast shape = (n_ensembles, n_leads)
+    """
 
     basin_id = f"{int(basin_id):08d}"
     basin_dir = os.path.join(save_root, basin_id)
@@ -2310,10 +2324,17 @@ def _gefs_basin_crpss(
     forecasts_list = []
     init_dates_list = []
 
-    # 1. Load forecast NPZ files
+    # ====================================================
+    # 1. Load saved GEFS forecasts
+    # ====================================================
+
     for path in files:
+
         with np.load(path) as data:
-            fc = np.asarray(data["forecast"], dtype=float)
+            fc = np.asarray(
+                data["forecast"], dtype=float
+            )
+
             init_date = pd.Timestamp(
                 str(data["init_date"].item())
             ).normalize()
@@ -2342,10 +2363,14 @@ def _gefs_basin_crpss(
             f"Duplicate forecast dates: {basin_id}"
         )
 
-    # 2. Load continuous HBV reference
+    # ====================================================
+    # 2. Load observed or simulated streamflow
+    # ====================================================
+
     basin_data = next(
         (
-            value for key, value in basin_results.items()
+            value
+            for key, value in basin_results.items()
             if int(key) == int(basin_id)
         ),
         None
@@ -2356,29 +2381,49 @@ def _gefs_basin_crpss(
             f"Missing basin_results for {basin_id}"
         )
 
-    qsim = np.asarray(
-        basin_data["sim"], dtype=float
+    if reference == "observed":
+        data_key = "obs"
+    elif reference == "simulated":
+        data_key = "sim"
+    else:
+        raise ValueError(
+            "reference must be 'observed' or 'simulated'"
+        )
+
+    qref = np.asarray(
+        basin_data[data_key], dtype=float
     ).reshape(-1)
 
-    qsim_dates = pd.DatetimeIndex(
+    qref_dates = pd.DatetimeIndex(
         basin_data["dates"]
     ).normalize()
 
-    if len(qsim) != len(qsim_dates):
+    if len(qref) != len(qref_dates):
         raise ValueError(
-            f"HBV reference length mismatch: {basin_id}"
+            f"Reference length mismatch: {basin_id}"
         )
 
-    if not qsim_dates.is_unique:
+    if not qref_dates.is_unique:
         raise ValueError(
-            f"Duplicate HBV reference dates: {basin_id}"
+            f"Duplicate reference dates: {basin_id}"
         )
 
-    qsim_series = pd.Series(qsim, index=qsim_dates)
+    qref_series = pd.Series(
+        qref, index=qref_dates
+    )
 
-    # 3. Align valid dates
+    # ====================================================
+    # 3. Align forecast valid dates with observations
+    # ====================================================
+
+    # lead1_offset=0:
+    # lead 1 = initialization date
+    # lead 2 = initialization date + 1 day
+    # ...
+
     offsets = np.arange(
-        lead1_offset, lead1_offset + n_leads
+        lead1_offset,
+        lead1_offset + n_leads
     )
 
     valid_dates = (
@@ -2386,50 +2431,108 @@ def _gefs_basin_crpss(
         + offsets[None, :].astype("timedelta64[D]")
     )
 
-    reference = qsim_series.reindex(
+    target_flow = qref_series.reindex(
         pd.DatetimeIndex(valid_dates.ravel())
     ).to_numpy().reshape(valid_dates.shape)
 
-    initial_flow = qsim_series.reindex(
+    # Persistence uses observed discharge at initialization
+    initial_flow = qref_series.reindex(
         init_dates
     ).to_numpy()
 
-    # 4. Valid forecast cases
+    # ====================================================
+    # 4. Calculate climatological mean
+    # ====================================================
+
+    if climatology_years is None:
+        clim_values = qref
+    else:
+        clim_mask = qref_dates.year.isin(
+            list(climatology_years)
+        )
+        clim_values = qref[clim_mask]
+
+    finite_clim = clim_values[
+        np.isfinite(clim_values)
+    ]
+
+    if len(finite_clim) == 0:
+        raise ValueError(
+            f"No valid climatology data for {basin_id}"
+        )
+
+    q_mean = np.mean(finite_clim)
+
+    # ====================================================
+    # 5. Identify valid cases
+    # ====================================================
+
     valid = (
         np.isfinite(forecasts).all(axis=2)
-        & np.isfinite(reference)
+        & np.isfinite(target_flow)
         & np.isfinite(initial_flow[:, None])
     )
 
     n_valid = valid.sum(axis=0)
 
-    # 5. Forecast CRPS
+    # ====================================================
+    # 6. Forecast CRPS
+    # ====================================================
+
     crps_fc_cases = _gefs_ensemble_crps(
-        forecasts, reference
+        forecasts,
+        target_flow
     )
 
-    # 6. Persistence CRPS
+    # ====================================================
+    # 7. Persistence reference
+    # ====================================================
+
     crps_pf_cases = np.abs(
-        reference - initial_flow[:, None]
+        target_flow - initial_flow[:, None]
     )
 
-    # 7. Average-discharge CRPS
-    q_mean = np.nanmean(qsim)
-    crps_ad_cases = np.abs(reference - q_mean)
+    # ====================================================
+    # 8. Average discharge reference
+    # ====================================================
 
-    # Use identical valid cases for all references
+    crps_ad_cases = np.abs(
+        target_flow - q_mean
+    )
+
+    # Same verification cases for all three scores
     crps_fc_cases[~valid] = np.nan
     crps_pf_cases[~valid] = np.nan
     crps_ad_cases[~valid] = np.nan
 
-    with warnings.catch_warnings():
-        warnings.simplefilter("ignore", RuntimeWarning)
+    # ====================================================
+    # 9. Average CRPS across initialization dates
+    # ====================================================
 
-        crps_fc = np.nanmean(crps_fc_cases, axis=0)
-        crps_pf = np.nanmean(crps_pf_cases, axis=0)
-        crps_ad = np.nanmean(crps_ad_cases, axis=0)
+    crps_fc = np.full(n_leads, np.nan)
+    crps_pf = np.full(n_leads, np.nan)
+    crps_ad = np.full(n_leads, np.nan)
 
-    # 8. CRPSS
+    for j in range(n_leads):
+        if n_valid[j] == 0:
+            continue
+
+        crps_fc[j] = np.mean(
+            crps_fc_cases[valid[:, j], j]
+        )
+
+        crps_pf[j] = np.mean(
+            crps_pf_cases[valid[:, j], j]
+        )
+
+        crps_ad[j] = np.mean(
+            crps_ad_cases[valid[:, j], j]
+        )
+
+    # ====================================================
+    # 10. Calculate CRPSS
+    # ====================================================
+
     crpss_pf = np.full(n_leads, np.nan)
     crpss_ad = np.full(n_leads, np.nan)
 
@@ -2457,14 +2560,18 @@ def _gefs_basin_crpss(
 
     return {
         "basin_id": basin_id,
+        "reference": reference,
         "CRPSS_pf": crpss_pf,
         "CRPSS_ad": crpss_ad,
         "CRPS_forecast": crps_fc,
+        "CRPS_ref_pf": crps_pf,
+        "CRPS_ref_ad": crps_ad,
         "n_valid": n_valid,
         "n_init_dates": len(init_dates),
+        "climatology_mean": q_mean,
     }
 
-
+ 
 def run_gefs_crpss(
     mode,
     config,
@@ -2476,73 +2583,103 @@ def run_gefs_crpss(
     N_ENSEMBLES=5,
     LEAD1_OFFSET=0,
     MIN_VALID_CASES=30,
+    REFERENCE="observed",
+    CLIMATOLOGY_YEARS=None,
     show_plot=True,
-):
+    ):
     """
-    Unified GEFS CRPSS evaluation.
+    GEFS CRPSS evaluation.
 
-    mode="single":
-        Evaluate and plot one basin using GAGE_ID.
+    mode:
+        "single" or "multiple"
 
-    mode="multiple":
-        Evaluate every basin in basin_pool and plot
-        spatial means and percentile bands.
+    REFERENCE:
+        "observed" or "simulated"
 
-    Returns a dictionary containing results and paths.
+    CLIMATOLOGY_YEARS:
+        None -> use entire available reference period
+        range(2009, 2012) -> use 2009-2011
+
+    Uses existing basin_results and basin_pool.
     """
 
     mode = mode.lower().strip()
+    REFERENCE = REFERENCE.lower().strip()
+
+    if REFERENCE not in ("observed", "simulated"):
+        raise ValueError(
+            "REFERENCE must be 'observed' or 'simulated'"
+        )
+
+    # ====================================================
+    # 1. Select basins
+    # ====================================================
 
     if mode == "single":
+
         if GAGE_ID is None:
             raise ValueError(
-                "GAGE_ID is required for single mode."
+                "GAGE_ID is required for single mode"
             )
+
         selected_basins = [int(GAGE_ID)]
 
     elif mode == "multiple":
+
         if basin_pool is None:
             raise ValueError(
-                "basin_pool is required for multiple mode."
+                "basin_pool is required for multiple mode"
             )
+
         selected_basins = [
             int(bid) for bid in basin_pool
         ]
 
     else:
         raise ValueError(
-            "mode must be 'single' or 'multiple'."
+            "mode must be 'single' or 'multiple'"
         )
 
-    selected_basins = list(dict.fromkeys(selected_basins))
+    selected_basins = list(
+        dict.fromkeys(selected_basins)
+    )
 
     if not selected_basins:
-        raise ValueError("No basins selected.")
+        raise ValueError("No basins selected")
 
-    # 1. Paths
+    # ====================================================
+    # 2. Output directories
+    # ====================================================
+
     save_root = os.path.join(
-        config["sim_dir"], "GEFS_1year_forecasts"
+        config["sim_dir"],
+        "GEFS_1year_forecasts"
     )
 
     output_dir = os.path.join(
         save_root,
-        "CRPSS_single_basin"
-        if mode == "single" else "CRPSS_multi_basin"
+        f"CRPSS_{REFERENCE}_{mode}"
     )
 
     os.makedirs(output_dir, exist_ok=True)
 
-    # 2. Evaluate selected basins
+    # ====================================================
+    # 3. Evaluate basins
+    # ====================================================
+
     basin_crpss = []
     failed_basins = []
 
-    print(f"Mode: {mode}")
-    print(f"Requested basins: {len(selected_basins)}")
+    print("Mode:", mode)
+    print("Reference:", REFERENCE)
+    print("Requested basins:", len(selected_basins))
 
     for i, bid in enumerate(selected_basins):
+
         basin_id = f"{bid:08d}"
 
         try:
+
             result = _gefs_basin_crpss(
                 basin_id=bid,
                 basin_results=basin_results,
@@ -2552,6 +2689,8 @@ def run_gefs_crpss(
                 n_ensembles=N_ENSEMBLES,
                 lead1_offset=LEAD1_OFFSET,
                 min_valid_cases=MIN_VALID_CASES,
+                reference=REFERENCE,
+                climatology_years=CLIMATOLOGY_YEARS,
             )
 
             basin_crpss.append(result)
@@ -2563,38 +2702,52 @@ def run_gefs_crpss(
             )
 
         except Exception as e:
+
             failed_basins.append({
                 "basin_id": basin_id,
                 "error": str(e),
             })
+
             print(f"FAILED {basin_id}: {e}")
 
     if not basin_crpss:
         raise RuntimeError(
-            "No basins evaluated successfully."
+            "No basins evaluated successfully"
         )
 
-    # 3. Assemble basin-level arrays
+    # ====================================================
+    # 4. Assemble arrays
+    # ====================================================
+
     pf_all = np.stack([
         r["CRPSS_pf"] for r in basin_crpss
     ])
+
     ad_all = np.stack([
         r["CRPSS_ad"] for r in basin_crpss
     ])
 
     leads = np.arange(1, N_LEADS + 1)
 
-    # 4. Save basin-level results
+    # ====================================================
+    # 5. Save basin-level CSV
+    # ====================================================
+
     rows = []
 
     for result in basin_crpss:
+
         for j, lead in enumerate(leads):
+
             rows.append({
                 "basin_id": result["basin_id"],
+                "reference": REFERENCE,
                 "lead_time": lead,
                 "CRPSS_pf": result["CRPSS_pf"][j],
                 "CRPSS_ad": result["CRPSS_ad"][j],
                 "CRPS_forecast": result["CRPS_forecast"][j],
+                "CRPS_ref_pf": result["CRPS_ref_pf"][j],
+                "CRPS_ref_ad": result["CRPS_ref_ad"][j],
                 "n_valid": result["n_valid"][j],
             })
 
@@ -2602,32 +2755,68 @@ def run_gefs_crpss(
 
     csv_path = os.path.join(
         output_dir,
-        f"CRPSS_{mode}_{YEAR}.csv"
+        f"CRPSS_{mode}_{REFERENCE}_{YEAR}.csv"
     )
-    results_df.to_csv(csv_path, index=False)
+
+    results_df.to_csv(
+        csv_path, index=False
+    )
 
     failed_csv = os.path.join(
-        output_dir, "failed_basins.csv"
+        output_dir,
+        "failed_basins.csv"
     )
+
     pd.DataFrame(
         failed_basins,
         columns=["basin_id", "error"]
     ).to_csv(failed_csv, index=False)
 
-    # 5. Calculate mean and spatial percentiles
-    with warnings.catch_warnings():
-        warnings.simplefilter("ignore", RuntimeWarning)
+    # ====================================================
+    # 6. Spatial statistics
+    # ====================================================
 
-        pf_mean = np.nanmean(pf_all, axis=0)
-        ad_mean = np.nanmean(ad_all, axis=0)
+    def column_stat(arr, statistic, percentile=None):
+        values = []
 
-        pf_p05 = np.nanpercentile(pf_all, 5, axis=0)
-        pf_p25 = np.nanpercentile(pf_all, 25, axis=0)
-        pf_p75 = np.nanpercentile(pf_all, 75, axis=0)
-        pf_p95 = np.nanpercentile(pf_all, 95, axis=0)
+        for j in range(arr.shape[1]):
 
-        ad_p25 = np.nanpercentile(ad_all, 25, axis=0)
-        ad_p75 = np.nanpercentile(ad_all, 75, axis=0)
+            col = arr[:, j]
+            col = col[np.isfinite(col)]
+
+            if len(col) == 0:
+                values.append(np.nan)
+            elif statistic == "mean":
+                values.append(np.mean(col))
+            elif statistic == "percentile":
+                values.append(
+                    np.percentile(col, percentile)
+                )
+
+        return np.asarray(values)
+
+    pf_mean = column_stat(pf_all, "mean")
+    ad_mean = column_stat(ad_all, "mean")
+
+    pf_p05 = column_stat(
+        pf_all, "percentile", 5
+    )
+    pf_p25 = column_stat(
+        pf_all, "percentile", 25
+    )
+    pf_p75 = column_stat(
+        pf_all, "percentile", 75
+    )
+    pf_p95 = column_stat(
+        pf_all, "percentile", 95
+    )
+
+    ad_p25 = column_stat(
+        ad_all, "percentile", 25
+    )
+    ad_p75 = column_stat(
+        ad_all, "percentile", 75
+    )
 
     summary_df = pd.DataFrame({
         "lead_time": leads,
@@ -2645,91 +2834,133 @@ def run_gefs_crpss(
 
     summary_csv = os.path.join(
         output_dir,
-        f"CRPSS_summary_{mode}_{YEAR}.csv"
+        f"CRPSS_summary_{mode}_{REFERENCE}_{YEAR}.csv"
     )
-    summary_df.to_csv(summary_csv, index=False)
 
-    # ========================================================
-    # 6. PLOT: SINGLE OR MULTIPLE
-    # ========================================================
+    summary_df.to_csv(
+        summary_csv, index=False
+    )
 
-    fig, ax = plt.subplots(figsize=(8, 5))
+    # ====================================================
+    # 7. Plot
+    # ====================================================
 
-    if mode == "multiple":
-        # Spatial 5-95% range
+    fig, ax = plt.subplots(
+        figsize=(8, 5)
+    )
+
+    if mode == "multiple" and len(basin_crpss) > 1:
+
         ax.fill_between(
-            leads, pf_p05, pf_p95,
+            leads,
+            pf_p05,
+            pf_p95,
             color="lightgray",
             alpha=0.8,
             label="5–95% (persistence)"
         )
 
-        # Spatial 25-75% range
         ax.fill_between(
-            leads, pf_p25, pf_p75,
+            leads,
+            pf_p25,
+            pf_p75,
             color="gray",
             alpha=0.65,
             label="25–75% (persistence)"
         )
 
-        # Average-discharge percentile boundaries
         ax.plot(
-            leads, ad_p25,
-            color="black", linewidth=1, linestyle=":"
+            leads,
+            ad_p25,
+            color="black",
+            linestyle=":",
+            linewidth=1
         )
+
         ax.plot(
-            leads, ad_p75,
-            color="black", linewidth=1, linestyle=":",
+            leads,
+            ad_p75,
+            color="black",
+            linestyle=":",
+            linewidth=1,
             label="25–75% (average discharge)"
         )
 
-        ax.set_title(
-            f"GEFS Forecast Skill Across "
-            f"{len(basin_crpss)} Basins ({YEAR})"
-        )
-
-        fig_name = f"CRPSS_spatial_{YEAR}.png"
-
-    else:
-        basin_id = basin_crpss[0]["basin_id"]
-
-        ax.set_title(
-            f"GEFS Forecast Skill: Basin "
-            f"{basin_id} ({YEAR})"
-        )
-
-        fig_name = f"CRPSS_{basin_id}_{YEAR}.png"
-
-    # Shared mean/individual curves
     ax.plot(
-        leads, pf_mean,
-        color="black", linewidth=2, linestyle="-",
+        leads,
+        pf_mean,
+        color="black",
+        linewidth=2,
+        linestyle="-",
         label=r"CRPSS$_{pf}$"
     )
 
     ax.plot(
-        leads, ad_mean,
-        color="black", linewidth=2, linestyle="--",
+        leads,
+        ad_mean,
+        color="black",
+        linewidth=2,
+        linestyle="--",
         label=r"CRPSS$_{ad}$"
     )
 
     ax.axhline(
-        0, color="black", linewidth=0.7
+        0,
+        color="black",
+        linewidth=0.8
     )
+
+    if mode == "single":
+
+        basin_id = basin_crpss[0]["basin_id"]
+
+        ax.set_title(
+            f"GEFS Forecast Skill Against {REFERENCE.title()}\n"
+            f"Basin {basin_id} ({YEAR})"
+        )
+
+        fig_name = (
+            f"CRPSS_{basin_id}_{REFERENCE}_{YEAR}.png"
+        )
+
+    else:
+
+        ax.set_title(
+            f"GEFS Forecast Skill Against {REFERENCE.title()}\n"
+            f"Across {len(basin_crpss)} Basins ({YEAR})"
+        )
+
+        fig_name = (
+            f"CRPSS_spatial_{REFERENCE}_{YEAR}.png"
+        )
 
     ax.set_xlabel("Lead time [days]")
     ax.set_ylabel("CRPSS")
+
     ax.set_xticks(leads)
-    ax.legend(frameon=False, fontsize=9)
+
+    # Do not restrict y-axis to [0, 1]:
+    # Negative CRPSS values are meaningful.
+
+    ax.legend(
+        frameon=False,
+        fontsize=9
+    )
 
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
 
     plt.tight_layout()
 
-    fig_path = os.path.join(output_dir, fig_name)
+    fig_path = os.path.join(
+        output_dir,
+        fig_name
+    )
+
     fig.savefig(
-        fig_path, dpi=300, bbox_inches="tight"
+        fig_path,
+        dpi=300,
+        bbox_inches="tight"
     )
 
     if show_plot:
@@ -2737,7 +2968,10 @@ def run_gefs_crpss(
     else:
         plt.close(fig)
 
-    # 7. Return
+    # ====================================================
+    # 8. Return
+    # ====================================================
+
     print("\nEvaluated:", len(basin_crpss))
     print("Failed:", len(failed_basins))
     print("Figure:", fig_path)
@@ -2745,6 +2979,7 @@ def run_gefs_crpss(
 
     return {
         "mode": mode,
+        "reference": REFERENCE,
         "basin_crpss": basin_crpss,
         "crpss_pf_all": pf_all,
         "crpss_ad_all": ad_all,
@@ -2756,4 +2991,3 @@ def run_gefs_crpss(
         "summary_csv": summary_csv,
         "output_dir": output_dir,
     }
-

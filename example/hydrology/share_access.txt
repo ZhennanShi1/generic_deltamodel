@@ -1,0 +1,15 @@
+PROJECT="/u/au/ac/zhennanshi/znprojects/generic_deltamodel"
+GROUP="awcirohGrp"
+
+# 1. Allow the shared group to enter your home directory
+chgrp "$GROUP" /u/au/ac/zhennanshi
+chmod 750 /u/au/ac/zhennanshi
+
+# 2. Assign the project directory to the shared group
+chgrp -R "$GROUP" "$PROJECT"
+
+# 3. Allow group members to read files and enter directories
+chmod -R g+rX "$PROJECT"
+
+# 4. Prevent other users from accessing the project
+chmod -R o-rwx "$PROJECT"
