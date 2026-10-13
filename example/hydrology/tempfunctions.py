@@ -2234,10 +2234,8 @@ def run_gefs_one_year(
     # STEP 4: SUMMARY
     # ========================================================
 
-    print("\n========== SUMMARY ==========")
-    print("Basin:", f"{GAGE_ID:08d}") 
-    print("Newly saved:", n_saved, "Skipped existing:", n_skipped, "Failed:", len(failed_dates)) 
-    print("Output directory:", SAVE_DIR)
+    print("\n========== SUMMARY ==========") 
+    print("Basin:", f"{GAGE_ID:08d}", "Newly saved:", n_saved, "Skipped existing:", n_skipped, "Failed:", len(failed_dates)) 
 
     return {
         "basin_id": f"{GAGE_ID:08d}",
@@ -2255,14 +2253,8 @@ def run_gefs_one_year(
 # ============================================================
 # GEFS CRPSS: SINGLE OR MULTIPLE BASINS
 # ============================================================
-
-import os
 import glob
 import warnings
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-
 
 def _gefs_ensemble_crps(forecast, reference):
     """
@@ -2574,6 +2566,11 @@ def run_gefs_crpss(
     basin_results,
     basin_pool=None,
     GAGE_ID=None,
+    START_DATE="2012-01-01",
+    END_DATE="2012-12-31",
+    PRE="scalar",
+    WINDOW=30,
+    POST=True,
     YEAR=2012,
     N_LEADS=10,
     N_ENSEMBLES=5,
@@ -2649,7 +2646,8 @@ def run_gefs_crpss(
 
     save_root = os.path.join(
         config["sim_dir"],
-        "GEFS_1year_forecasts"
+        "GEFS_1year_forecasts",
+        f"{START_DATE}_{END_DATE}_pre-{PRE}_w{WINDOW}_post-{POST}"
     )
 
     output_dir = os.path.join(
@@ -2987,3 +2985,243 @@ def run_gefs_crpss(
         "summary_csv": summary_csv,
         "output_dir": output_dir,
     }
+
+
+def _load_gefs_metric_data(
+    GAGE_ID,
+    config,
+    basin_results,
+    START_DATE="2012-01-01",
+    END_DATE="2012-12-31",
+    PRE="scalar",
+    WINDOW=30,
+    POST=True,
+    N_LEADS=10,
+    N_ENSEMBLES=5,
+    LEAD1_OFFSET=0,
+    REFERENCE="observed",
+):
+    """
+    Load saved GEFS NPZ files and align forecasts with reference flow.
+
+    Returns:
+        ensemble_mean: (n_dates, n_leads)
+        target_flow:   (n_dates, n_leads)
+    """
+    import os
+    import glob
+    import numpy as np
+    import pandas as pd
+
+    basin_id = f"{int(GAGE_ID):08d}"
+
+    basin_dir = os.path.join(
+        config["sim_dir"],
+        "GEFS_1year_forecasts",
+        f"{START_DATE}_{END_DATE}_pre-{PRE}_w{WINDOW}_post-{POST}",
+        basin_id,
+    )
+
+    files = sorted(glob.glob(
+        os.path.join(basin_dir, "forecast_*.npz")
+    ))
+
+    if not files:
+        raise FileNotFoundError(
+            f"No forecast files found in {basin_dir}"
+        )
+
+    forecasts = []
+    init_dates = []
+
+    start = pd.Timestamp(START_DATE)
+    end = pd.Timestamp(END_DATE)
+
+    for path in files:
+        with np.load(path) as data:
+            fc = np.asarray(data["forecast"], dtype=float)
+            init_date = pd.Timestamp(
+                str(data["init_date"].item())
+            ).normalize()
+
+        if not (start <= init_date <= end):
+            continue
+
+        if fc.shape != (N_ENSEMBLES, N_LEADS):
+            raise ValueError(
+                f"Unexpected forecast shape {fc.shape}: {path}"
+            )
+
+        forecasts.append(fc.T)
+        init_dates.append(init_date)
+
+    if not forecasts:
+        raise ValueError("No forecasts in the requested date range")
+
+    forecasts = np.stack(forecasts)
+    init_dates = pd.DatetimeIndex(init_dates)
+
+    if not init_dates.is_unique:
+        raise ValueError(f"Duplicate initialization dates: {basin_id}")
+
+    # Find the basin in existing calibration diagnostics
+    basin_data = next(
+        (
+            value for key, value in basin_results.items()
+            if int(key) == int(GAGE_ID)
+        ),
+        None,
+    )
+
+    if basin_data is None:
+        raise KeyError(f"Basin {basin_id} not found in basin_results")
+
+    reference = REFERENCE.lower()
+
+    if reference == "observed":
+        data_key = "obs"
+    elif reference == "simulated":
+        data_key = "sim"
+    else:
+        raise ValueError("REFERENCE must be 'observed' or 'simulated'")
+
+    qref = np.asarray(basin_data[data_key], dtype=float).reshape(-1)
+    qref_dates = pd.DatetimeIndex(
+        basin_data["dates"]
+    ).normalize()
+
+    if len(qref) != len(qref_dates):
+        raise ValueError("Reference dates and values have different lengths")
+
+    if not qref_dates.is_unique:
+        raise ValueError("Duplicate reference dates")
+
+    qref_series = pd.Series(qref, index=qref_dates)
+
+    offsets = np.arange(
+        LEAD1_OFFSET,
+        LEAD1_OFFSET + N_LEADS
+    )
+
+    valid_dates = (
+        init_dates.values[:, None]
+        + offsets[None, :].astype("timedelta64[D]")
+    )
+
+    target_flow = qref_series.reindex(
+        pd.DatetimeIndex(valid_dates.ravel())
+    ).to_numpy().reshape(valid_dates.shape)
+
+    ensemble_mean = np.mean(forecasts, axis=2)
+
+    return ensemble_mean, target_flow
+
+
+def calculate_gefs_ns(ensemble_mean, target_flow, MIN_VALID_CASES=30):
+    """Nash-Sutcliffe efficiency for each forecast lead.""" 
+
+    n_leads = ensemble_mean.shape[1]
+    ns = np.full(n_leads, np.nan)
+
+    for j in range(n_leads):
+        valid = (
+            np.isfinite(ensemble_mean[:, j])
+            & np.isfinite(target_flow[:, j])
+        )
+
+        if valid.sum() < MIN_VALID_CASES:
+            continue
+
+        pred = ensemble_mean[valid, j]
+        obs = target_flow[valid, j]
+
+        denominator = np.sum((obs - np.mean(obs)) ** 2)
+
+        if denominator > 0:
+            ns[j] = 1 - np.sum((pred - obs) ** 2) / denominator
+
+    return ns
+
+
+def calculate_gefs_pbias(ensemble_mean, target_flow, MIN_VALID_CASES=30):
+    """
+    Percent bias following Alfieri et al. (2014).
+    Positive = underprediction; negative = overprediction.
+    """ 
+
+    n_leads = ensemble_mean.shape[1]
+    pbias = np.full(n_leads, np.nan)
+
+    for j in range(n_leads):
+        valid = (
+            np.isfinite(ensemble_mean[:, j])
+            & np.isfinite(target_flow[:, j])
+        )
+
+        if valid.sum() < MIN_VALID_CASES:
+            continue
+
+        pred = ensemble_mean[valid, j]
+        obs = target_flow[valid, j]
+
+        if not np.isclose(np.mean(obs), 0.0, atol=1e-12):
+            pbias[j] = 100 * (
+                np.mean(obs) - np.mean(pred)
+            ) / np.mean(obs)
+
+    return pbias
+
+
+def calculate_gefs_cv(ensemble_mean, target_flow, MIN_VALID_CASES=30):
+    """Coefficient of variation of RMSE for each forecast lead.""" 
+
+    n_leads = ensemble_mean.shape[1]
+    cv = np.full(n_leads, np.nan)
+
+    for j in range(n_leads):
+        valid = (
+            np.isfinite(ensemble_mean[:, j])
+            & np.isfinite(target_flow[:, j])
+        )
+
+        if valid.sum() < MIN_VALID_CASES:
+            continue
+
+        pred = ensemble_mean[valid, j]
+        obs = target_flow[valid, j]
+
+        mean_obs = np.mean(obs)
+
+        if not np.isclose(mean_obs, 0.0, atol=1e-12):
+            rmse = np.sqrt(np.mean((pred - obs) ** 2))
+            cv[j] = rmse / mean_obs
+
+    return cv
+
+def plot_gefs_metric(values, metric_name, save_dir=None):
+    import os
+    import numpy as np
+    import matplotlib.pyplot as plt
+
+    leads = np.arange(1, len(values) + 1)
+
+    fig, ax = plt.subplots(figsize=(8, 5))
+    ax.plot(leads, values, "k-o", linewidth=2)
+
+    if metric_name.upper() in ("NS", "PBIAS"):
+        ax.axhline(0, color="gray", linestyle="--", linewidth=0.8)
+
+    ax.set_xlabel("Lead time [days]")
+    ax.set_ylabel(metric_name)
+    ax.set_title(f"GEFS Forecast {metric_name}")
+    ax.set_xticks(leads)
+
+    fig.tight_layout()
+
+    if save_dir is not None:
+        os.makedirs(save_dir, exist_ok=True)
+        path = os.path.join(save_dir, f"GEFS_{metric_name}.png")
+        fig.savefig(path, dpi=300, bbox_inches="tight")
+        print("Saved:", path)
+
+    plt.show()
