@@ -2909,8 +2909,8 @@ def run_gefs_crpss(
         basin_id = basin_crpss[0]["basin_id"]
 
         ax.set_title(
-            f"GEFS Forecast Skill Against {REFERENCE.title()}\n"
-            f"Basin {basin_id} ({YEAR})"
+            f"GEFS Forecast Skill Against Observed\n"
+            f"Across {len(basin_crpss)} Basins ({START_DATE} to {END_DATE})"
         )
 
         fig_name = (
@@ -2918,10 +2918,10 @@ def run_gefs_crpss(
         )
 
     else:
-
+ 
         ax.set_title(
-            f"GEFS Forecast Skill Against {REFERENCE.title()}\n"
-            f"Across {len(basin_crpss)} Basins ({YEAR})"
+            f"GEFS Forecast Skill Against Observed\n"
+            f"Across {len(basin_crpss)} Basins ({START_DATE} to {END_DATE})"
         )
 
         fig_name = (
@@ -3198,30 +3198,106 @@ def calculate_gefs_cv(ensemble_mean, target_flow, MIN_VALID_CASES=30):
 
     return cv
 
-def plot_gefs_metric(values, metric_name, save_dir=None):
-    import os
-    import numpy as np
-    import matplotlib.pyplot as plt
+def plot_gefs_metric(
+    values,
+    metric_name,
+    save_dir=None,
+    START_DATE=None,
+    END_DATE=None,
+    basin_id=None,
+    percentiles=None,
+    ): 
 
+    values = np.asarray(values, dtype=float)
     leads = np.arange(1, len(values) + 1)
 
-    fig, ax = plt.subplots(figsize=(8, 5))
-    ax.plot(leads, values, "k-o", linewidth=2)
+    fig, ax = plt.subplots(figsize=(10, 5.5))
 
-    if metric_name.upper() in ("NS", "PBIAS"):
-        ax.axhline(0, color="gray", linestyle="--", linewidth=0.8)
+    # Same line style as CRPSS
+    ax.plot(
+        leads,
+        values,
+        color="black",
+        linewidth=2.5,
+        linestyle="-",
+        label=metric_name,
+        zorder=3,
+    )
 
-    ax.set_xlabel("Lead time [days]")
-    ax.set_ylabel(metric_name)
-    ax.set_title(f"GEFS Forecast {metric_name}")
+    # Optional spatial percentile bands
+    if percentiles is not None:
+        p05, p25, p75, p95 = [
+            np.asarray(p, dtype=float) for p in percentiles
+        ]
+
+        ax.fill_between(
+            leads, p05, p95,
+            color="lightgray",
+            alpha=0.75,
+            label="5–95%",
+            zorder=1,
+        )
+
+        ax.fill_between(
+            leads, p25, p75,
+            color="gray",
+            alpha=0.65,
+            label="25–75%",
+            zorder=2,
+        )
+
+    # Reference line
+    ax.axhline(
+        0,
+        color="gray",
+        linewidth=1,
+        zorder=0,
+    )
+
+    ax.set_xlim(0.5, len(leads) + 0.5)
     ax.set_xticks(leads)
+
+    ax.set_xlabel("Lead time [days]", fontsize=12)
+    ax.set_ylabel(metric_name, fontsize=12)
+
+    title = f"GEFS Forecast {metric_name} Against Observed"
+
+    if basin_id is not None:
+        title += f"\nBasin {int(basin_id):08d}"
+
+    if START_DATE is not None and END_DATE is not None:
+        title += f" ({START_DATE} to {END_DATE})"
+
+    ax.set_title(title, fontsize=15)
+
+    ax.tick_params(axis="both", labelsize=11)
+
+    if percentiles is not None:
+        ax.legend(frameon=False, loc="best")
 
     fig.tight_layout()
 
     if save_dir is not None:
         os.makedirs(save_dir, exist_ok=True)
-        path = os.path.join(save_dir, f"GEFS_{metric_name}.png")
-        fig.savefig(path, dpi=300, bbox_inches="tight")
+
+        safe_name = (
+            metric_name.replace(" ", "_")
+                       .replace("/", "_")
+                       .replace("%", "pct")
+        )
+
+        path = os.path.join(
+            save_dir,
+            f"GEFS_{safe_name}.png"
+        )
+
+        fig.savefig(
+            path,
+            dpi=300,
+            bbox_inches="tight"
+        )
+
         print("Saved:", path)
 
     plt.show()
+    plt.close(fig)
