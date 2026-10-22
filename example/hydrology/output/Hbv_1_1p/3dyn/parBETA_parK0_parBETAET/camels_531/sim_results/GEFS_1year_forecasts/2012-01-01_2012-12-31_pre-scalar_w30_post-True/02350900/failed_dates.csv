@@ -1,0 +1,5 @@
+init_date,error
+2012-05-09,Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012050900.ens01.nc
+2012-05-27,Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012052700.ens01.nc
+2012-10-15,Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012101500.ens01.nc
+2012-12-31,Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012123100.ens01.nc

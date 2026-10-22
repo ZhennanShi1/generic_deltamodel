@@ -1540,3 +1540,605 @@ No such comm: 4ad6172f-3627-4062-8b3e-ebe1a1521aa9
 FAILED 2012-05-09: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012050900.ens01.nc
 FAILED 2012-05-27: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012052700.ens01.nc
 FAILED 2012-10-15: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012101500.ens01.nc
+FAILED 2012-12-31: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012123100.ens01.nc
+
+========== SUMMARY ==========
+Basin: 02177000 Newly saved: 362 Skipped existing: 0 Failed: 4
+
+============================================================
+Processing basin 6/36: 02350900
+============================================================
+
+========== GEFS FORECAST ==========
+Basin: 02350900
+Initialization dates: 366
+Forecast horizon: 10
+Ensemble members: 5
+Simulation range: ['2009/10/01', '2013/09/30']
+Output directory: ./output/Hbv_1_1p/3dyn/parBETA_parK0_parBETAET/camels_531/sim_results/GEFS_1year_forecasts/2012-01-01_2012-12-31_pre-scalar_w30_post-True/02350900
+FAILED 2012-05-09: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012050900.ens01.nc
+FAILED 2012-05-27: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012052700.ens01.nc
+FAILED 2012-10-15: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012101500.ens01.nc
+FAILED 2012-12-31: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012123100.ens01.nc
+
+========== SUMMARY ==========
+Basin: 02350900 Newly saved: 362 Skipped existing: 0 Failed: 4
+
+============================================================
+Processing basin 7/36: 04059500
+============================================================
+
+========== GEFS FORECAST ==========
+Basin: 04059500
+Initialization dates: 366
+Forecast horizon: 10
+Ensemble members: 5
+Simulation range: ['2009/10/01', '2013/09/30']
+Output directory: ./output/Hbv_1_1p/3dyn/parBETA_parK0_parBETAET/camels_531/sim_results/GEFS_1year_forecasts/2012-01-01_2012-12-31_pre-scalar_w30_post-True/04059500
+FAILED 2012-05-09: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012050900.ens01.nc
+FAILED 2012-05-27: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012052700.ens01.nc
+FAILED 2012-10-15: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012101500.ens01.nc
+FAILED 2012-12-31: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012123100.ens01.nc
+
+========== SUMMARY ==========
+Basin: 04059500 Newly saved: 362 Skipped existing: 0 Failed: 4
+
+============================================================
+Processing basin 8/36: 04256000
+============================================================
+
+========== GEFS FORECAST ==========
+Basin: 04256000
+Initialization dates: 366
+Forecast horizon: 10
+Ensemble members: 5
+Simulation range: ['2009/10/01', '2013/09/30']
+Output directory: ./output/Hbv_1_1p/3dyn/parBETA_parK0_parBETAET/camels_531/sim_results/GEFS_1year_forecasts/2012-01-01_2012-12-31_pre-scalar_w30_post-True/04256000
+FAILED 2012-05-09: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012050900.ens01.nc
+FAILED 2012-05-27: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012052700.ens01.nc
+FAILED 2012-10-15: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012101500.ens01.nc
+FAILED 2012-12-31: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012123100.ens01.nc
+
+========== SUMMARY ==========
+Basin: 04256000 Newly saved: 362 Skipped existing: 0 Failed: 4
+
+============================================================
+Processing basin 9/36: 03182500
+============================================================
+
+========== GEFS FORECAST ==========
+Basin: 03182500
+Initialization dates: 366
+Forecast horizon: 10
+Ensemble members: 5
+Simulation range: ['2009/10/01', '2013/09/30']
+Output directory: ./output/Hbv_1_1p/3dyn/parBETA_parK0_parBETAET/camels_531/sim_results/GEFS_1year_forecasts/2012-01-01_2012-12-31_pre-scalar_w30_post-True/03182500
+FAILED 2012-05-09: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012050900.ens01.nc
+FAILED 2012-05-27: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012052700.ens01.nc
+FAILED 2012-10-15: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012101500.ens01.nc
+FAILED 2012-12-31: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012123100.ens01.nc
+
+========== SUMMARY ==========
+Basin: 03182500 Newly saved: 362 Skipped existing: 0 Failed: 4
+
+============================================================
+Processing basin 10/36: 03281500
+============================================================
+
+========== GEFS FORECAST ==========
+Basin: 03281500
+Initialization dates: 366
+Forecast horizon: 10
+Ensemble members: 5
+Simulation range: ['2009/10/01', '2013/09/30']
+Output directory: ./output/Hbv_1_1p/3dyn/parBETA_parK0_parBETAET/camels_531/sim_results/GEFS_1year_forecasts/2012-01-01_2012-12-31_pre-scalar_w30_post-True/03281500
+FAILED 2012-05-09: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012050900.ens01.nc
+FAILED 2012-05-27: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012052700.ens01.nc
+FAILED 2012-10-15: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012101500.ens01.nc
+FAILED 2012-12-31: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012123100.ens01.nc
+
+========== SUMMARY ==========
+Basin: 03281500 Newly saved: 362 Skipped existing: 0 Failed: 4
+
+============================================================
+Processing basin 11/36: 03500000
+============================================================
+
+========== GEFS FORECAST ==========
+Basin: 03500000
+Initialization dates: 366
+Forecast horizon: 10
+Ensemble members: 5
+Simulation range: ['2009/10/01', '2013/09/30']
+Output directory: ./output/Hbv_1_1p/3dyn/parBETA_parK0_parBETAET/camels_531/sim_results/GEFS_1year_forecasts/2012-01-01_2012-12-31_pre-scalar_w30_post-True/03500000
+FAILED 2012-05-09: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012050900.ens01.nc
+FAILED 2012-05-27: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012052700.ens01.nc
+FAILED 2012-10-15: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012101500.ens01.nc
+FAILED 2012-12-31: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012123100.ens01.nc
+
+========== SUMMARY ==========
+Basin: 03500000 Newly saved: 362 Skipped existing: 0 Failed: 4
+
+============================================================
+Processing basin 12/36: 03498500
+============================================================
+
+========== GEFS FORECAST ==========
+Basin: 03498500
+Initialization dates: 366
+Forecast horizon: 10
+Ensemble members: 5
+Simulation range: ['2009/10/01', '2013/09/30']
+Output directory: ./output/Hbv_1_1p/3dyn/parBETA_parK0_parBETAET/camels_531/sim_results/GEFS_1year_forecasts/2012-01-01_2012-12-31_pre-scalar_w30_post-True/03498500
+FAILED 2012-05-09: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012050900.ens01.nc
+FAILED 2012-05-27: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012052700.ens01.nc
+FAILED 2012-10-15: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012101500.ens01.nc
+FAILED 2012-12-31: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012123100.ens01.nc
+
+========== SUMMARY ==========
+Basin: 03498500 Newly saved: 362 Skipped existing: 0 Failed: 4
+
+============================================================
+Processing basin 13/36: 05595730
+============================================================
+
+========== GEFS FORECAST ==========
+Basin: 05595730
+Initialization dates: 366
+Forecast horizon: 10
+Ensemble members: 5
+Simulation range: ['2009/10/01', '2013/09/30']
+Output directory: ./output/Hbv_1_1p/3dyn/parBETA_parK0_parBETAET/camels_531/sim_results/GEFS_1year_forecasts/2012-01-01_2012-12-31_pre-scalar_w30_post-True/05595730
+FAILED 2012-05-09: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012050900.ens01.nc
+FAILED 2012-05-27: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012052700.ens01.nc
+FAILED 2012-10-15: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012101500.ens01.nc
+FAILED 2012-12-31: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012123100.ens01.nc
+
+========== SUMMARY ==========
+Basin: 05595730 Newly saved: 362 Skipped existing: 0 Failed: 4
+
+============================================================
+Processing basin 14/36: 05593575
+============================================================
+
+========== GEFS FORECAST ==========
+Basin: 05593575
+Initialization dates: 366
+Forecast horizon: 10
+Ensemble members: 5
+Simulation range: ['2009/10/01', '2013/09/30']
+Output directory: ./output/Hbv_1_1p/3dyn/parBETA_parK0_parBETAET/camels_531/sim_results/GEFS_1year_forecasts/2012-01-01_2012-12-31_pre-scalar_w30_post-True/05593575
+FAILED 2012-05-09: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012050900.ens01.nc
+FAILED 2012-05-27: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012052700.ens01.nc
+FAILED 2012-10-15: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012101500.ens01.nc
+FAILED 2012-12-31: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012123100.ens01.nc
+
+========== SUMMARY ==========
+Basin: 05593575 Newly saved: 362 Skipped existing: 0 Failed: 4
+
+============================================================
+Processing basin 15/36: 07362100
+============================================================
+
+========== GEFS FORECAST ==========
+Basin: 07362100
+Initialization dates: 366
+Forecast horizon: 10
+Ensemble members: 5
+Simulation range: ['2009/10/01', '2013/09/30']
+Output directory: ./output/Hbv_1_1p/3dyn/parBETA_parK0_parBETAET/camels_531/sim_results/GEFS_1year_forecasts/2012-01-01_2012-12-31_pre-scalar_w30_post-True/07362100
+FAILED 2012-05-09: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012050900.ens01.nc
+FAILED 2012-05-27: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012052700.ens01.nc
+FAILED 2012-10-15: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012101500.ens01.nc
+FAILED 2012-12-31: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012123100.ens01.nc
+
+========== SUMMARY ==========
+Basin: 07362100 Newly saved: 362 Skipped existing: 0 Failed: 4
+
+============================================================
+Processing basin 16/36: 08014500
+============================================================
+
+========== GEFS FORECAST ==========
+Basin: 08014500
+Initialization dates: 366
+Forecast horizon: 10
+Ensemble members: 5
+Simulation range: ['2009/10/01', '2013/09/30']
+Output directory: ./output/Hbv_1_1p/3dyn/parBETA_parK0_parBETAET/camels_531/sim_results/GEFS_1year_forecasts/2012-01-01_2012-12-31_pre-scalar_w30_post-True/08014500
+FAILED 2012-05-09: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012050900.ens01.nc
+FAILED 2012-05-27: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012052700.ens01.nc
+FAILED 2012-10-15: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012101500.ens01.nc
+FAILED 2012-12-31: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012123100.ens01.nc
+
+========== SUMMARY ==========
+Basin: 08014500 Newly saved: 362 Skipped existing: 0 Failed: 4
+
+============================================================
+Processing basin 17/36: 05057200
+============================================================
+
+========== GEFS FORECAST ==========
+Basin: 05057200
+Initialization dates: 366
+Forecast horizon: 10
+Ensemble members: 5
+Simulation range: ['2009/10/01', '2013/09/30']
+Output directory: ./output/Hbv_1_1p/3dyn/parBETA_parK0_parBETAET/camels_531/sim_results/GEFS_1year_forecasts/2012-01-01_2012-12-31_pre-scalar_w30_post-True/05057200
+FAILED 2012-05-09: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012050900.ens01.nc
+FAILED 2012-05-27: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012052700.ens01.nc
+FAILED 2012-10-15: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012101500.ens01.nc
+FAILED 2012-12-31: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012123100.ens01.nc
+
+========== SUMMARY ==========
+Basin: 05057200 Newly saved: 362 Skipped existing: 0 Failed: 4
+
+============================================================
+Processing basin 18/36: 05120500
+============================================================
+
+========== GEFS FORECAST ==========
+Basin: 05120500
+Initialization dates: 366
+Forecast horizon: 10
+Ensemble members: 5
+Simulation range: ['2009/10/01', '2013/09/30']
+Output directory: ./output/Hbv_1_1p/3dyn/parBETA_parK0_parBETAET/camels_531/sim_results/GEFS_1year_forecasts/2012-01-01_2012-12-31_pre-scalar_w30_post-True/05120500
+FAILED 2012-05-09: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012050900.ens01.nc
+FAILED 2012-05-27: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012052700.ens01.nc
+FAILED 2012-10-15: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012101500.ens01.nc
+FAILED 2012-12-31: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012123100.ens01.nc
+
+========== SUMMARY ==========
+Basin: 05120500 Newly saved: 362 Skipped existing: 0 Failed: 4
+
+============================================================
+Processing basin 19/36: 06623800
+============================================================
+
+========== GEFS FORECAST ==========
+Basin: 06623800
+Initialization dates: 366
+Forecast horizon: 10
+Ensemble members: 5
+Simulation range: ['2009/10/01', '2013/09/30']
+Output directory: ./output/Hbv_1_1p/3dyn/parBETA_parK0_parBETAET/camels_531/sim_results/GEFS_1year_forecasts/2012-01-01_2012-12-31_pre-scalar_w30_post-True/06623800
+FAILED 2012-05-09: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012050900.ens01.nc
+FAILED 2012-05-27: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012052700.ens01.nc
+FAILED 2012-10-15: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012101500.ens01.nc
+FAILED 2012-12-31: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012123100.ens01.nc
+
+========== SUMMARY ==========
+Basin: 06623800 Newly saved: 362 Skipped existing: 0 Failed: 4
+
+============================================================
+Processing basin 20/36: 06919500
+============================================================
+
+========== GEFS FORECAST ==========
+Basin: 06919500
+Initialization dates: 366
+Forecast horizon: 10
+Ensemble members: 5
+Simulation range: ['2009/10/01', '2013/09/30']
+Output directory: ./output/Hbv_1_1p/3dyn/parBETA_parK0_parBETAET/camels_531/sim_results/GEFS_1year_forecasts/2012-01-01_2012-12-31_pre-scalar_w30_post-True/06919500
+FAILED 2012-05-09: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012050900.ens01.nc
+FAILED 2012-05-27: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012052700.ens01.nc
+FAILED 2012-10-15: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012101500.ens01.nc
+FAILED 2012-12-31: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012123100.ens01.nc
+
+========== SUMMARY ==========
+Basin: 06919500 Newly saved: 362 Skipped existing: 0 Failed: 4
+
+============================================================
+Processing basin 21/36: 07083000
+============================================================
+
+========== GEFS FORECAST ==========
+Basin: 07083000
+Initialization dates: 366
+Forecast horizon: 10
+Ensemble members: 5
+Simulation range: ['2009/10/01', '2013/09/30']
+Output directory: ./output/Hbv_1_1p/3dyn/parBETA_parK0_parBETAET/camels_531/sim_results/GEFS_1year_forecasts/2012-01-01_2012-12-31_pre-scalar_w30_post-True/07083000
+FAILED 2012-05-09: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012050900.ens01.nc
+FAILED 2012-05-27: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012052700.ens01.nc
+FAILED 2012-10-15: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012101500.ens01.nc
+FAILED 2012-12-31: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012123100.ens01.nc
+
+========== SUMMARY ==========
+Basin: 07083000 Newly saved: 362 Skipped existing: 0 Failed: 4
+
+============================================================
+Processing basin 22/36: 07197000
+============================================================
+
+========== GEFS FORECAST ==========
+Basin: 07197000
+Initialization dates: 366
+Forecast horizon: 10
+Ensemble members: 5
+Simulation range: ['2009/10/01', '2013/09/30']
+Output directory: ./output/Hbv_1_1p/3dyn/parBETA_parK0_parBETAET/camels_531/sim_results/GEFS_1year_forecasts/2012-01-01_2012-12-31_pre-scalar_w30_post-True/07197000
+FAILED 2012-05-09: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012050900.ens01.nc
+FAILED 2012-05-27: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012052700.ens01.nc
+FAILED 2012-10-15: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012101500.ens01.nc
+FAILED 2012-12-31: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012123100.ens01.nc
+
+========== SUMMARY ==========
+Basin: 07197000 Newly saved: 362 Skipped existing: 0 Failed: 4
+
+============================================================
+Processing basin 23/36: 08164300
+============================================================
+
+========== GEFS FORECAST ==========
+Basin: 08164300
+Initialization dates: 366
+Forecast horizon: 10
+Ensemble members: 5
+Simulation range: ['2009/10/01', '2013/09/30']
+Output directory: ./output/Hbv_1_1p/3dyn/parBETA_parK0_parBETAET/camels_531/sim_results/GEFS_1year_forecasts/2012-01-01_2012-12-31_pre-scalar_w30_post-True/08164300
+FAILED 2012-05-09: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012050900.ens01.nc
+FAILED 2012-05-27: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012052700.ens01.nc
+FAILED 2012-10-15: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012101500.ens01.nc
+FAILED 2012-12-31: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012123100.ens01.nc
+
+========== SUMMARY ==========
+Basin: 08164300 Newly saved: 362 Skipped existing: 0 Failed: 4
+
+============================================================
+Processing basin 24/36: 08195000
+============================================================
+
+========== GEFS FORECAST ==========
+Basin: 08195000
+Initialization dates: 366
+Forecast horizon: 10
+Ensemble members: 5
+Simulation range: ['2009/10/01', '2013/09/30']
+Output directory: ./output/Hbv_1_1p/3dyn/parBETA_parK0_parBETAET/camels_531/sim_results/GEFS_1year_forecasts/2012-01-01_2012-12-31_pre-scalar_w30_post-True/08195000
+FAILED 2012-05-09: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012050900.ens01.nc
+FAILED 2012-05-27: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012052700.ens01.nc
+FAILED 2012-10-15: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012101500.ens01.nc
+FAILED 2012-12-31: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012123100.ens01.nc
+
+========== SUMMARY ==========
+Basin: 08195000 Newly saved: 362 Skipped existing: 0 Failed: 4
+
+============================================================
+Processing basin 25/36: 08269000
+============================================================
+
+========== GEFS FORECAST ==========
+Basin: 08269000
+Initialization dates: 366
+Forecast horizon: 10
+Ensemble members: 5
+Simulation range: ['2009/10/01', '2013/09/30']
+Output directory: ./output/Hbv_1_1p/3dyn/parBETA_parK0_parBETAET/camels_531/sim_results/GEFS_1year_forecasts/2012-01-01_2012-12-31_pre-scalar_w30_post-True/08269000
+FAILED 2012-05-09: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012050900.ens01.nc
+FAILED 2012-05-27: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012052700.ens01.nc
+FAILED 2012-10-15: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012101500.ens01.nc
+FAILED 2012-12-31: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012123100.ens01.nc
+
+========== SUMMARY ==========
+Basin: 08269000 Newly saved: 362 Skipped existing: 0 Failed: 4
+
+============================================================
+Processing basin 26/36: 08378500
+============================================================
+
+========== GEFS FORECAST ==========
+Basin: 08378500
+Initialization dates: 366
+Forecast horizon: 10
+Ensemble members: 5
+Simulation range: ['2009/10/01', '2013/09/30']
+Output directory: ./output/Hbv_1_1p/3dyn/parBETA_parK0_parBETAET/camels_531/sim_results/GEFS_1year_forecasts/2012-01-01_2012-12-31_pre-scalar_w30_post-True/08378500
+FAILED 2012-05-09: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012050900.ens01.nc
+FAILED 2012-05-27: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012052700.ens01.nc
+FAILED 2012-10-15: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012101500.ens01.nc
+FAILED 2012-12-31: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012123100.ens01.nc
+
+========== SUMMARY ==========
+Basin: 08378500 Newly saved: 362 Skipped existing: 0 Failed: 4
+
+============================================================
+Processing basin 27/36: 09107000
+============================================================
+
+========== GEFS FORECAST ==========
+Basin: 09107000
+Initialization dates: 366
+Forecast horizon: 10
+Ensemble members: 5
+Simulation range: ['2009/10/01', '2013/09/30']
+Output directory: ./output/Hbv_1_1p/3dyn/parBETA_parK0_parBETAET/camels_531/sim_results/GEFS_1year_forecasts/2012-01-01_2012-12-31_pre-scalar_w30_post-True/09107000
+FAILED 2012-05-09: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012050900.ens01.nc
+FAILED 2012-05-27: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012052700.ens01.nc
+FAILED 2012-10-15: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012101500.ens01.nc
+FAILED 2012-12-31: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012123100.ens01.nc
+
+========== SUMMARY ==========
+Basin: 09107000 Newly saved: 362 Skipped existing: 0 Failed: 4
+
+============================================================
+Processing basin 28/36: 09035900
+============================================================
+
+========== GEFS FORECAST ==========
+Basin: 09035900
+Initialization dates: 366
+Forecast horizon: 10
+Ensemble members: 5
+Simulation range: ['2009/10/01', '2013/09/30']
+Output directory: ./output/Hbv_1_1p/3dyn/parBETA_parK0_parBETAET/camels_531/sim_results/GEFS_1year_forecasts/2012-01-01_2012-12-31_pre-scalar_w30_post-True/09035900
+FAILED 2012-05-09: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012050900.ens01.nc
+FAILED 2012-05-27: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012052700.ens01.nc
+FAILED 2012-10-15: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012101500.ens01.nc
+FAILED 2012-12-31: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012123100.ens01.nc
+
+========== SUMMARY ==========
+Basin: 09035900 Newly saved: 362 Skipped existing: 0 Failed: 4
+
+============================================================
+Processing basin 29/36: 09510200
+============================================================
+
+========== GEFS FORECAST ==========
+Basin: 09510200
+Initialization dates: 366
+Forecast horizon: 10
+Ensemble members: 5
+Simulation range: ['2009/10/01', '2013/09/30']
+Output directory: ./output/Hbv_1_1p/3dyn/parBETA_parK0_parBETAET/camels_531/sim_results/GEFS_1year_forecasts/2012-01-01_2012-12-31_pre-scalar_w30_post-True/09510200
+FAILED 2012-05-09: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012050900.ens01.nc
+FAILED 2012-05-27: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012052700.ens01.nc
+FAILED 2012-10-15: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012101500.ens01.nc
+FAILED 2012-12-31: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012123100.ens01.nc
+
+========== SUMMARY ==========
+Basin: 09510200 Newly saved: 362 Skipped existing: 0 Failed: 4
+
+============================================================
+Processing basin 30/36: 09508300
+============================================================
+
+========== GEFS FORECAST ==========
+Basin: 09508300
+Initialization dates: 366
+Forecast horizon: 10
+Ensemble members: 5
+Simulation range: ['2009/10/01', '2013/09/30']
+Output directory: ./output/Hbv_1_1p/3dyn/parBETA_parK0_parBETAET/camels_531/sim_results/GEFS_1year_forecasts/2012-01-01_2012-12-31_pre-scalar_w30_post-True/09508300
+FAILED 2012-05-09: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012050900.ens01.nc
+FAILED 2012-05-27: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012052700.ens01.nc
+FAILED 2012-10-15: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012101500.ens01.nc
+FAILED 2012-12-31: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012123100.ens01.nc
+
+========== SUMMARY ==========
+Basin: 09508300 Newly saved: 362 Skipped existing: 0 Failed: 4
+
+============================================================
+Processing basin 31/36: 10343500
+============================================================
+
+========== GEFS FORECAST ==========
+Basin: 10343500
+Initialization dates: 366
+Forecast horizon: 10
+Ensemble members: 5
+Simulation range: ['2009/10/01', '2013/09/30']
+Output directory: ./output/Hbv_1_1p/3dyn/parBETA_parK0_parBETAET/camels_531/sim_results/GEFS_1year_forecasts/2012-01-01_2012-12-31_pre-scalar_w30_post-True/10343500
+FAILED 2012-05-09: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012050900.ens01.nc
+FAILED 2012-05-27: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012052700.ens01.nc
+FAILED 2012-10-15: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012101500.ens01.nc
+FAILED 2012-12-31: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012123100.ens01.nc
+
+========== SUMMARY ==========
+Basin: 10343500 Newly saved: 362 Skipped existing: 0 Failed: 4
+
+============================================================
+Processing basin 32/36: 10234500
+============================================================
+
+========== GEFS FORECAST ==========
+Basin: 10234500
+Initialization dates: 366
+Forecast horizon: 10
+Ensemble members: 5
+Simulation range: ['2009/10/01', '2013/09/30']
+Output directory: ./output/Hbv_1_1p/3dyn/parBETA_parK0_parBETAET/camels_531/sim_results/GEFS_1year_forecasts/2012-01-01_2012-12-31_pre-scalar_w30_post-True/10234500
+FAILED 2012-05-09: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012050900.ens01.nc
+FAILED 2012-05-27: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012052700.ens01.nc
+FAILED 2012-10-15: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012101500.ens01.nc
+FAILED 2012-12-31: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012123100.ens01.nc
+
+========== SUMMARY ==========
+Basin: 10234500 Newly saved: 362 Skipped existing: 0 Failed: 4
+
+============================================================
+Processing basin 33/36: 14301000
+============================================================
+
+========== GEFS FORECAST ==========
+Basin: 14301000
+Initialization dates: 366
+Forecast horizon: 10
+Ensemble members: 5
+Simulation range: ['2009/10/01', '2013/09/30']
+Output directory: ./output/Hbv_1_1p/3dyn/parBETA_parK0_parBETAET/camels_531/sim_results/GEFS_1year_forecasts/2012-01-01_2012-12-31_pre-scalar_w30_post-True/14301000
+FAILED 2012-05-09: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012050900.ens01.nc
+FAILED 2012-05-27: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012052700.ens01.nc
+FAILED 2012-10-15: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012101500.ens01.nc
+FAILED 2012-12-31: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012123100.ens01.nc
+
+========== SUMMARY ==========
+Basin: 14301000 Newly saved: 362 Skipped existing: 0 Failed: 4
+
+============================================================
+Processing basin 34/36: 14306500
+============================================================
+
+========== GEFS FORECAST ==========
+Basin: 14306500
+Initialization dates: 366
+Forecast horizon: 10
+Ensemble members: 5
+Simulation range: ['2009/10/01', '2013/09/30']
+Output directory: ./output/Hbv_1_1p/3dyn/parBETA_parK0_parBETAET/camels_531/sim_results/GEFS_1year_forecasts/2012-01-01_2012-12-31_pre-scalar_w30_post-True/14306500
+FAILED 2012-05-09: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012050900.ens01.nc
+FAILED 2012-05-27: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012052700.ens01.nc
+FAILED 2012-10-15: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012101500.ens01.nc
+FAILED 2012-12-31: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012123100.ens01.nc
+
+========== SUMMARY ==========
+Basin: 14306500 Newly saved: 362 Skipped existing: 0 Failed: 4
+
+============================================================
+Processing basin 35/36: 11468500
+============================================================
+
+========== GEFS FORECAST ==========
+Basin: 11468500
+Initialization dates: 366
+Forecast horizon: 10
+Ensemble members: 5
+Simulation range: ['2009/10/01', '2013/09/30']
+Output directory: ./output/Hbv_1_1p/3dyn/parBETA_parK0_parBETAET/camels_531/sim_results/GEFS_1year_forecasts/2012-01-01_2012-12-31_pre-scalar_w30_post-True/11468500
+FAILED 2012-05-09: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012050900.ens01.nc
+FAILED 2012-05-27: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012052700.ens01.nc
+FAILED 2012-10-15: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012101500.ens01.nc
+FAILED 2012-12-31: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012123100.ens01.nc
+
+========== SUMMARY ==========
+Basin: 11468500 Newly saved: 362 Skipped existing: 0 Failed: 4
+
+============================================================
+Processing basin 36/36: 11532500
+============================================================
+
+========== GEFS FORECAST ==========
+Basin: 11532500
+Initialization dates: 366
+Forecast horizon: 10
+Ensemble members: 5
+Simulation range: ['2009/10/01', '2013/09/30']
+Output directory: ./output/Hbv_1_1p/3dyn/parBETA_parK0_parBETAET/camels_531/sim_results/GEFS_1year_forecasts/2012-01-01_2012-12-31_pre-scalar_w30_post-True/11532500
+FAILED 2012-05-09: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012050900.ens01.nc
+FAILED 2012-05-27: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012052700.ens01.nc
+FAILED 2012-10-15: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012101500.ens01.nc
+FAILED 2012-12-31: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012123100.ens01.nc
+
+========== SUMMARY ==========
+Basin: 11532500 Newly saved: 362 Skipped existing: 0 Failed: 4
+
+========== ALL BASINS SUMMARY ==========
+Requested basins: 36
+Completed basin calls: 36
+Basins with failures: 36
+New forecasts: 11584
+Skipped forecasts: 1448
+Failed forecast dates: 144
+End time: 2026-10-16 08:40:49.100146
