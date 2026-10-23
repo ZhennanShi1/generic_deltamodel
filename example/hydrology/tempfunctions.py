@@ -8,6 +8,7 @@ import xarray as xr
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 from src.dmg.core.utils import Dates  
+from datetime import datetime
 
 
 def get_config_path(model_type="d3"):
@@ -1993,7 +1994,7 @@ def run_gefs_one_year(
     device=None,
     GEFS_DIR=None,
     STATE_PATH=None,
-    skip_existing=True,
+    skip_existing=False,
 ):
     """
     Run daily GEFS ensemble streamflow forecasts for one basin.
@@ -2425,7 +2426,7 @@ def _gefs_basin_crpss(
 
     # Persistence uses observed discharge at initialization
     initial_flow = qref_series.reindex(
-        init_dates
+        init_dates - pd.Timedelta(days=1)
     ).to_numpy()
 
     # ====================================================
@@ -2514,7 +2515,7 @@ def _gefs_basin_crpss(
         )
 
         crps_ad[j] = np.mean(
-            crps_ad_cases[valid[:, j], j]
+            np.abs(finite_clim - q_mean)
         )
 
     # ====================================================
@@ -3301,3 +3302,110 @@ def plot_gefs_metric(
 
     plt.show()
     plt.close(fig)
+    
+
+
+def print_gefs_summary(target_basins, gefs_results, failed_basins):
+    """
+    Print a summary of GEFS forecast processing.
+
+    Parameters
+    ----------
+    target_basins : list
+        Requested basin IDs.
+    gefs_results : dict
+        Successful basin-level function results.
+    failed_basins : dict
+        Basin IDs with failed dates or execution errors.
+    """
+
+    print("\n========== FORECAST SUMMARY ==========", flush=True)
+
+    print("Requested basins:", len(target_basins), flush=True)
+    print("Completed basin calls:", len(gefs_results), flush=True)
+    print("Basins with failures:", len(failed_basins), flush=True)
+
+    print(
+        "New forecasts:",
+        sum(r["n_saved"] for r in gefs_results.values()),
+        flush=True
+    )
+
+    print(
+        "Skipped forecasts:",
+        sum(r["n_skipped"] for r in gefs_results.values()),
+        flush=True
+    )
+
+    print(
+        "Failed forecast dates:",
+        sum(r["n_failed"] for r in gefs_results.values()),
+        flush=True
+    )
+
+    print("\nFailed basins:", failed_basins, flush=True)
+    print("End time:", datetime.now(), flush=True)
+    
+ 
+def build_observed_basin_results(
+    data_loader,
+    config,
+    loader_basin_pool,
+    selected_basins,
+    WARMUP=365,
+):
+    """
+    Build observed reference data for GEFS CRPSS evaluation.
+
+    No HBV simulation or calibration diagnostics required.
+    """
+
+    # 1. Load observed discharge
+    target = data_loader.dataset["target"]
+    n_timesteps = target.shape[0]
+
+    # 2. Construct simulation dates
+    dates_all = get_simulation_dates(config, n_timesteps)
+    dates = dates_all[WARMUP:]
+
+    # 3. Basin ID to dataset index mapping
+    basin_lookup = {
+        int(bid): idx
+        for idx, bid in enumerate(loader_basin_pool)
+    }
+
+    if target.shape[1] != len(loader_basin_pool):
+        raise ValueError("Basin ordering/count mismatch")
+
+    # 4. Build reference dictionary
+    basin_results = {}
+
+    for gage_id in selected_basins:
+
+        gage_id = int(gage_id)
+
+        if gage_id not in basin_lookup:
+            raise ValueError(
+                f"Basin {gage_id:08d} not found in data_loader"
+            )
+
+        basin_idx = basin_lookup[gage_id]
+
+        obs = target[WARMUP:, basin_idx, 0]
+
+        if isinstance(obs, torch.Tensor):
+            obs = obs.detach().cpu().numpy()
+
+        obs = np.asarray(obs).reshape(-1)
+
+        if len(obs) != len(dates):
+            raise ValueError(
+                f"Date alignment error for {gage_id:08d}"
+            )
+
+        basin_results[f"{gage_id:08d}"] = {
+            "dates": dates,
+            "obs": obs,
+        }
+
+    return basin_results

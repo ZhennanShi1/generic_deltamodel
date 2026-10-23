@@ -1,0 +1,22 @@
+============================================================
+GEFS FORECAST EXPERIMENT
+============================================================
+Start time: 2026-10-22 19:29:51.539809
+Number of basins: 1
+Start date: 2012-01-01
+End date: 2012-12-31
+Preprocessing: scalar
+Window: 30
+Postprocessing: True
+
+============================================================
+Processing basin 1/1: 01487000
+============================================================
+
+========== GEFS FORECAST ==========
+Basin: 01487000
+Initialization dates: 366
+Forecast horizon: 10
+Ensemble members: 5
+Simulation range: ['2009/10/01', '2013/09/30']
+Output directory: ./output/Hbv_1_1p/3dyn/parBETA_parK0_parBETAET/camels_531/sim_results/GEFS_1year_forecasts/2012-01-01_2012-12-31_pre-scalar_w30_post-True/01487000
