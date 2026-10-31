@@ -1,0 +1,41 @@
+============================================================
+GEFS FORECAST EXPERIMENT
+============================================================
+Start time: 2026-10-28 19:39:08.724587
+Number of basins: 1
+Start date: 2012-01-01
+End date: 2012-12-31
+Preprocessing: scalar
+Window: 30
+Postprocessing: True
+
+============================================================
+Processing basin 1/1: 01487000
+============================================================
+
+========== GEFS FORECAST ==========
+Basin: 01487000
+Initialization dates: 366
+Forecast horizon: 10
+Ensemble members: 5
+Simulation range: ['2009/10/01', '2013/09/30']
+Output directory: ./output/Hbv_1_1p/3dyn/parBETA_parK0_parBETAET/camels_531/sim_results/GEFS_1year_forecasts/2012-01-01_2012-12-31_pre-scalar_w30_post-True/01487000
+FAILED 2012-05-09: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012050900.ens01.nc
+FAILED 2012-05-27: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012052700.ens01.nc
+FAILED 2012-10-15: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012101500.ens01.nc
+FAILED 2012-12-31: Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012123100.ens01.nc
+
+========== SUMMARY ==========
+Basin: 01487000 Newly saved: 362 Skipped existing: 0 Failed: 4
+Completed basin 01487000 | Saved: 362 | Skipped: 0 | Failed: 4
+
+========== FORECAST SUMMARY ==========
+Requested basins: 1
+Completed basin calls: 1
+Basins with failures: 1
+New forecasts: 362
+Skipped forecasts: 0
+Failed forecast dates: 4
+
+Failed basins: {1487000: [{'init_date': '2012-05-09', 'error': 'Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012050900.ens01.nc'}, {'init_date': '2012-05-27', 'error': 'Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012052700.ens01.nc'}, {'init_date': '2012-10-15', 'error': 'Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012101500.ens01.nc'}, {'init_date': '2012-12-31', 'error': 'Missing GEFS nc file: /beegfs/sets/aw-ciroh/common/met_fcsts/gefs_v12/camels_gII/camels671/zn_processed_hcst/gefs_processed_ens01/gefs_processed.2012123100.ens01.nc'}]}
+End time: 2026-10-28 20:01:59.919093

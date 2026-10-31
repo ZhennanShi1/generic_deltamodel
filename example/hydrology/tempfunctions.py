@@ -45,11 +45,7 @@ def kge(sim, obs):
     alpha = sim.std() / obs.std()
     beta  = sim.mean() / obs.mean()
     return 1 - np.sqrt((r - 1)**2 + (alpha - 1)**2 + (beta - 1)**2)
-
-import numpy as np
-import matplotlib.pyplot as plt
-
-
+ 
 # ============================================================
 # Eq. (5): Empirical CDF F(y)
 # ============================================================
@@ -62,8 +58,7 @@ def empirical_cdf(esp, y):
         Possible streamflow value.
     """
     esp = np.asarray(esp)
-    return np.mean(esp <= y)
-
+    return np.mean(esp <= y) # esp <=y, 1, otherwise 0
 
 # ============================================================
 # Eq. (6): Observation step function F0(y)
@@ -82,64 +77,75 @@ def observation_cdf(obs, y):
 # Eq. (5): CRPS for one forecast case
 # ============================================================
 
-def crps_single(esp, obs, num_grid=1000):
-    """
-    esp : shape (n_members,)
-        Ensemble forecast for one basin, one init date, one lead time.
-    obs : scalar
-        Observed/reference streamflow at target date.
-    """
+# def crps_single(esp, obs, num_grid=1000):
+#     """
+#     esp : shape (n_members,)
+#         Ensemble forecast for one basin, one init date, one lead time (LT).
+#     obs : scalar
+#         Observed/reference streamflow at target date.
+#     """
 
+#     esp = np.asarray(esp, dtype=float) # Convert predictions to NumPy
+
+#     if np.all(np.isnan(esp)) or np.isnan(obs): # Check for missing values
+#         return np.nan
+
+#     y_min = min(np.nanmin(esp), obs)
+#     y_max = max(np.nanmax(esp), obs)
+
+#     if y_min == y_max:
+#         return 0.0
+
+#     ys = np.linspace(y_min, y_max, num_grid) # Divide the streamflow range into 1,000 points
+#     dy = ys[1] - ys[0]
+
+#     integral = 0.0
+
+#     for y in ys:
+#         F_y = empirical_cdf(esp, y)
+#         F0_y = observation_cdf(obs, y)
+#         integral += (F_y - F0_y) ** 2
+
+#     return integral * dy
+
+def crps_single(esp, obs):
     esp = np.asarray(esp, dtype=float)
 
-    if np.all(np.isnan(esp)) or np.isnan(obs):
+    if not np.isfinite(obs) or not np.all(np.isfinite(esp)):
         return np.nan
 
-    y_min = min(np.nanmin(esp), obs)
-    y_max = max(np.nanmax(esp), obs)
+    term1 = np.mean(np.abs(esp - obs))
+    term2 = 0.5 * np.mean(
+        np.abs(esp[:, None] - esp[None, :])
+    )
 
-    if y_min == y_max:
-        return 0.0
-
-    ys = np.linspace(y_min, y_max, num_grid)
-    dy = ys[1] - ys[0]
-
-    integral = 0.0
-
-    for y in ys:
-        F_y = empirical_cdf(esp, y)
-        F0_y = observation_cdf(obs, y)
-        integral += (F_y - F0_y) ** 2
-
-    return integral * dy
-
-
+    return term1 - term2
 # ============================================================
 # Average CRPS_forecast for one basin and one lead time
 # ============================================================
 
 def average_crps(esps, obs):
-    """
-    esps : shape (n_members, n_init_dates)
+    """ 
+    esps : shape (n_members, n_init_dates) n_init_dates is 362 initialization dates
         Ensemble forecasts for one basin and one lead time.
     obs : shape (n_init_dates,)
         Reference streamflow at target dates.
     """
 
-    esps = np.asarray(esps, dtype=float)
-    obs = np.asarray(obs, dtype=float)
+    esps = np.asarray(esps, dtype=float) # (5, 362)
+    obs = np.asarray(obs, dtype=float) # (362,)
 
     crps_values = []
 
-    for t in range(len(obs)):
-        esp_t = esps[:, t]
+    for t in range(len(obs)): # go through all initialization date
+        esp_t = esps[:, t] # this is for all ensembles, one initialzation date, one LT
         obs_t = obs[t]
 
         crps_values.append(
             crps_single(esp_t, obs_t)
         )
 
-    return np.nanmean(crps_values)
+    return np.nanmean(crps_values) # take avg of all initialization dates
 
 
 # ============================================================
