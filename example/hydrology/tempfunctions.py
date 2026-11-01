@@ -9,6 +9,12 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 from src.dmg.core.utils import Dates  
 from datetime import datetime
+from scipy.stats import pearsonr
+from matplotlib.backends.backend_pdf import PdfPages
+from plot_basin_diagnostics import (
+    plot_basin_page,
+    load_names,
+)
 
 
 def get_config_path(model_type="d3"):
@@ -46,7 +52,17 @@ def kge(sim, obs):
     beta  = sim.mean() / obs.mean()
     return 1 - np.sqrt((r - 1)**2 + (alpha - 1)**2 + (beta - 1)**2)
 
- 
+def cleannans(metrics, METRIC):
+
+    metric_vals = metrics[METRIC]
+
+    clean_metric_vals = [
+        float(x) for x in metric_vals
+        if x is not None and not np.isnan(float(x))
+    ]
+
+    metrics_clean = {METRIC: clean_metric_vals}
+    return metrics_clean
 
 def compute_bias_correction_from_dataset(
     daymet_tensor,
@@ -380,13 +396,6 @@ def obtain_gage_name(GAGE_NAME_PATH, gage_id):
         gage_name = match.values[0]
     return gage_name
 
-  
-def GEFSdataErrorCheck(idx_list, fc_block, horizon, start_date, showblock=False):
-    if not idx_list: raise ValueError(f"Starting GEFS date {start_date.date()} not exist!")
-    if len(fc_block) < horizon: raise ValueError("Extracted GEFS forcing not enough!")
-    if showblock:
-        print("\n========= GEFS Forecast Block (NO ERROR) =========")
-        print(fc_block.to_string(index=False))
          
 def run_warm_forecasts_restart(
     model,
@@ -663,55 +672,7 @@ def startid_endid(config, warm, ENSEMBLE_START_DATE, FORECAST):
     history_len = len(timesteps) - warm - FORECAST
     # print("sidx, eidx, timesteps, history_len are", sidx, eidx, timesteps, history_len)
     return sidx, eidx, timesteps, history_len 
- 
 
-def evaluate_one_basin(model, dataset, basin_idx, device, nmul, staind, tdRep, routing, dydrop):
-    #  
-    x_phy = torch.nan_to_num(
-        dataset["x_phy"][:, basin_idx:basin_idx+1, :3],
-        nan=0.0
-    ).to(device)     # [T, 1, 3]
-
-    # ---------------- Observed discharge ----------------
-    obs = dataset["target"][:, basin_idx, 0].cpu().numpy()   # [T]
-
-    # ---------------- NN → HBV parameters ----------------
-    hist_dict = {
-        "xc_nn_norm": dataset["xc_nn_norm"][:, basin_idx:basin_idx+1].clone()
-        # [T, 1, 38]
-    }
-
-    pars, rtwts = get_parameters_from_model(
-        model.model_dict["Hbv_1_1p"],
-        hist_dict,
-        n_par=14,
-        mu=nmul,
-        device=device,
-    )
-    
-    hbv = h1pp.HBV().to(device) 
-    # ---------------- Run YOUR HBV1_1p ----------------
-    with torch.no_grad():
-        Qs = hbv(
-            x=x_phy,          # [T, 1, 3]
-            parameters=pars,  # [T, 1, 14, 16]
-            staind=staind,
-            tdlst=tdRep,
-            mu=nmul,
-            muwts=None,
-            rtwts=rtwts,      # [1,2]
-            bufftime=0,
-            instate=False,
-            outstate=False,
-            routOpt=routing,
-            dydrop=dydrop,
-        )
-
-    sim = Qs[:, 0, 0].detach().cpu().numpy()
-
-    nse_val = nse(sim, obs)
-    kge_val = kge(sim, obs)
-    return nse_val, kge_val
 
 def print_selected_basin_metrics_from_json(metrics, selected_basins, basin_pool):
     sumnse, sumkge = 0.0, 0.0
@@ -738,19 +699,6 @@ def print_selected_basin_metrics_from_json(metrics, selected_basins, basin_pool)
     else:
         print("\nNo valid basins found.")
         
-
-def cleannans(metrics, METRIC):
-
-    metric_vals = metrics[METRIC]
-
-    clean_metric_vals = [
-        float(x) for x in metric_vals
-        if x is not None and not np.isnan(float(x))
-    ]
-
-    metrics_clean = {METRIC: clean_metric_vals}
-    return metrics_clean
-
     
 def plot_forecast_separate(
     GAGE_NAME_PATH,
@@ -1148,18 +1096,7 @@ def plot_forecast_separate(
     
     
 # ============================================================
-# CONTINUOUS HBV SIMULATION AND CALIBRATION DIAGNOSTICS
-# ============================================================ 
-from scipy.stats import pearsonr
-from matplotlib.backends.backend_pdf import PdfPages
-
-from plot_basin_diagnostics import (
-    plot_basin_page,
-    load_names,
-)
-
-
-# ============================================================
+# CONTINUOUS HBV SIMULATION AND CALIBRATION DIAGNOSTICS 
 # 1. CALCULATE METRICS
 # ============================================================
 

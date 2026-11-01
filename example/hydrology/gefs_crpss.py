@@ -593,8 +593,7 @@ def basin_scores_dataframe(basin_scores):
     for result in basin_scores:
         for j in range(len(result['CRPSS_pf'])):
             rows.append({
-                'basin_id': result['basin_id'],
-                'reference': 'simulated',
+                'basin_id': result['basin_id'], 
                 'lead_time': j + 1,
                 **{name: result[name][j] for name in (
                     'CRPSS_pf', 'CRPSS_ad', 'CRPS_forecast',
@@ -894,7 +893,7 @@ def run_gefs_crpss(mode, config, basin_results, basin_pool=None, GAGE_ID=None,
         save_path=output_dir / fig_name, show_plot=show_plot,
     )
     print(f'Evaluated: {len(basin_scores)}; failed: {len(failures)}')
-    print(f'Figure: {fig_path}\nCSV: {csv_path}')
+    print(f'Figure saved to: {fig_path}\nCSV saved to: {csv_path}')
     return {
         'mode': mode, 'reference': 'simulated', 'basin_crpss': basin_scores,
         'crpss_pf_all': np.stack([b['CRPSS_pf'] for b in basin_scores]),
