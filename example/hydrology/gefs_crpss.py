@@ -163,8 +163,71 @@ def load_basin_forecasts(save_root, basin_id, *, year=None, start_date=None,
     return forecasts, init_dates
 
 
+
+def save_simulation_npz(path, basin_id, dates, sim):
+    """Atomically cache continuous Daymet-HBV streamflow with its dates.
+
+    Args:
+        path: str/Path for one .npz.
+        basin_id: eight-digit identifier or int.
+        dates: daily dates (T,) convertible to datetime64[D].
+        sim: finite or NaN float discharge ndarray (T,).
+    Keys: basin_id str, dates datetime64[D] (T,), sim float (T,).
+    Returns: Path. Does not save GEFS ensemble forecasts or score values.
+    """
+    path = Path(path)
+    qsim = np.asarray(sim, dtype=float)
+    dates = pd.DatetimeIndex(pd.to_datetime(dates)).normalize()
+    if qsim.ndim != 1 or qsim.size == 0 or qsim.shape != (len(dates),):
+        raise ValueError('sim must be nonempty (T,) aligned with dates (T,)')
+    if not dates.is_unique or not dates.is_monotonic_increasing:
+        raise ValueError('Simulation dates must be unique and increasing')
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode='wb', suffix='.npz', dir=path.parent, delete=False
+        ) as out:
+            temporary = Path(out.name)
+            np.savez_compressed(
+                out, basin_id=f'{int(basin_id):08d}',
+                dates=dates.to_numpy(dtype='datetime64[D]'), sim=qsim,
+            )
+        os.replace(temporary, path)
+    finally:
+        if temporary is not None and temporary.exists():
+            temporary.unlink()
+    return path
+
+
+def load_simulation_npz(path, *, allow_legacy_pickle=False):
+    """Load cached continuous Daymet-HBV simulation.
+
+    Args:
+        path: str/Path of NPZ.
+        allow_legacy_pickle: True only for TRUSTED old files whose 'dates'
+            were stored as object arrays; new files need no pickle.
+    Returns: (sim float ndarray (T,), dates DatetimeIndex (T,), basin_id str).
+    """
+    with np.load(path, allow_pickle=allow_legacy_pickle) as data:
+        sim = np.asarray(data['sim'], dtype=float)
+        try:
+            date_data = data['dates']
+        except ValueError as exc:
+            raise ValueError(
+                'Legacy cached dates require allow_legacy_pickle=True, '
+                'only for your own trusted NPZ files.'
+            ) from exc
+        dates = pd.DatetimeIndex(np.asarray(pd.to_datetime(date_data), dtype='datetime64[ns]')).normalize()
+        basin_id = str(data['basin_id'].item())
+    if sim.ndim != 1 or len(sim) != len(dates) or not dates.is_unique:
+        raise ValueError(f'Invalid simulation/dates in {path}')
+    if not dates.is_monotonic_increasing:
+        raise ValueError(f'Simulation dates out of order in {path}')
+    return sim, dates, basin_id
+
 # ===========================================================================
-# 2. Reference flow and date alignment
+# 2. Simulated flow and date alignment
 # ===========================================================================
 
 def get_simulation_dates(config, n_timesteps):
@@ -189,104 +252,120 @@ def get_simulation_dates(config, n_timesteps):
     return pd.date_range(start=pd.to_datetime(start), periods=n_timesteps, freq="D")
 
 
-def build_observed_basin_results(data_loader, config, loader_basin_pool,
-                                 selected_basins, WARMUP=365):
-    """Extract daily observed discharge after warm-up for requested basins.
+def build_basin_results(data_loader, config, loader_basin_pool,
+                        selected_basins, WARMUP=365):
+    """Create post-warm-up date axes for selected basins, without simulated flow.
 
     Args:
-        data_loader.dataset['target']: Tensor/ndarray (T,B,>=1).
-        config: dict with 'sim_time'; loader_basin_pool: IDs (B,) in loader order.
-        selected_basins: IDs (K,); WARMUP: number of timesteps omitted.
-    Returns: dict[8_digit_id]={'dates': DatetimeIndex(T-WARMUP,),
-                                'obs': ndarray(T-WARMUP,)}.
-    This function does not simulate discharge; reference='simulated' requires
-    caller-provided 'sim' arrays of the same length.
+        data_loader.dataset['target']: tensor/ndarray (T,B,C), only shape used.
+        config: mapping with 'sim_time', the first input date.
+        loader_basin_pool: IDs (B,) in EXACT dataset basin-column order.
+        selected_basins: IDs (K,) to evaluate.
+        WARMUP: int in [0,T), number of initial model timesteps excluded.
+
+    Returns:
+        dict[str,dict] keyed by 8-digit basin ID. Each entry contains:
+        'dates': DatetimeIndex (T-WARMUP,), not yet any streamflow.
+        Attach continuous Daymet-HBV model output 'sim' (T-WARMUP,)
+        before calling run_gefs_crpss(). Observations are not a scoring input.
     """
-    target = data_loader.dataset["target"]
-    if target.shape[1] != len(loader_basin_pool):
-        raise ValueError("Basin ordering/count mismatch")
-    dates = get_simulation_dates(config, target.shape[0])[WARMUP:]
-    lookup = {int(bid): idx for idx, bid in enumerate(loader_basin_pool)}
+    target = data_loader.dataset['target']
+    if len(target.shape) != 3 or target.shape[1] != len(loader_basin_pool):
+        raise ValueError('Expected target (T,B,C) and exactly B basin IDs')
+    T = target.shape[0]
+    if not isinstance(WARMUP, (int, np.integer)) or not 0 <= WARMUP < T:
+        raise ValueError(f'WARMUP must be in [0,{T}), got {WARMUP}')
+    lookup = {int(bid): idx for idx,bid in enumerate(loader_basin_pool)}
+    if len(lookup) != len(loader_basin_pool):
+        raise ValueError('Duplicate basin IDs in loader_basin_pool')
+    dates = get_simulation_dates(config, T)[WARMUP:]
     result = {}
     for bid in selected_basins:
         bid = int(bid)
         if bid not in lookup:
-            raise KeyError(f"Basin {bid:08d} not found in loader_basin_pool")
-        obs = target[WARMUP:, lookup[bid], 0]
-        if hasattr(obs, "detach"):
-            obs = obs.detach().cpu().numpy()
-        obs = np.asarray(obs, dtype=float).reshape(-1)
-        if len(obs) != len(dates):
-            raise ValueError(f"Date alignment error for basin {bid:08d}")
-        result[f"{bid:08d}"] = {"dates": dates, "obs": obs}
+            raise KeyError(f'Basin {bid:08d} missing from loader_basin_pool')
+        result[f'{bid:08d}'] = {'dates': dates.copy()}
     return result
 
 
-def reference_series(basin_results, basin_id, reference="observed"):
-    """Turn one basin's reference discharge into a date-indexed series.
-
-    Args: basin_results: mapping of {id: {'dates':(T,), 'obs':(T,),
-          optionally 'sim':(T,)}}; basin_id: str/int; reference: observed/simulated.
-    Returns: pandas.Series (T,) indexed by unique normalized dates.
-    """
-    data = next((v for k, v in basin_results.items()
-                 if int(k) == int(basin_id)), None)
-    if data is None:
-        raise KeyError(f"Missing basin_results for {int(basin_id):08d}")
-    if reference not in ("observed", "simulated"):
-        raise ValueError("reference must be 'observed' or 'simulated'")
-    key = "obs" if reference == "observed" else "sim"
-    values = np.asarray(data[key], dtype=float).reshape(-1)
-    dates = pd.DatetimeIndex(pd.to_datetime(data["dates"])).normalize()
-    if len(dates) != len(values) or not dates.is_unique:
-        raise ValueError(f"Reference dates are misaligned for {basin_id}")
-    return pd.Series(values, index=dates).sort_index()
-
-
-def align_reference(qref_series, init_dates, n_leads, lead1_offset=0):
-    """Match forecast valid times and persistence time to reference series.
+def simulated_series(basin_results, basin_id):
+    """Return continuous Daymet-HBV streamflow as a dated series.
 
     Args:
-        qref_series: pandas.Series (T,) indexed by daily dates.
-        init_dates: DatetimeIndex (I,); n_leads: int L.
-        lead1_offset: int; 0 => Day1=init, 1 => Day1=init+1.
+        basin_results: dict of basin_id -> {'dates': (T,), 'sim': (T,)}.
+        basin_id: str or int.
     Returns:
-        target_flow: ndarray (I,L), observed flow at init+offset+lead_index.
-        initial_flow: ndarray (I,), observed flow at init+offset-1.
-    Missing dates are NaN; they are NOT filled or interpolated.
+        pandas.Series of length T, with unique daily dates and float qsim.
+    Raises:
+        ValueError if the continuous simulated discharge is not attached.
     """
-    if not isinstance(qref_series, pd.Series):
-        raise TypeError("qref_series must be a pandas Series indexed by dates")
-    if not qref_series.index.is_unique:
-        raise ValueError("Reference index contains duplicate dates")
+    basin_key = f'{int(basin_id):08d}'
+    data = next((value for key, value in basin_results.items()
+                 if int(key) == int(basin_id)), None)
+    if data is None:
+        raise KeyError(f'Missing basin_results for {basin_key}')
+    if 'sim' not in data:
+        raise ValueError(
+            f'{basin_key}: missing continuous Daymet-HBV simulation (sim). '
+            'Generate/load qsim and store basin_results[basin_id]["sim"] '
+            'before evaluating CRPSS.'
+        )
+    values = np.asarray(data['sim'], dtype=float)
+    if values.ndim != 1:
+        raise ValueError(f'{basin_key}: sim must be a 1D discharge series (T,)')
+    dates = pd.DatetimeIndex(pd.to_datetime(data['dates'])).normalize()
+    if not dates.is_unique or len(dates) != len(values):
+        raise ValueError(f'{basin_key}: simulated discharge dates/length mismatch')
+    if not dates.is_monotonic_increasing:
+        raise ValueError(f'{basin_key}: simulated dates are not increasing')
+    return pd.Series(values, index=dates, name='sim')
+
+
+def align_reference(qsim_series, init_dates, n_leads, lead1_offset=0):
+    """Align continuous simulated flow to forecast valid dates and persistence.
+
+    Args:
+        qsim_series: pandas.Series (T,) indexed by daily simulation dates.
+        init_dates: DatetimeIndex (I,) of GEFS initialization dates.
+        n_leads: integer L; lead1_offset: integer, normally 0 (Day1=init).
+    Returns:
+        target_flow: float ndarray (I,L), simulated discharge on valid dates.
+        initial_flow: float ndarray (I,), simulated discharge on preceding day
+            when lead1_offset=0.
+    Missing simulated dates become NaN, never filled/interpolated.
+    """
+    if not isinstance(qsim_series, pd.Series):
+        raise TypeError('qsim_series must be a date-indexed pandas Series')
+    if not qsim_series.index.is_unique:
+        raise ValueError('Simulation date index contains duplicates')
     if n_leads < 1 or not isinstance(lead1_offset, (int, np.integer)):
-        raise ValueError("n_leads must be positive and lead1_offset an integer")
+        raise ValueError('n_leads must be positive; lead1_offset must be int')
     init_dates = pd.DatetimeIndex(pd.to_datetime(init_dates)).normalize()
     if not init_dates.is_unique:
-        raise ValueError("Initialization dates contain duplicates")
+        raise ValueError('Initialization dates contain duplicates')
     offsets = np.arange(lead1_offset, lead1_offset + n_leads)
     valid_dates = (
-        init_dates.values[:, None] + offsets[None, :].astype("timedelta64[D]")
+        init_dates.values[:, None] + offsets[None, :].astype('timedelta64[D]')
     )
-    targets = qref_series.reindex(
+    targets = qsim_series.reindex(
         pd.DatetimeIndex(valid_dates.ravel())
     ).to_numpy().reshape(len(init_dates), n_leads)
     persistence_dates = init_dates + pd.Timedelta(days=lead1_offset - 1)
-    initial = qref_series.reindex(persistence_dates).to_numpy()
+    initial = qsim_series.reindex(persistence_dates).to_numpy()
     return targets, initial
 
 
-def climatology_values(qref_series, years=None):
-    """Select observed/simulated historical discharge sample.
+def climatology_values(qsim_series, years=None):
+    """Select historical simulated discharge sample.
 
-    Args: qref_series pandas.Series (T,), years iterable of years or None.
+    Args: qsim_series pandas.Series (T,), years iterable of years or None.
     Returns: finite ndarray (C,), used by Alfieri reference Eq.7.
     CAUTION: years=None includes all available dates, potentially the test year.
     """
     if years is None:
-        values = qref_series.to_numpy()
+        values = qsim_series.to_numpy()
     else:
-        values = qref_series.loc[qref_series.index.year.isin(list(years))].to_numpy()
+        values = qsim_series.loc[qsim_series.index.year.isin(list(years))].to_numpy()
     values = values[np.isfinite(values)]
     if not values.size:
         raise ValueError("No valid climatological reference data")
@@ -299,7 +378,7 @@ def valid_forecast_cases(forecasts, target_flow, initial_flow):
     Args: forecasts ndarray (I,L,M), target_flow ndarray (I,L),
           initial_flow ndarray (I,).
     Returns: boolean ndarray (I,L), True only if all members, target, and
-    pre-initialization persistence are finite.
+    pre-initialization simulated persistence are finite.
     """
     fc = np.asarray(forecasts, dtype=float)
     target = np.asarray(target_flow, dtype=float)
@@ -433,7 +512,7 @@ def calculate_crpss(crps_fc, crps_ref, n_valid, min_valid_cases=30):
 # 4. One basin: load -> align -> calculate -> return
 # ===========================================================================
 
-def calculate_basin_crpss(forecasts, init_dates, qref_series, *,
+def calculate_basin_crpss(forecasts, init_dates, qsim_series, *,
                          lead1_offset=0, min_valid_cases=30,
                          climatology_years=None):
     """Compute all lead-wise CRPS/CRPSS for one basin from loaded data.
@@ -441,7 +520,7 @@ def calculate_basin_crpss(forecasts, init_dates, qref_series, *,
     Args:
         forecasts: ndarray (I,L,M).
         init_dates: DatetimeIndex (I,).
-        qref_series: pandas.Series (T,) indexed by daily reference dates.
+        qsim_series: pandas.Series (T,) indexed by daily reference dates.
         lead1_offset: 0 => verify Day1 on init date.
         min_valid_cases: int; climatology_years: iterable or None.
     Returns: dict with score arrays (L,), n_valid (L,), and metadata.
@@ -453,10 +532,10 @@ def calculate_basin_crpss(forecasts, init_dates, qref_series, *,
         raise ValueError("forecasts must be nonempty (n_init,n_leads,n_members)")
     n_leads = fc.shape[1]
 
-    target, initial = align_reference(qref_series, init_dates, n_leads, lead1_offset)
+    target, initial = align_reference(qsim_series, init_dates, n_leads, lead1_offset)
     valid = valid_forecast_cases(fc, target, initial)
     n_valid = valid.sum(axis=0)
-    clim = climatology_values(qref_series, climatology_years)
+    clim = climatology_values(qsim_series, climatology_years)
 
     crps_fc = average_crps(fc, target, valid)
     crps_pf = crps_ref_persistence(target, initial, valid)
@@ -479,48 +558,47 @@ def calculate_basin_crpss(forecasts, init_dates, qref_series, *,
 def evaluate_gefs_basin(basin_id, basin_results, save_root, *,
                         year=2012, n_leads=10, n_ensembles=5,
                         lead1_offset=0, min_valid_cases=30,
-                        reference="observed", climatology_years=None,
-                        start_date=None, end_date=None):
-    """Read saved forecasts and evaluate one basin; no HBV run.
+                        climatology_years=None, start_date=None, end_date=None):
+    """Read one basin's GEFS forecast NPZs and score against simulated flow only.
 
-    Args: basin_id int/str; basin_results mapping; save_root Path/str;
-          year int|None, start_date/end_date optional dates, n_leads L,
-          n_ensembles M, other CRPSS options as in calculate_basin_crpss.
-    Returns: dict with each score ndarray (L,), basin_id, metadata.
+    Args:
+        basin_id: str/int, basin_results: dict containing 'dates' and 'sim',
+        save_root: Path; year and date filters for init dates; n_leads L,
+        n_ensembles M; lead1_offset int; min_valid_cases int.
+    Returns: dict of CRPS/CRPSS arrays (L,), basin ID and metadata.
     """
     fc, dates = load_basin_forecasts(
         save_root, basin_id, year=year, start_date=start_date, end_date=end_date,
-        n_members=n_ensembles, n_leads=n_leads
+        n_members=n_ensembles, n_leads=n_leads,
     )
-    qref = reference_series(basin_results, basin_id, reference)
+    qsim = simulated_series(basin_results, basin_id)
     result = calculate_basin_crpss(
-        fc, dates, qref, lead1_offset=lead1_offset,
+        fc, dates, qsim, lead1_offset=lead1_offset,
         min_valid_cases=min_valid_cases, climatology_years=climatology_years,
     )
-    return {"basin_id": f"{int(basin_id):08d}", "reference": reference, **result}
+    return {'basin_id': f'{int(basin_id):08d}', 'reference': 'simulated', **result}
 
 
 # ===========================================================================
 # 5. Summary, CSV, and figures
 # ===========================================================================
 
-def basin_scores_dataframe(basin_scores, reference):
-    """Flatten basin score dictionaries to one row per basin and lead.
+def basin_scores_dataframe(basin_scores):
+    """Flatten K basin score dictionaries into a K*L-row DataFrame.
 
-    Args: basin_scores list of K dicts with score ndarray (L,);
-          reference str.
-    Returns: DataFrame with K*L rows.
+    Args: basin_scores: list (K,) of dictionaries with score arrays (L,).
+    Returns: DataFrame (K*L rows); reference column always 'simulated'.
     """
     rows = []
     for result in basin_scores:
-        for j in range(len(result["CRPSS_pf"])):
+        for j in range(len(result['CRPSS_pf'])):
             rows.append({
-                "basin_id": result["basin_id"],
-                "reference": reference,
-                "lead_time": j + 1,
+                'basin_id': result['basin_id'],
+                'reference': 'simulated',
+                'lead_time': j + 1,
                 **{name: result[name][j] for name in (
-                    "CRPSS_pf", "CRPSS_ad", "CRPS_forecast",
-                    "CRPS_ref_pf", "CRPS_ref_ad", "n_valid"
+                    'CRPSS_pf', 'CRPSS_ad', 'CRPS_forecast',
+                    'CRPS_ref_pf', 'CRPS_ref_ad', 'n_valid',
                 )},
             })
     return pd.DataFrame(rows)
@@ -559,88 +637,228 @@ def spatial_summary(basin_scores):
     })
 
 
-def plot_crpss(summary_df, *, mode, n_basins, reference,
-               start_date, end_date, save_path, show_plot=True):
-    """Plot CRPSS versus lead time and write a figure.
 
-    Args: summary_df DataFrame (L rows), mode str, n_basins int,
-          reference str, start/end_date str, save_path Path/str, show_plot bool.
-    Returns: Path to saved PNG. Negative CRPSS is not clipped.
+def plot_crpss(
+    summary_df,
+    *,
+    mode,
+    n_basins,
+    start_date,
+    end_date,
+    save_path,
+    show_plot=True,
+    basin_id=None,
+    basin_name=None,
+):
+    """
+    Plot CRPSS against continuous simulated flow.
+
+    Args:
+        summary_df: DataFrame with L lead-time rows.
+        mode: "single" or "multiple".
+        n_basins: Number of basins included.
+        start_date, end_date: Forecast date range.
+        save_path: Output PNG path.
+        show_plot: Whether to display the figure.
+        basin_id: Optional basin ID for single-basin figures.
+        basin_name: Optional basin name for single-basin figures.
+
+    Returns:
+        Path to saved PNG.
+
+    Note:
+        Negative CRPSS values are never clipped.
     """
     import matplotlib.pyplot as plt
+    from pathlib import Path
+    import textwrap
 
     leads = summary_df["lead_time"].to_numpy()
+
     def vals(name):
         return summary_df[name].to_numpy(dtype=float)
 
-    fig, ax = plt.subplots(figsize=(8, 5))
+    # Slightly wider for long basin names
+    fig, ax = plt.subplots(figsize=(9, 5.5))
+
+    # =================================================
+    # Multi-basin uncertainty bands
+    # =================================================
     if mode == "multiple" and n_basins > 1:
-        ax.fill_between(leads, vals("CRPSS_pf_p05"), vals("CRPSS_pf_p95"),
-                        color="lightgray", alpha=.8, label="5–95% (persistence)")
-        ax.fill_between(leads, vals("CRPSS_pf_p25"), vals("CRPSS_pf_p75"),
-                        color="gray", alpha=.65, label="25–75% (persistence)")
-        ax.plot(leads, vals("CRPSS_ad_p25"), "k:", linewidth=1)
-        ax.plot(leads, vals("CRPSS_ad_p75"), "k:", linewidth=1,
-                label="25–75% (average discharge)")
-    ax.plot(leads, vals("CRPSS_pf_mean"), "k-", linewidth=2, label=r"CRPSS$_{pf}$")
-    ax.plot(leads, vals("CRPSS_ad_mean"), "k--", linewidth=2, label=r"CRPSS$_{ad}$")
-    ax.axhline(0, color="black", linewidth=.8)
+
+        ax.fill_between(
+            leads,
+            vals("CRPSS_pf_p05"),
+            vals("CRPSS_pf_p95"),
+            color="lightgray",
+            alpha=0.8,
+            label="5–95% (persistence)",
+        )
+
+        ax.fill_between(
+            leads,
+            vals("CRPSS_pf_p25"),
+            vals("CRPSS_pf_p75"),
+            color="gray",
+            alpha=0.65,
+            label="25–75% (persistence)",
+        )
+
+        ax.plot(
+            leads,
+            vals("CRPSS_ad_p25"),
+            "k:",
+            linewidth=1,
+        )
+
+        ax.plot(
+            leads,
+            vals("CRPSS_ad_p75"),
+            "k:",
+            linewidth=1,
+            label="25–75% (average discharge)",
+        )
+
+    # =================================================
+    # CRPSS mean curves
+    # =================================================
+    ax.plot(
+        leads,
+        vals("CRPSS_pf_mean"),
+        "k-",
+        linewidth=2,
+        label=r"CRPSS$_{pf}$",
+    )
+
+    ax.plot(
+        leads,
+        vals("CRPSS_ad_mean"),
+        "k--",
+        linewidth=2,
+        label=r"CRPSS$_{ad}$",
+    )
+
+    ax.axhline(
+        0,
+        color="black",
+        linewidth=0.8,
+    )
+
+    # =================================================
+    # Axes
+    # =================================================
     ax.set_xlabel("Lead time [days]")
     ax.set_ylabel("CRPSS")
     ax.set_xticks(leads)
-    ax.set_title(f"GEFS Forecast Skill Against {reference.title()}\n"
-                 f"Across {n_basins} Basin(s) ({start_date} to {end_date})")
-    ax.legend(frameon=False, fontsize=9)
+
+    # =================================================
+    # Title: integrate basin ID and name directly
+    # =================================================
+    if mode == "single" and basin_id is not None:
+
+        basin_label = f"Basin {int(basin_id):08d}"
+
+        if basin_name:
+            basin_label += f" - {str(basin_name).strip()}"
+
+        # Wrap long station names to prevent clipping
+        basin_label = textwrap.fill(
+            basin_label,
+            width=62,
+            break_long_words=False,
+        )
+
+        title = (
+            "GEFS Forecast Skill Against Continuous Simulated Flow\n"
+            f"{basin_label}\n"
+            f"({start_date} to {end_date})"
+        )
+
+    else:
+        title = (
+            "GEFS Forecast Skill Against Continuous Simulated Flow\n"
+            f"Across {n_basins} Basin(s) "
+            f"({start_date} to {end_date})"
+        )
+
+    ax.set_title(
+        title,
+        fontsize=12,
+        fontweight="bold",
+        pad=14,
+    )
+
+    # =================================================
+    # Plot formatting
+    # =================================================
+    ax.legend(
+        frameon=False,
+        fontsize=9,
+    )
+
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
+
     fig.tight_layout()
+
+    # =================================================
+    # Save figure
+    # =================================================
     save_path = Path(save_path)
-    save_path.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(save_path, dpi=300, bbox_inches="tight")
+    save_path.parent.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    fig.savefig(
+        save_path,
+        dpi=300,
+        bbox_inches="tight",
+    )
+
     if show_plot:
         plt.show()
+
     plt.close(fig)
+
     return save_path
 
 
+
 def run_gefs_crpss(mode, config, basin_results, basin_pool=None, GAGE_ID=None,
-                  START_DATE="2012-01-01", END_DATE="2012-12-31",
-                  PRE="scalar", WINDOW=30, POST=True,
+                  START_DATE='2012-01-01', END_DATE='2012-12-31',
+                  PRE='scalar', WINDOW=30, POST=True,
                   YEAR=2012, N_LEADS=10, N_ENSEMBLES=5,
                   LEAD1_OFFSET=0, MIN_VALID_CASES=30, CLIMATOLOGY_YEARS=None,
                   show_plot=True):
-    """Orchestrate CRPSS from existing NPZ files, across one/many basins.
+    """Evaluate GEFS ensembles against continuous simulated streamflow ONLY.
 
-    Args: mode 'single'|'multiple'; config dict; basin_results dict;
-          basin_pool list of K IDs for multiple mode; GAGE_ID single ID;
-          START_DATE/END_DATE str; PRE str, WINDOW int, POST bool; YEAR int;
-          N_LEADS=L, N_ENSEMBLES=M; LEAD1_OFFSET int;
-          MIN_VALID_CASES int; REFERENCE observed/simulated;
-          CLIMATOLOGY_YEARS iterable[int] or None; show_plot bool.
-    Returns: dict with basin_scores K, arrays (K,L), results_df (K*L rows),
-    summary_df (L rows), errors, CSV/PNG paths. Does not rerun HBV.
+    Args:
+        mode: 'single' or 'multiple'; config dict; basin_results with
+        'dates' (T,) and 'sim' (T,) for every basin; basin_pool: K IDs;
+        GAGE_ID required for single; YEAR/date limits select init dates;
+        N_LEADS L; N_ENSEMBLES M; LEAD1_OFFSET=0 for Day1=init;
+        MIN_VALID_CASES int; CLIMATOLOGY_YEARS years or None.
+    Returns: dictionary of (K,L) CRPSS matrices, detailed/summary DataFrames,
+        output CSV/PNG paths. Never evaluates against measured discharge.
     """
     mode = mode.lower().strip()
-    reference = REFERENCE.lower().strip()
-    if mode == "single":
+    if mode == 'single':
         if GAGE_ID is None:
-            raise ValueError("GAGE_ID is required when mode='single'")
+            raise ValueError('GAGE_ID is required for mode="single"')
         selected = [int(GAGE_ID)]
-    elif mode == "multiple":
+    elif mode == 'multiple':
         if basin_pool is None:
-            raise ValueError("basin_pool is required when mode='multiple'")
+            raise ValueError('basin_pool is required for mode="multiple"')
         selected = list(dict.fromkeys(int(b) for b in basin_pool))
     else:
-        raise ValueError("mode must be 'single' or 'multiple'")
+        raise ValueError('mode must be "single" or "multiple"')
     if not selected:
-        raise ValueError("No basins selected")
-    if reference not in ("observed", "simulated"):
-        raise ValueError("REFERENCE must be 'observed' or 'simulated'")
-
+        raise ValueError('No basins selected')
     root = forecast_root(config, START_DATE, END_DATE, PRE, WINDOW, POST)
-    output_dir = root / f"CRPSS_{reference}_{mode}"
+    # Keep existing simulated result directories and CSV names for compatibility.
+    output_dir = root / f'CRPSS_simulated_{mode}'
     output_dir.mkdir(parents=True, exist_ok=True)
-
     basin_scores, failures = [], []
     for i, basin_id in enumerate(selected):
         try:
@@ -648,49 +866,43 @@ def run_gefs_crpss(mode, config, basin_results, basin_pool=None, GAGE_ID=None,
                 basin_id, basin_results, root, year=YEAR,
                 n_leads=N_LEADS, n_ensembles=N_ENSEMBLES,
                 lead1_offset=LEAD1_OFFSET, min_valid_cases=MIN_VALID_CASES,
-                reference=reference, climatology_years=CLIMATOLOGY_YEARS,
+                climatology_years=CLIMATOLOGY_YEARS,
                 start_date=START_DATE, end_date=END_DATE,
             )
             basin_scores.append(score)
-            print(f"[{i+1}/{len(selected)}] {basin_id:08d}: "
-                  f"{score['n_init_dates']} forecasts")
+            print(f'[{i+1}/{len(selected)}] {basin_id:08d}: '
+                  f'{score["n_init_dates"]} forecasts')
         except Exception as exc:
-            failures.append({"basin_id": f"{basin_id:08d}", "error": str(exc)})
-            print(f"FAILED {basin_id:08d}: {exc}")
+            failures.append({'basin_id': f'{basin_id:08d}', 'error': str(exc)})
+            print(f'FAILED {basin_id:08d}: {exc}')
     if not basin_scores:
-        raise RuntimeError("No basins evaluated successfully")
-
-    results_df = basin_scores_dataframe(basin_scores, reference)
+        raise RuntimeError('No basins evaluated successfully; see failures above')
+    results_df = basin_scores_dataframe(basin_scores)
     summary_df = spatial_summary(basin_scores)
-    csv_path = output_dir / f"CRPSS_{mode}_{reference}_{YEAR}.csv"
-    summary_csv = output_dir / f"CRPSS_summary_{mode}_{reference}_{YEAR}.csv"
+    csv_path = output_dir / f'CRPSS_{mode}_simulated_{YEAR}.csv'
+    summary_csv = output_dir / f'CRPSS_summary_{mode}_simulated_{YEAR}.csv'
     results_df.to_csv(csv_path, index=False)
     summary_df.to_csv(summary_csv, index=False)
-    pd.DataFrame(failures, columns=["basin_id", "error"]).to_csv(
-        output_dir / "failed_basins.csv", index=False
+    pd.DataFrame(failures, columns=['basin_id', 'error']).to_csv(
+        output_dir / 'failed_basins.csv', index=False,
     )
-    fig_name = (f"CRPSS_{basin_scores[0]['basin_id']}_{reference}_{YEAR}.png"
-                if mode == "single" else f"CRPSS_spatial_{reference}_{YEAR}.png")
+    fig_name = (f'CRPSS_{basin_scores[0]["basin_id"]}_simulated_{YEAR}.png'
+                if mode == 'single' else f'CRPSS_spatial_simulated_{YEAR}.png')
     fig_path = plot_crpss(
-        summary_df, mode=mode, n_basins=len(basin_scores), reference=reference,
+        summary_df, mode=mode, n_basins=len(basin_scores),
         start_date=START_DATE, end_date=END_DATE,
         save_path=output_dir / fig_name, show_plot=show_plot,
     )
-    print(f"Evaluated: {len(basin_scores)}; failed: {len(failures)}")
-    print(f"Figure: {fig_path}\nCSV: {csv_path}")
+    print(f'Evaluated: {len(basin_scores)}; failed: {len(failures)}')
+    print(f'Figure: {fig_path}\nCSV: {csv_path}')
     return {
-        "mode": mode,
-        "reference": reference,
-        "basin_crpss": basin_scores,
-        "crpss_pf_all": np.stack([b["CRPSS_pf"] for b in basin_scores]),
-        "crpss_ad_all": np.stack([b["CRPSS_ad"] for b in basin_scores]),
-        "results_df": results_df,
-        "summary_df": summary_df,
-        "failed_basins": failures,
-        "figure_path": str(fig_path),
-        "csv_path": str(csv_path),
-        "summary_csv": str(summary_csv),
-        "output_dir": str(output_dir),
+        'mode': mode, 'reference': 'simulated', 'basin_crpss': basin_scores,
+        'crpss_pf_all': np.stack([b['CRPSS_pf'] for b in basin_scores]),
+        'crpss_ad_all': np.stack([b['CRPSS_ad'] for b in basin_scores]),
+        'results_df': results_df, 'summary_df': summary_df,
+        'failed_basins': failures, 'figure_path': str(fig_path),
+        'csv_path': str(csv_path), 'summary_csv': str(summary_csv),
+        'output_dir': str(output_dir),
     }
 
 
@@ -823,7 +1035,7 @@ def run_gefs_one_year(GAGE_ID, model, data_loader, config, basin_pool,
 
 
 def _check_metric_inputs(ensemble_mean, target_flow):
-    """Validate deterministic ensemble-mean predictions and observations.
+    """Validate deterministic ensemble-mean predictions and simulated reference.
 
         Args: ensemble_mean ndarray (I,L), target_flow ndarray (I,L).
         Returns: pair of float ndarrays (I,L).
@@ -884,7 +1096,7 @@ def calculate_gefs_pbias(ensemble_mean, target_flow, MIN_VALID_CASES=30):
 
 
 def calculate_gefs_cv(ensemble_mean, target_flow, MIN_VALID_CASES=30):
-    """Coefficient of variation of RMSE for each lead: RMSE/mean(qobs).
+    """Coefficient of variation of RMSE for each lead: RMSE/mean(qsim).
 
     Args: ensemble_mean ndarray (I,L), target_flow ndarray (I,L);
           MIN_VALID_CASES int. Returns ndarray (L,).
