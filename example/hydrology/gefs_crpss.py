@@ -824,83 +824,148 @@ def plot_crpss(
 
 
 
-def run_gefs_crpss(mode, config, basin_results, basin_pool=None, GAGE_ID=None,
-                  START_DATE='2012-01-01', END_DATE='2012-12-31',
-                  PRE='scalar', WINDOW=30, POST=True,
-                  YEAR=2012, N_LEADS=10, N_ENSEMBLES=5,
-                  LEAD1_OFFSET=0, MIN_VALID_CASES=30, CLIMATOLOGY_YEARS=None,
-                  show_plot=True):
-    """Evaluate GEFS ensembles against continuous simulated streamflow ONLY.
+def run_gefs_crpss(
+    mode, config, basin_results, basin_pool=None, GAGE_ID=None,
+    START_DATE='2012-01-01', END_DATE='2012-12-31',
+    PRE='scalar', WINDOW=30, POST=True,
+    YEAR=2012, N_LEADS=10, N_ENSEMBLES=5,
+    LEAD1_OFFSET=0, MIN_VALID_CASES=30,
+    CLIMATOLOGY_YEARS=None, show_plot=True,
+    BASIN_NAME=None,
+):
+    """Evaluate GEFS CRPSS and generate one figure per call.
 
-    Args:
-        mode: 'single' or 'multiple'; config dict; basin_results with
-        'dates' (T,) and 'sim' (T,) for every basin; basin_pool: K IDs;
-        GAGE_ID required for single; YEAR/date limits select init dates;
-        N_LEADS L; N_ENSEMBLES M; LEAD1_OFFSET=0 for Day1=init;
-        MIN_VALID_CASES int; CLIMATOLOGY_YEARS years or None.
-    Returns: dictionary of (K,L) CRPSS matrices, detailed/summary DataFrames,
-        output CSV/PNG paths. Never evaluates against measured discharge.
+    Single mode: plot one basin with its ID and optional name.
+    Multiple mode: plot the spatial summary of selected basins.
+
+    Reads cached GEFS forecast NPZ files and continuous
+    simulated discharge; does not rerun the HBV model.
     """
     mode = mode.lower().strip()
+
     if mode == 'single':
         if GAGE_ID is None:
-            raise ValueError('GAGE_ID is required for mode="single"')
+            raise ValueError('GAGE_ID is required for single mode')
         selected = [int(GAGE_ID)]
+
     elif mode == 'multiple':
         if basin_pool is None:
-            raise ValueError('basin_pool is required for mode="multiple"')
+            raise ValueError('basin_pool is required for multiple mode')
         selected = list(dict.fromkeys(int(b) for b in basin_pool))
+
     else:
         raise ValueError('mode must be "single" or "multiple"')
+
     if not selected:
         raise ValueError('No basins selected')
-    root = forecast_root(config, START_DATE, END_DATE, PRE, WINDOW, POST)
-    # Keep existing simulated result directories and CSV names for compatibility.
+
+    # 1. Locate cached forecast files
+    root = forecast_root(
+        config, START_DATE, END_DATE, PRE, WINDOW, POST
+    )
+
     output_dir = root / f'CRPSS_simulated_{mode}'
     output_dir.mkdir(parents=True, exist_ok=True)
+
+    # 2. Evaluate selected basins
     basin_scores, failures = [], []
+
     for i, basin_id in enumerate(selected):
         try:
             score = evaluate_gefs_basin(
-                basin_id, basin_results, root, year=YEAR,
-                n_leads=N_LEADS, n_ensembles=N_ENSEMBLES,
-                lead1_offset=LEAD1_OFFSET, min_valid_cases=MIN_VALID_CASES,
+                basin_id, basin_results, root,
+                year=YEAR,
+                n_leads=N_LEADS,
+                n_ensembles=N_ENSEMBLES,
+                lead1_offset=LEAD1_OFFSET,
+                min_valid_cases=MIN_VALID_CASES,
                 climatology_years=CLIMATOLOGY_YEARS,
-                start_date=START_DATE, end_date=END_DATE,
+                start_date=START_DATE,
+                end_date=END_DATE,
             )
+
             basin_scores.append(score)
-            print(f'[{i+1}/{len(selected)}] {basin_id:08d}: '
-                  f'{score["n_init_dates"]} forecasts')
+
+            print(
+                f'[{i+1}/{len(selected)}] '
+                f'{basin_id:08d}: '
+                f'{score["n_init_dates"]} forecasts'
+            )
+
         except Exception as exc:
-            failures.append({'basin_id': f'{basin_id:08d}', 'error': str(exc)})
+            failures.append({
+                'basin_id': f'{basin_id:08d}',
+                'error': str(exc),
+            })
             print(f'FAILED {basin_id:08d}: {exc}')
+
     if not basin_scores:
-        raise RuntimeError('No basins evaluated successfully; see failures above')
+        raise RuntimeError(
+            'No basins evaluated successfully'
+        )
+
+    # 3. Generate detailed and summary results
     results_df = basin_scores_dataframe(basin_scores)
     summary_df = spatial_summary(basin_scores)
-    csv_path = output_dir / f'CRPSS_{mode}_simulated_{YEAR}.csv'
-    summary_csv = output_dir / f'CRPSS_summary_{mode}_simulated_{YEAR}.csv'
+
+    csv_path = (
+        output_dir / f'CRPSS_{mode}_simulated_{YEAR}.csv'
+    )
+
+    summary_csv = (
+        output_dir / f'CRPSS_summary_{mode}_simulated_{YEAR}.csv'
+    )
+
     results_df.to_csv(csv_path, index=False)
     summary_df.to_csv(summary_csv, index=False)
-    pd.DataFrame(failures, columns=['basin_id', 'error']).to_csv(
-        output_dir / 'failed_basins.csv', index=False,
+
+    pd.DataFrame(
+        failures, columns=['basin_id', 'error']
+    ).to_csv(
+        output_dir / 'failed_basins.csv',
+        index=False,
     )
-    fig_name = (f'CRPSS_{basin_scores[0]["basin_id"]}_simulated_{YEAR}.png'
-                if mode == 'single' else f'CRPSS_spatial_simulated_{YEAR}.png')
+
+    # 4. Unique PNG filename for each basin
+    if mode == 'single':
+        basin_id = basin_scores[0]['basin_id']
+        fig_name = f'CRPSS_{basin_id}_simulated_{YEAR}.png'
+    else:
+        fig_name = f'CRPSS_spatial_simulated_{YEAR}.png'
+
+    # 5. Generate figure ONCE with basin ID and name
     fig_path = plot_crpss(
-        summary_df, mode=mode, n_basins=len(basin_scores),
-        start_date=START_DATE, end_date=END_DATE,
-        save_path=output_dir / fig_name, show_plot=show_plot,
+        summary_df,
+        mode=mode,
+        n_basins=len(basin_scores),
+        start_date=START_DATE,
+        end_date=END_DATE,
+        save_path=output_dir / fig_name,
+        show_plot=show_plot,
+        basin_id=int(GAGE_ID) if mode == 'single' else None,
+        basin_name=BASIN_NAME if mode == 'single' else None,
     )
+
     print(f'Evaluated: {len(basin_scores)}; failed: {len(failures)}')
-    print(f'Figure saved to: {fig_path}\nCSV saved to: {csv_path}')
+    print(f'Figure saved to: {fig_path}')
+    print(f'CSV saved to: {csv_path}')
+
     return {
-        'mode': mode, 'reference': 'simulated', 'basin_crpss': basin_scores,
-        'crpss_pf_all': np.stack([b['CRPSS_pf'] for b in basin_scores]),
-        'crpss_ad_all': np.stack([b['CRPSS_ad'] for b in basin_scores]),
-        'results_df': results_df, 'summary_df': summary_df,
-        'failed_basins': failures, 'figure_path': str(fig_path),
-        'csv_path': str(csv_path), 'summary_csv': str(summary_csv),
+        'mode': mode,
+        'reference': 'simulated',
+        'basin_crpss': basin_scores,
+        'crpss_pf_all': np.stack(
+            [b['CRPSS_pf'] for b in basin_scores]
+        ),
+        'crpss_ad_all': np.stack(
+            [b['CRPSS_ad'] for b in basin_scores]
+        ),
+        'results_df': results_df,
+        'summary_df': summary_df,
+        'failed_basins': failures,
+        'figure_path': str(fig_path),
+        'csv_path': str(csv_path),
+        'summary_csv': str(summary_csv),
         'output_dir': str(output_dir),
     }
 
@@ -1111,50 +1176,149 @@ def calculate_gefs_cv(ensemble_mean, target_flow, MIN_VALID_CASES=30):
     return out
 
 
-def plot_gefs_metric(values, metric_name, save_dir=None, START_DATE=None,
-                     END_DATE=None, basin_id=None, percentiles=None,
-                     show_plot=True):
-    """Plot a single lead-wise metric with optional basin percentiles.
 
-    Args: values ndarray (L,), metric_name str, percentiles optional
-          tuple of four ndarrays (L,); save_dir Path/str|None.
-    Returns: Path to PNG, or None if not saved.
+def plot_gefs_metric(
+    values,
+    metric_name,
+    save_dir=None,
+    START_DATE=None,
+    END_DATE=None,
+    basin_id=None,
+    basin_name=None,
+    percentiles=None,
+    show_plot=True,
+):
+    """Plot GEFS lead-wise metric with optional basin ID, name,
+    and spatial percentile bands.
+
+    Args:
+        values: Metric values (L,).
+        metric_name: "NS", "Pbias (%)", or "CV".
+        save_dir: Directory for saving PNG.
+        START_DATE, END_DATE: Forecast evaluation period.
+        basin_id: Optional CAMELS basin ID.
+        basin_name: Optional CAMELS basin name.
+        percentiles: Optional tuple (p05, p25, p75, p95).
+        show_plot: Whether to display the figure.
+
+    Returns:
+        Path to saved PNG, or None if not saved.
     """
     import matplotlib.pyplot as plt
+    import numpy as np
+    import textwrap
+    from pathlib import Path
+
     values = np.asarray(values, dtype=float)
     leads = np.arange(1, len(values) + 1)
-    fig, ax = plt.subplots(figsize=(10, 5.5))
-    ax.plot(leads, values, color="black", linewidth=2.5, label=metric_name)
+
+    fig, ax = plt.subplots(figsize=(9, 5.5))
+
+    # 1. Main metric curve
+    ax.plot(
+        leads,
+        values,
+        "k-",
+        linewidth=2.5,
+        label=metric_name,
+    )
+
+    # 2. Spatial percentile bands (multiple basins)
     if percentiles is not None:
-        p05, p25, p75, p95 = [np.asarray(x, float) for x in percentiles]
-        ax.fill_between(leads, p05, p95, color="lightgray", alpha=.75, label="5–95%")
-        ax.fill_between(leads, p25, p75, color="gray", alpha=.65, label="25–75%")
-    ax.axhline(0, color="gray", linewidth=1)
-    ax.set_xlim(.5, len(leads) + .5)
+        p05, p25, p75, p95 = [
+            np.asarray(x, dtype=float) for x in percentiles
+        ]
+
+        ax.fill_between(
+            leads, p05, p95,
+            color="lightgray",
+            alpha=0.8,
+            label="5–95%",
+        )
+
+        ax.fill_between(
+            leads, p25, p75,
+            color="gray",
+            alpha=0.65,
+            label="25–75%",
+        )
+
+    # 3. Axes
+    ax.axhline(0, color="black", linewidth=0.8)
+    ax.set_xlim(0.5, len(leads) + 0.5)
     ax.set_xticks(leads)
     ax.set_xlabel("Lead time [days]")
     ax.set_ylabel(metric_name)
-    title = f"GEFS Forecast {metric_name}"
+
+    # 4. Title with basin ID and name
+    title = f"GEFS Forecast {metric_name} Against Continuous Simulated Flow"
+
     if basin_id is not None:
-        title += f"\nBasin {int(basin_id):08d}"
+        basin_label = f"Basin {int(basin_id):08d}"
+
+        if basin_name:
+            basin_label += f" - {str(basin_name).strip()}"
+
+        basin_label = textwrap.fill(
+            basin_label,
+            width=62,
+            break_long_words=False,
+        )
+
+        title += f"\n{basin_label}"
+
+    elif percentiles is not None:
+        title += "\nAcross Multiple Basins"
+
     if START_DATE is not None and END_DATE is not None:
-        title += f" ({START_DATE} to {END_DATE})"
-    ax.set_title(title)
+        title += f"\n({START_DATE} to {END_DATE})"
+
+    ax.set_title(
+        title,
+        fontsize=12,
+        fontweight="bold",
+        pad=14,
+    )
+
+    # 5. Formatting
     if percentiles is not None:
-        ax.legend(frameon=False)
+        ax.legend(frameon=False, fontsize=9)
+
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+
     fig.tight_layout()
+
+    # 6. Save figure
     saved_path = None
+
     if save_dir is not None:
         saved_path = Path(save_dir) / (
-            "GEFS_" + metric_name.replace(" ", "_").replace("/", "_")
-            .replace("%", "pct") + ".png"
+            "GEFS_"
+            + metric_name.replace(" ", "_")
+                         .replace("/", "_")
+                         .replace("%", "pct")
+            + ".png"
         )
-        saved_path.parent.mkdir(parents=True, exist_ok=True)
-        fig.savefig(saved_path, dpi=300, bbox_inches="tight")
+
+        saved_path.parent.mkdir(
+            parents=True,
+            exist_ok=True,
+        )
+
+        fig.savefig(
+            saved_path,
+            dpi=300,
+            bbox_inches="tight",
+        )
+
     if show_plot:
         plt.show()
+
     plt.close(fig)
+
     return saved_path
+
 
 
 def print_gefs_summary(target_basins, gefs_results, failed_basins):
